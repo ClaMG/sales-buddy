@@ -1,9 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    font: var(--unnamed-font-style-normal) normal bold 13px/16px var(--unnamed-font-family-montserrat);
-    letter-spacing: var(--unnamed-character-spacing-0);
-}
+
 
 :root {
 
@@ -13,7 +8,7 @@
 --unnamed-color-a32c65: #A32C65;
 
 /* Font/text values */
---unnamed-font-family-montserrat: Montserrat;
+--unnamed-font-family-montserrat: "Montserrat", sans-serif;
 --unnamed-font-style-normal: normal;
 --unnamed-font-weight-normal: normal;
 --unnamed-font-size-15: 15px;
@@ -32,6 +27,11 @@ letter-spacing: var(--unnamed-character-spacing-0);
 color: var(--unnamed-color-074a82);
 }
 
+*{
+    margin: 0;
+    padding: 0;
+    font-family: var(--unnamed-font-family-montserrat);
+}
 
 body{
     background-image: url('../background.png'); 
