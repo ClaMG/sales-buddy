@@ -1,6 +1,7 @@
 //import { use } from 'react';
 import { useEffect, useRef } from 'react'
 //import { useNavigate } from 'react-router-dom';
+import '../assets/css/global.css'
 
 
 
@@ -13,7 +14,7 @@ function Login() {
 
     }, []);
     return (
-        <div>
+        <div className="login-container">
             <form action="">
                 <img src="#" alt="Logo do site" />
                 <div>

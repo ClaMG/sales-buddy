@@ -4,3 +4,40 @@
     font: var(--unnamed-font-style-normal) normal bold 13px/16px var(--unnamed-font-family-montserrat);
     letter-spacing: var(--unnamed-character-spacing-0);
 }
+
+:root {
+
+/* Colors: */
+--unnamed-color-ffffff: #FFFFFF;
+--unnamed-color-074a82: #074A82;
+--unnamed-color-a32c65: #A32C65;
+
+/* Font/text values */
+--unnamed-font-family-montserrat: Montserrat;
+--unnamed-font-style-normal: normal;
+--unnamed-font-weight-normal: normal;
+--unnamed-font-size-15: 15px;
+--unnamed-character-spacing-0: 0px;
+--unnamed-line-spacing-19: 19px;
+}
+
+/* Character Styles */
+.unnamed-character-style-1 {
+font-family: var(--unnamed-font-family-montserrat);
+font-style: var(--unnamed-font-style-normal);
+font-weight: var(--unnamed-font-weight-normal);
+font-size: var(--unnamed-font-size-15);
+line-height: var(--unnamed-line-spacing-19);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-074a82);
+}
+
+
+body{
+    background-image: url('../background.png'); 
+    background-position: center; 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-color: var(--unnamed-color-ffffff);
+}
