@@ -20,7 +20,7 @@ function Login() {
             <form action="">
                 <img src={logo} alt="Logo do site" />
                 <div className="input-group-login">
-                    <input type="text" placeholder="Usuario" ref={inputUsername} />
+                    <input type="text" placeholder="Usuário" ref={inputUsername} />
                     <input type="password" placeholder="Senha" ref={inputPassword} />
                 </div>
                 <div className='button-group-login'>

@@ -1,6 +1,6 @@
 import { openDb } from "../config/database";
 
-export async function createVendas() {
+export async function createSales() {
     const db = await openDb();
     await db.run(`CREATE TABLE IF NOT EXISTS vendas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
