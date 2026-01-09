@@ -1,6 +1,6 @@
 //import { use } from 'react';
-import { useEffect, useRef } from 'react'
-//import { useNavigate } from 'react-router-dom';
+//import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom';
 import '../assets/css/global.css'
 import './css/login.css'
 import logo from '../assets/logo.svg'
@@ -8,23 +8,23 @@ import logo from '../assets/logo.svg'
 
 
 function Login() {
-    const inputUsername = useRef();
-    const inputPassword = useRef();
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    useEffect(() => {
+    async function goToUserPage() {
+        navigate('/user');
+    }
 
-    }, []);
+    
     return (
         <div className="login-container">
-            <form action="">
+            <form action="" className="login-form">
                 <img src={logo} alt="Logo do site" />
                 <div className="input-group-login">
-                    <input type="text" placeholder="Usuário" ref={inputUsername} />
-                    <input type="password" placeholder="Senha" ref={inputPassword} />
+                    <input type="text" placeholder="Usuário" />
+                    <input type="password" placeholder="Senha" />
                 </div>
                 <div className='button-group-login'>
-                    <button className="login-button">LOGIN</button>
+                    <button className="login-button" onClick={goToUserPage}>LOGIN</button>
                     <button className="forgot-password-button">Esqueci a senha</button>
                 </div>
             </form>

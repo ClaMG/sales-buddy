@@ -21,7 +21,7 @@
     width: 100%;
 }
 
-button{
+.button-menu{
     display: flex;
     background: none;
     border: none;
@@ -36,7 +36,7 @@ button{
     height: 34px;
 }
 
-p{
+.p-menu{
     color: var(--unnamed-color-a32c65);
     font-size: medium;
 }

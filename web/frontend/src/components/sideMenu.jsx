@@ -27,17 +27,17 @@ function SideMenu() {
         <div className="side-menu-container">
             <img className="logo-menu" src={logo} alt="Logo do site" />
             <div className="buttons-menu">
-                <button onClick={goToUserPage}>
-                    <img className='icon-menu icon-user' src={iconUser} alt="Icone de usuário" />
-                    <p className="text-user">Usuários</p>
+                <button onClick={goToUserPage}  className='button-menu'>
+                    <img className='icon-menu' src={iconUser} alt="Icone de usuário" />
+                    <p className="p-menu">Usuários</p>
                 </button>
-                <button onClick={goToSalesPage}>
-                    <img className='icon-menu icon-sales' src={iconSales} alt="Icone de vendas" />
-                    <p className="text-sales">Vendas</p>
+                <button onClick={goToSalesPage} className='button-menu'>
+                    <img className='icon-menu' src={iconSales} alt="Icone de vendas" />
+                    <p className="p-menu">Vendas</p>
                 </button>
-                <button onClick={goToLogoutPage}>
-                    <img className='icon-menu icon-logout' src={iconLogOut} alt="Icone de log out" />
-                    <p className="text-logout">Log Out</p>
+                <button onClick={goToLogoutPage} className='button-menu'>
+                    <img className='icon-menu' src={iconLogOut} alt="Icone de log out" />
+                    <p className="p-menu">Log Out</p>
                 </button>
             </div>
         </div>

@@ -1,0 +1,19 @@
+table{
+    width: 100%;
+    padding: 20px;
+}
+
+tr{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+}
+
+th, td{
+    font: var(--unnamed-font-style-normal) normal medium var(--unnamed-font-size-15)/var(--unnamed-line-spacing-19) var(--unnamed-font-family-montserrat);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    text-align: left;
+    font-size: 13px;
+}
