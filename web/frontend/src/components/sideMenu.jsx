@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import '../assets/css/global.css'
 import './css/sideMenu.css'
 import logo from '../assets/logo.svg'
-import iconUser from '../assets/icons/icon-user.png'
-import iconSales from '../assets/icons/icon-sales.png'
-import iconLogOut from '../assets/icons/icon-logout.png'
+import iconUser from '../assets/icons-menu/icon-user.png'
+import iconSales from '../assets/icons-menu/icon-sales.png'
+import iconLogOut from '../assets/icons-menu/icon-logout.png'
 
 function SideMenu() {
 
