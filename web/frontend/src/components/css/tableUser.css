@@ -1,5 +1,17 @@
+.table-user{
+    width:  70%;
+    
+}
+
 .user-field{
     color: var(--unnamed-color-074a82);
     font: var(--unnamed-font-style-normal) normal bold var(--unnamed-font-size-15)/var(--unnamed-line-spacing-19) var(--unnamed-font-family-montserrat);
 }
+
+.user-close {
+    flex-grow: 0.1; 
+}
+
+
+
 

@@ -2,12 +2,14 @@
     display: flex;
     flex-direction: row;
     background-attachment: fixed; 
+    position: relative;
 }
 
 .content-container{
-    margin-left: 22%;
+    margin-left: 19%;
     width: 78%;
     padding: 40px;
+    z-index: 1;
 }
 
 .table-container{

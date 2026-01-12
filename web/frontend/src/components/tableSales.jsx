@@ -38,16 +38,16 @@ function TableSales() {
   { id: 30, nome: "Dora Aventureira", cpf: "000.111.222-33", email: "dora@email.com", quantidade: 1, valor: "R$ 50,00", troco: "R$ 10,00" }
 ]
     return (
-        <table>
+        <table className='table-sales'>
             <thead>
                 <tr>
                     <th>ID.VENDA</th>
                     <th>NOME</th>
                     <th>CPF</th>
                     <th>E-MAIL</th>
-                    <th>QTD.ITENS</th>
-                    <th>VALOR</th>
-                    <th>TROCO</th>
+                    <th className='sales-center'>QTD.ITENS</th>
+                    <th className='sales-center'>VALOR</th>
+                    <th className='sales-center'>TROCO</th>
                     <th>COMPROVANTE</th>
                 </tr>
             </thead>
@@ -56,14 +56,14 @@ function TableSales() {
                 {
                     salesData.map((sale) => (
                         <tr key={sale.id}>
-                            <td className='sales-field'>{sale.id}</td>
+                            <td className='sales-field sales-center'>{sale.id}</td>
                             <td className='sales-field'>{sale.nome}</td>
                             <td>{sale.cpf}</td>
                             <td>{sale.email}</td>
-                            <td>{sale.quantidade}</td>
-                            <td>{sale.valor}</td>
-                            <td>{sale.troco}</td>
-                            <td>
+                            <td className='sales-center'>{sale.quantidade}</td>
+                            <td className='sales-center'>{sale.valor}</td>
+                            <td className='sales-center'>{sale.troco}</td>
+                            <td className='sales-center'>
                                 <button className='btn-table'>
                                     <img src={comprovanteIcon} alt="Icone de garar comprovante" />
                                 </button>

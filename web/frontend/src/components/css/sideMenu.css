@@ -1,6 +1,6 @@
 .side-menu-container{
     background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-    width: 22%;
+    width: 20%;
     height: 100vh;
     display: flex;
     flex-direction: column;

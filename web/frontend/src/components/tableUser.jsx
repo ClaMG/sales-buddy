@@ -57,21 +57,21 @@ function TableUser() {
         { id: 50, usuario: "quiteria.s", nome: "Quitéria Silva", empresa: "Silva Artesanato", cnpj: "65.666.768/0001-55" }
 ]
     return (
-        <table>
+        <table className='table-user'>
             <thead>
                 <tr>
-                    <th></th>
+                    <th className='user-close'></th>
                     <th>USUÁRIO</th>
                     <th>NOME</th>
                     <th>EMPRESA</th>
                     <th>CNPJ</th>
-                    <th></th>
+                    <th className='user-left'></th>
                 </tr>
             </thead>
             <tbody>
                     {usersData.map(user => (
                         <tr key={user.id}>
-                            <td>
+                            <td className='user-close'>
                                 <label htmlFor={user.id}>
                                 <input type="checkbox" name="user" id={user.id} />
                                 </label>
