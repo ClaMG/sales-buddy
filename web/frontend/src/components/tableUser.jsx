@@ -3,15 +3,11 @@ import '../assets/css/global.css'
 import editIcon from '../assets/icons-btn/edit.png'
 import './css/tables.css'
 import './css/tableUser.css'
-import { useNavigate } from 'react-router-dom';
 
 
-function TableUser() {
-         const navigate = useNavigate();
+function TableUser({onclick}) {
 
-    async function update() {
-        navigate('/update')
-    }
+    
     const usersData = [ { id: 1, usuario: "ana.silva", nome: "Ana Beatriz Silva", empresa: "Tech Solutions Ltda", cnpj: "12.345.678/0001-90" },
         { id: 2, usuario: "carlos.m", nome: "Carlos Mendes", empresa: "Mendes Construções", cnpj: "98.765.432/0001-15" },
         { id: 3, usuario: "f.oliveira", nome: "Fernanda Oliveira", empresa: "Oliveira Alimentos", cnpj: "45.123.789/0001-22" },
@@ -88,7 +84,7 @@ function TableUser() {
                             <td>{user.empresa}</td>
                             <td>{user.cnpj}</td>
                             <td>
-                                <button className='btn-table' onClick={update()}>
+                                <button className='btn-table' onClick={onclick}>
                                     <img src={editIcon} alt="icone para editar usuario" />
                                 </button>
                             </td>
