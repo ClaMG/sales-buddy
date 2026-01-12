@@ -1,14 +1,35 @@
-import { openDb } from "../config/database";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
-export async function createSales() {
-    const db = await openDb();
-    await db.run(`CREATE TABLE IF NOT EXISTS vendas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT,
-        cpf TEXT,
-        email TEXT,
-        quantidade INTEGER,
-        valor REAL,
-        troco REAL
-    )`);
-}
+export const Sale = sequelize.define('Sale', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+    nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+    cpf: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+    email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+    quantidade: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+    valor: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+    troco: {
+    type: DataTypes.DECIMAL(10, 2)
+  },
+})
+

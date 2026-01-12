@@ -1,14 +1,35 @@
-import { openDb } from "../config/database";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
-export async function createUsers() {
-    const db = await openDb();
-    await db.run(`CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        usuario TEXT,
-        nome TEXT,
-        empresa TEXT,
-        cnpj TEXT,
-        senha TEXT,
-        email TEXT
-    )`);
-}
+export const User = sequelize.define('User', {
+    id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+    },
+    usuario: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    },
+    nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    },
+    empresa: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    },
+    cnpj: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    },
+    senha: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    },
+    email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    }
+})

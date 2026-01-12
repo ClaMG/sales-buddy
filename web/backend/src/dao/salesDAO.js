@@ -1,6 +1,6 @@
-import { openDb } from "../config/database";    
+import { Sale } from "../models/salesModels";
 
-export async function getSales() {
-    const db = await openDb();
-    return await db.all("SELECT * FROM vendas");
+//Buscar todas as vendas
+export async function findAllSales() {
+    return await Sale.findAll();
 }

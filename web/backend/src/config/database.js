@@ -1,9 +1,9 @@
-import sqlite3 from 'sqlite3'
-import { open } from 'sqlite'
+import { Sequelize } from 'sequelize';
 
-export async function openDb () {
-  return open({
-    filename: './database.db',
-    driver: sqlite3.Database
-  })
-}
+const sequelize = new Sequelize(process.env.DB_NAME || 'meu_projeto', 'root', process.env.DB_ROOT_PASSWORD || 'senha_segura', {
+  host: 'localhost',
+  dialect: 'mysql',
+  logging: false, // Desativa logs detalhados
+});
+
+export default sequelize;
