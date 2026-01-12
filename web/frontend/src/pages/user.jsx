@@ -8,11 +8,11 @@ import './css/base.css'
 function User() {
     return (
 
-        <div className="user-page-container">
+        <div className="page-container">
 
             <SideMenu/>
-            <div className="user-content-container">
-                <div className="user-table-container">
+            <div className="content-container">
+                <div className="table-container">
                    <TableUser/>
                 </div>
             </div>

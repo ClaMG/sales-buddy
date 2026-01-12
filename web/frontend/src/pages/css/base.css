@@ -1,18 +1,16 @@
-.user-page-container, .sales-page-container{
+.page-container{
     display: flex;
     flex-direction: row;
     background-attachment: fixed; 
 }
 
-.user-content-container, .sales-content-container{
+.content-container{
+    margin-left: 22%;
     width: 78%;
-    padding: 40px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+    padding: 40px;
 }
 
-.user-table-container, .sales-table-container{
+.table-container{
     background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
     border-radius: 3px;
     opacity: 0.6;

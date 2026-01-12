@@ -1,58 +1,41 @@
 import React from 'react';
 import '../assets/css/global.css'
 import './css/tables.css'
+import './css/tableSales.css'
+import comprovanteIcon from '../assets/icons-btn/receipt.svg'
+
 
 function TableSales() {
-    const salesData = [ { id: 1, usuario: "ana.silva", nome: "Ana Beatriz Silva", empresa: "Tech Solutions Ltda", cnpj: "12.345.678/0001-90" },
-        { id: 2, usuario: "carlos.m", nome: "Carlos Mendes", empresa: "Mendes Construções", cnpj: "98.765.432/0001-15" },
-        { id: 3, usuario: "f.oliveira", nome: "Fernanda Oliveira", empresa: "Oliveira Alimentos", cnpj: "45.123.789/0001-22" },
-        { id: 4, usuario: "roberto.j", nome: "Roberto Junior", empresa: "RJ Logística", cnpj: "33.444.555/0001-67" },
-        { id: 5, usuario: "lucas.souza", nome: "Lucas Souza", empresa: "Souza & Filhos", cnpj: "11.222.333/0001-88" },
-        { id: 6, usuario: "mariana.c", nome: "Mariana Costa", empresa: "Costa Marketing", cnpj: "77.888.999/0001-00" },
-        { id: 7, usuario: "paulo.h", nome: "Paulo Henrique", empresa: "PH Consultoria", cnpj: "55.666.777/0001-34" },
-        { id: 8, usuario: "julia.p", nome: "Júlia Pereira", empresa: "Pereira Design", cnpj: "99.000.111/0001-55" },
-        { id: 9, usuario: "ricardo.a", nome: "Ricardo Almeida", empresa: "Almeida Tech", cnpj: "22.333.444/0001-11" },
-        { id: 10, usuario: "beatriz.l", nome: "Beatriz Lima", empresa: "Lima Advocacia", cnpj: "66.777.888/0001-99" },
-        { id: 11, usuario: "bruno.dias", nome: "Bruno Dias", empresa: "Dias Transportes", cnpj: "10.111.222/0001-33" },
-        { id: 12, usuario: "camila.r", nome: "Camila Rocha", empresa: "Rocha & Associados", cnpj: "13.141.516/0001-77" },
-        { id: 13, usuario: "diego.ferreira", nome: "Diego Ferreira", empresa: "Ferreira Imports", cnpj: "17.181.920/0001-88" },
-        { id: 14, usuario: "eliana.m", nome: "Eliana Martins", empresa: "Martins Eventos", cnpj: "21.222.324/0001-99" },
-        { id: 15, usuario: "gabriel.s", nome: "Gabriel Santos", empresa: "Santos Autopeças", cnpj: "25.262.728/0001-00" },
-        { id: 16, usuario: "heloisa.n", nome: "Heloísa Nunes", empresa: "Nunes Cosméticos", cnpj: "29.303.132/0001-11" },
-        { id: 17, usuario: "igor.t", nome: "Igor Teixeira", empresa: "Teixeira Engenharia", cnpj: "33.343.536/0001-22" },
-        { id: 18, usuario: "jessica.b", nome: "Jéssica Barbosa", empresa: "Barbosa Modas", cnpj: "37.383.940/0001-33" },
-        { id: 19, usuario: "kleber.v", nome: "Kleber Vieira", empresa: "Vieira Segurança", cnpj: "41.424.344/0001-44" },
-        { id: 20, usuario: "larissa.g", nome: "Larissa Gomes", empresa: "Gomes Doceria", cnpj: "45.464.748/0001-55" },
-        { id: 21, usuario: "matheus.l", nome: "Matheus Lopes", empresa: "Lopes Imóveis", cnpj: "49.505.152/0001-66" },
-        { id: 22, usuario: "natalia.r", nome: "Natália Ribeiro", empresa: "Ribeiro Turismo", cnpj: "53.545.556/0001-77" },
-        { id: 23, usuario: "otavio.m", nome: "Otávio Moreira", empresa: "Moreira Seguros", cnpj: "57.585.960/0001-88" },
-        { id: 24, usuario: "patricia.c", nome: "Patrícia Carvalho", empresa: "Carvalho Clínica", cnpj: "61.626.364/0001-99" },
-        { id: 25, usuario: "renan.b", nome: "Renan Batista", empresa: "Batista Software", cnpj: "65.666.768/0001-00" },
-        { id: 26, usuario: "sabrina.k", nome: "Sabrina Klein", empresa: "Klein Arquitetura", cnpj: "69.707.172/0001-11" },
-        { id: 27, usuario: "thiago.a", nome: "Thiago Alves", empresa: "Alves & Cia", cnpj: "73.747.576/0001-22" },
-        { id: 28, usuario: "ursula.p", nome: "Ursula Pinto", empresa: "Pinto Paisagismo", cnpj: "77.787.980/0001-33" },
-        { id: 29, usuario: "vinicius.d", nome: "Vinícius Duarte", empresa: "Duarte Motors", cnpj: "81.828.384/0001-44" },
-        { id: 30, usuario: "wilson.f", nome: "Wilson Fagundes", empresa: "Fagundes Ferragens", cnpj: "85.868.788/0001-55" },
-        { id: 31, usuario: "xuxa.m", nome: "Xuxa Meneghel", empresa: "Rainha dos Baixinhos S.A", cnpj: "89.909.192/0001-66" },
-        { id: 32, usuario: "yasmin.z", nome: "Yasmin Zanetti", empresa: "Zanetti Joias", cnpj: "93.949.596/0001-77" },
-        { id: 33, usuario: "ze.carlos", nome: "Zé Carlos", empresa: "Zé Lanches", cnpj: "97.989.900/0001-88" },
-        { id: 34, usuario: "alice.w", nome: "Alice Wonderland", empresa: "Wonderland Corp", cnpj: "01.020.304/0001-99" },
-        { id: 35, usuario: "breno.k", nome: "Breno Kuster", empresa: "Kuster Investimentos", cnpj: "05.060.708/0001-00" },
-        { id: 36, usuario: "celia.t", nome: "Célia Torres", empresa: "Torres Editora", cnpj: "09.101.112/0001-11" },
-        { id: 37, usuario: "daniel.x", nome: "Daniel Xavier", empresa: "Xavier Games", cnpj: "13.141.516/0001-22" },
-        { id: 38, usuario: "eliza.s", nome: "Eliza Samudio", empresa: "Samudio Varejo", cnpj: "17.181.920/0001-33" },
-        { id: 39, usuario: "fabio.jr", nome: "Fábio Junior", empresa: "FJ Músicas", cnpj: "21.222.324/0001-44" },
-        { id: 40, usuario: "giovana.l", nome: "Giovana Lins", empresa: "Lins Petshop", cnpj: "25.262.728/0001-55" },
-        { id: 41, usuario: "hugo.v", nome: "Hugo Viana", empresa: "Viana Contabilidade", cnpj: "29.303.132/0001-66" },
-        { id: 42, usuario: "isabela.f", nome: "Isabela Freitas", empresa: "Freitas RH", cnpj: "33.343.536/0001-77" },
-        { id: 43, usuario: "joao.pedro", nome: "João Pedro", empresa: "JP Automação", cnpj: "37.383.940/0001-88" },
-        { id: 44, usuario: "karina.b", nome: "Karina Bastos", empresa: "Bastos Odonto", cnpj: "41.424.344/0001-99" },
-        { id: 45, usuario: "leandro.m", nome: "Leandro Macedo", empresa: "Macedo Fitness", cnpj: "45.464.748/0001-00" },
-        { id: 46, usuario: "monica.g", nome: "Mônica Geller", empresa: "Geller Chef", cnpj: "49.505.152/0001-11" },
-        { id: 47, usuario: "nelson.m", nome: "Nelson Mandela", empresa: "Freedom Foundation", cnpj: "53.545.556/0001-22" },
-        { id: 48, usuario: "olivia.p", nome: "Olívia Palito", empresa: "Popeye Solutions", cnpj: "57.585.960/0001-33" },
-        { id: 49, usuario: "pedro.alvares", nome: "Pedro Álvares", empresa: "Descobrimento Ltda", cnpj: "61.626.364/0001-44" },
-        { id: 50, usuario: "quiteria.s", nome: "Quitéria Silva", empresa: "Silva Artesanato", cnpj: "65.666.768/0001-55" }
+    const salesData = [ { id: 1, nome: "Ana Silva", cpf: "123.456.789-01", email: "ana.silva@email.com", quantidade: 2, valor: "R$ 150,00", troco: "R$ 0,00" },
+  { id: 2, nome: "Bruno Oliveira", cpf: "234.567.890-12", email: "bruno.o@email.com", quantidade: 1, valor: "R$ 80,00", troco: "R$ 20,00" },
+  { id: 3, nome: "Carla Souza", cpf: "345.678.901-23", email: "carla.souza@email.com", quantidade: 5, valor: "R$ 450,00", troco: "R$ 50,00" },
+  { id: 4, nome: "Diego Santos", cpf: "456.789.012-34", email: "diego.s@email.com", quantidade: 3, valor: "R$ 210,00", troco: "R$ 0,00" },
+  { id: 5, nome: "Elena Pereira", cpf: "567.890.123-45", email: "elena.p@email.com", quantidade: 1, valor: "R$ 45,00", troco: "R$ 5,00" },
+  { id: 6, nome: "Fabio Lima", cpf: "678.901.234-56", email: "fabio.lima@email.com", quantidade: 10, valor: "R$ 1.200,00", troco: "R$ 0,00" },
+  { id: 7, nome: "Gisele Costa", cpf: "789.012.345-67", email: "gisele.c@email.com", quantidade: 2, valor: "R$ 190,00", troco: "R$ 10,00" },
+  { id: 8, nome: "Hugo Rocha", cpf: "890.123.456-78", email: "hugo.rocha@email.com", quantidade: 4, valor: "R$ 320,00", troco: "R$ 0,00" },
+  { id: 9, nome: "Isabela Martins", cpf: "901.234.567-89", email: "isabela.m@email.com", quantidade: 1, valor: "R$ 60,00", troco: "R$ 40,00" },
+  { id: 10, nome: "João Pedro", cpf: "012.345.678-90", email: "joao.p@email.com", quantidade: 2, valor: "R$ 100,00", troco: "R$ 0,00" },
+  { id: 11, nome: "Karen Alves", cpf: "112.233.445-56", email: "karen.a@email.com", quantidade: 3, valor: "R$ 270,00", troco: "R$ 30,00" },
+  { id: 12, nome: "Lucas Ferreira", cpf: "223.344.556-67", email: "lucas.f@email.com", quantidade: 1, valor: "R$ 15,00", troco: "R$ 0,00" },
+  { id: 13, nome: "Mariana Gomes", cpf: "334.455.667-78", email: "mari.gomes@email.com", quantidade: 6, valor: "R$ 540,00", troco: "R$ 60,00" },
+  { id: 14, nome: "Natan Ribeiro", cpf: "445.566.778-89", email: "natan.r@email.com", quantidade: 2, valor: "R$ 180,00", troco: "R$ 0,00" },
+  { id: 15, nome: "Olivia Castro", cpf: "556.677.889-90", email: "olivia.c@email.com", quantidade: 1, valor: "R$ 95,00", troco: "R$ 5,00" },
+  { id: 16, nome: "Paulo Mendes", cpf: "667.788.890-01", email: "paulo.m@email.com", quantidade: 4, valor: "R$ 400,00", troco: "R$ 0,00" },
+  { id: 17, nome: "Quenia Lopes", cpf: "778.899.901-12", email: "quenia.l@email.com", quantidade: 2, valor: "R$ 130,00", troco: "R$ 20,00" },
+  { id: 18, nome: "Rafael Vaz", cpf: "889.900.012-23", email: "rafa.vaz@email.com", quantidade: 3, valor: "R$ 330,00", troco: "R$ 0,00" },
+  { id: 19, nome: "Sabrina Moraes", cpf: "990.011.123-34", email: "sabrina.m@email.com", quantidade: 1, valor: "R$ 55,00", troco: "R$ 5,00" },
+  { id: 20, nome: "Thiago Braga", cpf: "001.122.234-45", email: "thiago.b@email.com", quantidade: 5, valor: "R$ 500,00", troco: "R$ 0,00" },
+  { id: 21, nome: "Ursula Duarte", cpf: "111.222.333-44", email: "ursula.d@email.com", quantidade: 2, valor: "R$ 140,00", troco: "R$ 10,00" },
+  { id: 22, nome: "Victor Hugo", cpf: "222.333.444-55", email: "victor.h@email.com", quantidade: 1, valor: "R$ 25,00", troco: "R$ 0,00" },
+  { id: 23, nome: "Wagner Luiz", cpf: "333.444.555-66", email: "wagner.l@email.com", quantidade: 8, valor: "R$ 800,00", troco: "R$ 0,00" },
+  { id: 24, nome: "Xavier Neto", cpf: "444.555.666-77", email: "xavier.n@email.com", quantidade: 1, valor: "R$ 120,00", troco: "R$ 30,00" },
+  { id: 25, nome: "Yara Lima", cpf: "555.666.777-88", email: "yara.l@email.com", quantidade: 3, valor: "R$ 270,00", troco: "R$ 0,00" },
+  { id: 26, nome: "Zeca Pagodinho", cpf: "666.777.888-99", email: "zeca@email.com", quantidade: 2, valor: "R$ 160,00", troco: "R$ 40,00" },
+  { id: 27, nome: "Alice No Pais", cpf: "777.888.999-00", email: "alice@email.com", quantidade: 1, valor: "R$ 30,00", troco: "R$ 0,00" },
+  { id: 28, nome: "Beto Carrero", cpf: "888.999.000-11", email: "beto@email.com", quantidade: 12, valor: "R$ 2.400,00", troco: "R$ 100,00" },
+  { id: 29, nome: "Caio Castro", cpf: "999.000.111-22", email: "caio@email.com", quantidade: 4, valor: "R$ 360,00", troco: "R$ 0,00" },
+  { id: 30, nome: "Dora Aventureira", cpf: "000.111.222-33", email: "dora@email.com", quantidade: 1, valor: "R$ 50,00", troco: "R$ 10,00" }
 ]
     return (
         <table>
@@ -73,13 +56,18 @@ function TableSales() {
                 {
                     salesData.map((sale) => (
                         <tr key={sale.id}>
-                            <td>{sale.id}</td>
-                            <td>{sale.nome}</td>
+                            <td className='sales-field'>{sale.id}</td>
+                            <td className='sales-field'>{sale.nome}</td>
                             <td>{sale.cpf}</td>
                             <td>{sale.email}</td>
                             <td>{sale.quantidade}</td>
                             <td>{sale.valor}</td>
                             <td>{sale.troco}</td>
+                            <td>
+                                <button className='btn-table'>
+                                    <img src={comprovanteIcon} alt="Icone de garar comprovante" />
+                                </button>
+                            </td>
                             </tr>
                         )
                     )

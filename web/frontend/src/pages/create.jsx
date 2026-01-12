@@ -1,25 +1,20 @@
-import React from 'react';
-//import { useNavigate } from 'react-router-dom';
 import '../assets/css/global.css'
 import SideMenu from '../components/sideMenu.jsx'
-import TableSales from '../components/tableSales.jsx';
+import Register from '../components/register.jsx';
 import './css/base.css'
 
-function Sales(){
+
+function Create(){
     return(
-
         <div className="page-container">
-
-            <SideMenu/>
+            <SideMenu />
             <div className="content-container">
                 <div className="table-container">
-                  <TableSales/>
+                    <Register />
                 </div>
             </div>
-
         </div>
-
-    )
+    );
 }
 
-export default Sales;
+export default Create;
