@@ -1,5 +1,4 @@
 import React from 'react';
-//import { useNavigate } from 'react-router-dom';
 import '../assets/css/global.css'
 import SideMenu from '../components/sideMenu.jsx'
 import TableUser from '../components/tableUser.jsx';
@@ -12,8 +11,10 @@ import './css/btnGray.css'
 import './css/btnBlue.css'
 
 
+
 function User() {
      const navigate = useNavigate();
+     
 
     async function create() {
         navigate('/create');
@@ -25,7 +26,7 @@ function User() {
 
             <SideMenu/>
             <div className="content-container">
-                <div className='btn-container-cant'>
+                <div className='btn-container-user'>
                     <Btns
                         classNameIcon1="btn-gray-icon"
                         image1={deleteIcon}

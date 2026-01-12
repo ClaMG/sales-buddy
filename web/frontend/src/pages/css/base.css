@@ -13,16 +13,20 @@
 }
 
 .table-container{
-    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background-color: rgba(255, 255, 255, 0.719);
     border-radius: 3px;
-    opacity: 0.6;
+    
     min-height: 560px;
 }
 
-.btn-container-cant{
+.btn-container-user, .btn-container-create{
     position: fixed;
     margin-left: 44vw;
     margin-top: 85vh;
     z-index: 2;
+}
+
+.btn-container-create{
+    margin-left: 48vw;
 }
 
