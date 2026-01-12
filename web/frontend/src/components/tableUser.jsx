@@ -60,7 +60,7 @@ function TableUser({onclick}) {
         { id: 50, usuario: "quiteria.s", nome: "Quitéria Silva", empresa: "Silva Artesanato", cnpj: "65.666.768/0001-55" }
 ]
     return (
-        <table className='table-user'>
+        <table className='table-user table-base'>
             <thead>
                 <tr>
                     <th className='user-close'></th>

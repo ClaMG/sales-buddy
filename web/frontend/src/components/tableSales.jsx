@@ -38,7 +38,7 @@ function TableSales() {
   { id: 30, nome: "Dora Aventureira", cpf: "000.111.222-33", email: "dora@email.com", quantidade: 1, valor: "R$ 50,00", troco: "R$ 10,00" }
 ]
     return (
-        <table className='table-sales'>
+        <table className='table-sales table-base'>
             <thead>
                 <tr>
                     <th>ID.VENDA</th>
