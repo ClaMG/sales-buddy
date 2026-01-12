@@ -16,5 +16,13 @@
     background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
     border-radius: 3px;
     opacity: 0.6;
+    min-height: 560px;
+}
+
+.btn-container-cant{
+    position: fixed;
+    margin-left: 44vw;
+    margin-top: 85vh;
+    z-index: 2;
 }
 

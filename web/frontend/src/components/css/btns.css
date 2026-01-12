@@ -2,10 +2,6 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    position: fixed;
-    margin-top: 85vh;
-    margin-left: 44vw;
-    z-index: 2;
 }
 
 .btn-container{
@@ -31,4 +27,5 @@
     height: 20px;
     width: 20px;
 }
+
 

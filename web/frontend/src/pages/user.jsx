@@ -6,29 +6,39 @@ import TableUser from '../components/tableUser.jsx';
 import Btns from '../components/btns.jsx';
 import deleteIcon from '../assets/icons-btn/delet.png'
 import addIcon from '../assets/icons-btn/add.png'
+import { useNavigate } from 'react-router-dom';
 import './css/base.css'
-import './css/user.css'
+import './css/btnGray.css'
+import './css/btnBlue.css'
 
 
 function User() {
+     const navigate = useNavigate();
+
+    async function create() {
+        navigate('/create');
+    }
+
     return (
 
         <div className="page-container">
 
             <SideMenu/>
             <div className="content-container">
+                <div className='btn-container-cant'>
                     <Btns
-                        classNameIcon1="btn-delete-icon"
+                        classNameIcon1="btn-gray-icon"
                         image1={deleteIcon}
                         onClick1={() => {}} 
-                        className1="btn-delete-user"
+                        className1="btn-gray"
                         text1="EXCLUIR USUÁRIO"
-                        classNameIcon2="btn-add-icon"
+                        classNameIcon2="btn-blue-icon"
                         image2={addIcon}
-                        onClick2={() => {}} 
-                        className2="btn-add-user"
+                        onClick2={() => {create()}} 
+                        className2="btn-blue"
                         text2="CADASTRAR NOVO USUÁRIO"
                     />
+                </div>
                 <div className="table-container">
                    <TableUser/>
                 </div>

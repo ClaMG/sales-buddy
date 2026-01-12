@@ -12,6 +12,12 @@
     flex-grow: 0.1; 
 }
 
+.table-user tr{
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
 
 
 

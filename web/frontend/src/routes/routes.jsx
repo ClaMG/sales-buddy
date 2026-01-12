@@ -3,7 +3,6 @@ import '../assets/css/global.css'
 import Login from '../pages/login'
 import User from '../pages/user'
 import Sales from '../pages/sales'
-import Btn from '../components/btns'
 import Create from '../pages/create';
 
 function Router() {
@@ -14,7 +13,6 @@ function Router() {
                 <Route path="/user" element={<User />} />
                 <Route path="/sales" element={<Sales />} />
                 <Route path="/create" element={<Create />} />
-                <Route path="/btn" element={<Btn />} />
             </Routes>
         </BrowserRouter>
     );

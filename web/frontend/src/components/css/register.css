@@ -1,0 +1,17 @@
+.title-register{
+    display: flex;
+    font: var(--unnamed-font-style-normal) normal bold 20px/24px var(--unnamed-font-family-montserrat);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-074a82);
+    align-items: center;
+    padding: 15px;
+}
+
+.inputs-registre{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+

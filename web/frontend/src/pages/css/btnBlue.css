@@ -1,21 +1,8 @@
-.btn-delete-icon{
-    background: #707070 0% 0% no-repeat padding-box;
-}
-
-.btn-add-icon{
+.btn-blue-icon{
     background: var(--unnamed-color-074a82) 0% 0% no-repeat padding-box;
 }
 
-.btn-delete-user{
-    background: #B7B7B7 0% 0% no-repeat padding-box;
-    border-radius: 3px;
-    font: var(--unnamed-font-style-normal) normal bold 13px/16px var(--unnamed-font-family-montserrat);
-    color: #707070;
-    border: none;
-    padding: 10px;
-}
-
-.btn-add-user{
+.btn-blue{
     background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
     padding: 10px;
     border: 1px solid var(--unnamed-color-074a82);
