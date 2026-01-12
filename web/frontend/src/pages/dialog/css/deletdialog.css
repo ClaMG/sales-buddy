@@ -1,0 +1,27 @@
+body{
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.text-deletDialog{
+    font: var(--unnamed-font-style-normal) normal medium 14px/20px var(--unnamed-font-family-montserrat);
+    color: #A32C2C;
+}
+
+.negrito{
+    font-weight: bold;
+}
+
+.btn-deletDialog{
+    background: #408140 0% 0% no-repeat padding-box;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    color: var(--unnamed-color-ffffff);
+    font-size: 13px;
+}
+
+.no{
+    background: #A32C2C 0% 0% no-repeat padding-box;
+}
