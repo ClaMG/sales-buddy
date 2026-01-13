@@ -1,4 +1,4 @@
-import UserDao from '../dao/userDAO'
+import {insertUser, loginUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
 
 //Login
@@ -7,7 +7,7 @@ export async function Login(usuario, senha) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const userValido = await UserDao.login(usuario)
+    const userValido = await loginUser(usuario)
 
     if(!userValido){
         throw new Error("Usuario não existe.");
@@ -36,13 +36,13 @@ export async function Create(dados) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const usuarioExistente = await UserDao.search(dados)
+    const usuarioExistente = await search(dados)
 
     if(usuarioExistente){
         throw new Error("Usuario ou email já cadastrados");
     }
 
-    const criarUsuario = await UserDao.insertUser(dados)
+    const criarUsuario = await insertUser(dados)
 
     return criarUsuario;
 
@@ -54,7 +54,7 @@ export async function Delet(id) {
         throw new Error("Nenhum id encontrado.");
     }
 
-    const deletar = await UserDao.deleteUser(id)
+    const deletar = await deleteUser(id)
 
     if(!deletar){
         throw new Error("Erro ao deletar usuario.");
@@ -69,14 +69,14 @@ export async function Update(dados) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const usuarioAtual = await UserDao.findByIdUsers(dados.id);
+    const usuarioAtual = await findAllUsers(dados.id);
     if (!usuarioAtual) {
         throw new Error("Usuário não encontrado.");
     }
 
     //Usuario pertence a outro id
     if (dados.usuario && dados.usuario !== usuarioAtual.usuario) {
-        const jaExisteUsuario = await UserDao.findByUsername(dados.usuario);
+        const jaExisteUsuario = await findByUsername(dados.usuario);
         if (jaExisteUsuario) {
             throw new Error("Usuário já cadastrado.");
         }
@@ -84,13 +84,13 @@ export async function Update(dados) {
 
     //Email pertence a outro id
     if (dados.email && dados.email !== usuarioAtual.email) {
-        const jaExisteEmail = await UserDao.findByEmail(dados.email);
+        const jaExisteEmail = await findByEmail(dados.email);
         if (jaExisteEmail) {
             throw new Error("E-mail Usuário já cadastrado.");
         }
     }
 
-    const atualizar = await UserDao.updateUser(dados.id, dados)
+    const atualizar = await updateUser(dados.id, dados)
 
     if(!atualizar){
         throw new Error("Erro ao atualizar.");

@@ -1,7 +1,7 @@
-import UserService from '../services/userServer'
-import UserDAO from '../dao/userDAO'
+import {Create, Login, Delet, Update} from '../services/userServer.js'
+import {findAllUsers } from '../dao/userDAO.js'
 
-export async function create(req, res) {
+export async function insertUsersControler(req, res) {
     const novoCadastro = {
     usuario: req.usuario,
     nome: req.nome,
@@ -10,33 +10,33 @@ export async function create(req, res) {
     };
 
     try {
-        const resultado = await UserService.Create(novoCadastro);
+        const resultado = await Create(novoCadastro);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
 }
 
-export async function login(req, res) {
+export async function loginUsersControler(req, res) {
     try {
-        const resultado = await UserService.Login(req.body);
+        const resultado = await Login(req.body);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
 }
 
-export async function delet(req, res) {
+export async function deletUsersControler(req, res) {
     try {
-        const resultado = await UserService.Delet(req.body);
+        const resultado = await Delet(req.body);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
 }
 
-export async function update(req, res) {
-    const updateUser = {
+export async function updateUsersControler(req, res) {
+    const novoupdateUser = {
     id: req.id,
     usuario: req.usuario,
     nome: req.nome,
@@ -44,16 +44,16 @@ export async function update(req, res) {
     cnpj: req.cnpj
     };
     try {
-        const resultado = await UserService.Update(updateUser);
+        const resultado = await Update(novoupdateUser);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
 }
 
-export async function findAll(res) {
+export async function findAllUsersControler(res) {
     try {
-        const resultado = await UserDAO.findAllUsers();
+        const resultado = await findAllUsers();
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });

@@ -1,14 +1,14 @@
-import ItemUsuario from './items'
-import Usuario from './userModels'
+import {ItemUsuario} from './items.js'
+import {User} from './userModels.js'
 
-Usuario.hasMany(ItemUsuario, {
+User.hasMany(ItemUsuario, {
   foreignKey: 'usuario_id',
   as: 'item',
   onDelete: 'CASCADE'
 });
 
-ItemUsuario.belongsTo(Usuario, {
+ItemUsuario.belongsTo(User, {
   foreignKey: 'usuario_id'
 });
 
-export default {Usuario, ItemUsuario}
+export { User as Usuario, ItemUsuario };

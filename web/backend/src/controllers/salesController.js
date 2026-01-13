@@ -1,4 +1,4 @@
-import SalesDao from '../dao/salesDAO'
+import SalesDao from '../dao/salesDAO.js'
 
 export async function findAllSale(res) {
     try {

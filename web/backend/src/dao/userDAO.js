@@ -1,4 +1,4 @@
-import { Usuario, ItemUsuario } from '../models/implement';
+import { Usuario, ItemUsuario } from '../models/implement.js';
 
 // Buscar todos os usuários
 export async function findAllUsers() {
@@ -32,26 +32,23 @@ export async function updateUser(id, dados) {
 }
 
 //login
-export async function login(user) {
+export async function loginUser(user) {
     return await Usuario.findOne({
         where: { usuario: user, senha: senha } 
     });
 }
 
-//pesquisar usuario e email
-export async function search(dados) {
+//pesquisar por nome
+export async function findByUsername(usuario) {
     return await Usuario.findOne({
-        where: { 
-            [Op.or]: [
-                { usuario: dados.usuario },
-                { email: dados.email }
-            ] } 
+        where: { usuario: usuario }
     });
 }
 
-//pesquisar por id
-export async function findByIdUsers(id) {
+//pesquisar por email
+export async function findByEmail(email) {
     return await Usuario.findOne({
-        where: { id: id} 
+        where: { email: email }
     });
 }
+
