@@ -8,8 +8,8 @@ function useTableSalesActive(){
     async function getSales() {
         try {
             setError(null)
-            const response = await api.get('sales/sales');
-            setSales(response.data)
+            const salesFromApi = await api.get('sales/sales');
+            setSales(salesFromApi.data)
         } catch (err) {
             setError('Não foi possível carregar as vendas.')
             console.error(err);

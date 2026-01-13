@@ -8,8 +8,8 @@ function useTableUserActions(){
     async function getUser() {
         try {
             setError(null);
-            const response = await api.get('user/users');
-            setUsers(response.data); 
+            const userFromApi = await api.get('user/users');
+            setUsers(userFromApi.data); 
         } catch (err) {
             setError("Não foi possível carregar os usuários.");
             console.error(err);
