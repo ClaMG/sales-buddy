@@ -2,13 +2,13 @@ import {ItemSales} from './items.js'
 import {Sale} from './salesModels.js'
 
 Sale.hasMany(ItemSales, {
-  foreignKey: 'venda_id',
+  foreignKey: 'sales_id',
   as: 'itens',
   onDelete: 'CASCADE'
 });
 
 ItemSales.belongsTo(Sale, {
-  foreignKey: 'venda_id'
+  foreignKey: 'sales_id'
 });
 
 export { Sale, ItemSales };
