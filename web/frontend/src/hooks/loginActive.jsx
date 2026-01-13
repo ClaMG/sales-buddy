@@ -4,7 +4,7 @@ import { useState } from 'react';
 function useLoginActivite(){
     const [error, setError] = useState(null);
 
-    async function postLogin(usuario, senha) {
+    const handleSave = async (usuario, senha) =>{
         try {
             setError(null)
             const userFromApi = await api.post('user/login',{
@@ -18,7 +18,7 @@ function useLoginActivite(){
         }
     }
 
-    return { postLogin, error}
+    return { handleSave, error}
 }
 
 export default useLoginActivite
