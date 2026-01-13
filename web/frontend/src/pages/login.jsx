@@ -2,15 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import '../assets/css/global.css'
 import './css/login.css'
 import logo from '../assets/logo.svg'
-
-
+//import useLoginActivite from '../hooks/loginActive'
 
 function Login() {
+    //const {postLogin, error} = useLoginActivite()
     const navigate = useNavigate();
 
     async function goToUserPage() {
         navigate('/user');
     }
+
+
 
     
     return (

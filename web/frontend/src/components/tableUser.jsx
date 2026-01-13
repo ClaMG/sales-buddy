@@ -14,7 +14,6 @@ function TableUser({onclick}) {
     }, []);
     return (
         <div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
         <table className='table-user table-base'>
             <thead className='thead'>
                 <tr>
@@ -47,6 +46,7 @@ function TableUser({onclick}) {
                     ))}
             </tbody>
         </table>
+        {error && <p className='p-erro-table'>{error}</p>}
         </div>
     );
 }

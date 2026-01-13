@@ -22,3 +22,8 @@
     border: none;
     cursor: pointer;
 }
+
+.p-erro-table{
+    color: red;
+    margin-left: 20%;
+}

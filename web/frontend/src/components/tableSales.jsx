@@ -14,7 +14,6 @@ function TableSales() {
         }, []);
     return (
         <div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
         <table className='table-sales table-base'>
             <thead className='thead'>
                 <tr>
@@ -52,6 +51,7 @@ function TableSales() {
                 
             </tbody>
         </table>
+        {error && <p className='p-erro-table'>{error}</p>}
         </div>
     );
 }
