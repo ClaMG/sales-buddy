@@ -31,5 +31,9 @@ export const Sale = sequelize.define('Sale', {
     troco: {
     type: DataTypes.DECIMAL(10, 2)
   },
-})
+}, {
+    tableName: 'Sale',  
+    freezeTableName: true, // Impede o Sequelize de tentar pluralizar o nome
+    timestamps: false       // campos 'createdAt' e 'updatedAt'
+});
 

@@ -1,4 +1,4 @@
-import {insertUser, loginUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername } from '../dao/userDAO.js'
+import {insertUser, loginUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername, findById } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
 
 //Login
@@ -21,12 +21,17 @@ export async function Login(usuario, senha) {
 
     const token = jwt.sign(
         { id: userValido.id, senha: userValido.senha }, 
-        process.env.JWT_SECRET, 
+        process.env.JWT_SECRET || 'chave_mestra_temporaria_123', 
         { expiresIn: '1d' }
     );
 
+    const usuarioEncontrado = userValido.usuario
 
-    return userValido, token;
+
+    return { 
+        usuario: usuarioEncontrado, 
+        token: token 
+    };
 
 }
 
@@ -59,6 +64,12 @@ export async function Delet(id) {
         throw new Error("Nenhum id encontrado.");
     }
 
+    const userExiste = await findById(id)
+
+    if(!userExiste){
+         throw new Error("Usuario não encontrado.");
+    }
+
     const deletar = await deleteUser(id)
 
     if(!deletar){
@@ -70,7 +81,7 @@ export async function Delet(id) {
 
 //Atualizar dados
 export async function Update(dados) {
-    if(!dados || !dados.usuario || !dados.email || !dados.nome || !dados.senha || !dados.empresa || !dados.cnpj){
+    if(!dados || !dados.id || !dados.usuario || !dados.email || !dados.nome || !dados.senha || !dados.empresa || !dados.cnpj){
         throw new Error("Preencha todos os campo.");
     }
 

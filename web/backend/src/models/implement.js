@@ -1,14 +1,14 @@
-import {ItemUsuario} from './items.js'
-import {User} from './userModels.js'
+import {ItemSales} from './items.js'
+import {Sale} from './salesModels.js'
 
-User.hasMany(ItemUsuario, {
-  foreignKey: 'usuario_id',
-  as: 'item',
+Sale.hasMany(ItemSales, {
+  foreignKey: 'venda_id',
+  as: 'itens',
   onDelete: 'CASCADE'
 });
 
-ItemUsuario.belongsTo(User, {
-  foreignKey: 'usuario_id'
+ItemSales.belongsTo(Sale, {
+  foreignKey: 'venda_id'
 });
 
-export { User as Usuario, ItemUsuario };
+export { Sale, ItemSales };

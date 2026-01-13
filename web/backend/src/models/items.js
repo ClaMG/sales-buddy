@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-export const ItemUsuario = sequelize.define('ItemUsuario', {
+export const ItemSales = sequelize.define('ItemSales', {
   descricao: {
     type: DataTypes.STRING
   }
