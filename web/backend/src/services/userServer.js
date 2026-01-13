@@ -13,14 +13,14 @@ export async function Login(usuario, senha) {
         throw new Error("Usuario não existe.");
     }
 
-    const senhaValida = user.senha === senha
+    const senhaValida = userValido.senha === senha
 
     if(!senhaValida){
         throw new Error("Senha incorreta");
     }
 
     const token = jwt.sign(
-        { id: user.id, email: user.email }, 
+        { id: userValido.id, senha: userValido.senha }, 
         process.env.JWT_SECRET, 
         { expiresIn: '1d' }
     );
@@ -32,14 +32,19 @@ export async function Login(usuario, senha) {
 
 //Adicionar user
 export async function Create(dados) {
-    if (!dados) {
+    if (!dados || !dados.usuario || !dados.email || !dados.nome || !dados.senha || !dados.empresa || !dados.cnpj) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const usuarioExistente = await search(dados)
-
+    const usuarioExistente = await findByUsername(dados.usuario)
+    
     if(usuarioExistente){
-        throw new Error("Usuario ou email já cadastrados");
+        throw new Error("Usuario já cadastrado");
+    }
+    const emailExistente = await findByEmail(dados.email)
+    
+    if(emailExistente){
+        throw new Error("Email já cadastrado");
     }
 
     const criarUsuario = await insertUser(dados)
@@ -65,7 +70,7 @@ export async function Delet(id) {
 
 //Atualizar dados
 export async function Update(dados) {
-    if(!dados){
+    if(!dados || !dados.usuario || !dados.email || !dados.nome || !dados.senha || !dados.empresa || !dados.cnpj){
         throw new Error("Preencha todos os campo.");
     }
 

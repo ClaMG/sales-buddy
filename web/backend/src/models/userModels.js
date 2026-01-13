@@ -32,4 +32,8 @@ export const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
     }
-})
+}, {
+    tableName: 'Users',  
+    freezeTableName: true, // Impede o Sequelize de tentar pluralizar o nome
+    timestamps: true       // Adiciona campos 'createdAt' e 'updatedAt'
+});

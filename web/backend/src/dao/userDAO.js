@@ -34,7 +34,7 @@ export async function updateUser(id, dados) {
 //login
 export async function loginUser(user) {
     return await Usuario.findOne({
-        where: { usuario: user, senha: senha } 
+        where: { usuario: user} 
     });
 }
 

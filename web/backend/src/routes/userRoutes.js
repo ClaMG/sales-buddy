@@ -3,7 +3,7 @@ import{insertUsersControler, loginUsersControler, deletUsersControler, updateUse
 
 const router = Router();
 
-router.post('/', loginUsersControler)
+router.post('/login', loginUsersControler)
 router.get('/users', findAllUsersControler)
 router.post('/cadastro', insertUsersControler)
 router.delete('/delet', deletUsersControler)

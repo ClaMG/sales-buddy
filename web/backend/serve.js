@@ -1,12 +1,24 @@
 import 'dotenv/config';
 import app from './src/app.js';
-import './src/models/userModels.js';
-import './src/models/implement.js';
-import './src/models/items.js';
-import './src/models/salesModels.js';
+import sequelize from './src/config/database.js'; // Importe a conexão do Sequelize
+import './src/models/implement.js'; // Basta importar o implement, ele já puxa os outros
 
-const port = process.env.PORT || 3000; // Agora o process.env funciona!
+const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-    console.log(`Api rodando na porta ${port}`);
-});
+async function startServer() {
+  try {
+    await sequelize.authenticate();
+    console.log('Conexão com o SQLite estabelecida com sucesso.');
+    
+    await sequelize.sync({ force: false }); 
+    console.log('Modelos sincronizados com o banco de dados.');
+
+    app.listen(port, () => {
+      console.log(`Api rodando na porta ${port}`);
+    });
+  } catch (error) {
+    console.error('Erro ao iniciar o servidor ou banco de dados:', error);
+  }
+}
+
+startServer();
