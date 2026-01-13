@@ -3,7 +3,7 @@
     padding: 20px;
 }
 
-.table-base th,.table-base td{
+.thead tr th,.tbody tr td{
     font: var(--unnamed-font-style-normal) normal medium var(--unnamed-font-size-15)/var(--unnamed-line-spacing-19) var(--unnamed-font-family-montserrat);
     letter-spacing: var(--unnamed-character-spacing-0);
     flex: 1;
@@ -11,7 +11,7 @@
     font-size: 12px;
 }
 
-.table-base td{
+.tbody tr td{
     padding: 10px 0;
     color: var(--unnamed-color-a32c65);
     font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-19) var(--unnamed-font-family-montserrat);

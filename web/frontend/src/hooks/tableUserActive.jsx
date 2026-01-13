@@ -2,28 +2,21 @@ import api from '../services/api.jsx';
 import { useState } from 'react';
 
 function useTableUserActions(){
-    const [error, setError] = useState(null);//erro
-   const [loading, setLoading] = useState(false);//carregando
+   const [users, setUsers] = useState([]);
+    const [error, setError] = useState(null);
 
-   //chama o servidor
-    const fetchUsers = async () => {
-        setLoading(true);
-
+    async function getUser() {
         try {
             setError(null);
-
             const response = await api.get('user/users');
-            return response.data; 
+            setUsers(response.data); 
         } catch (err) {
-            const mensagem = err.response?.data?.message || "Erro ao conectar com o servidor";
-            setError(mensagem);
-            return []; 
-        } finally {
-            setLoading(false);
+            setError("Não foi possível carregar os usuários.");
+            console.error(err);
         }
-    };
+    }
 
-    return { fetchUsers, error, loading };
+    return { users, getUser, error };
 }
 
 export default useTableUserActions

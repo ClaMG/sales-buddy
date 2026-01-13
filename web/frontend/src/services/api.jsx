@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const api = axios.create({ baseURL: 'http://localhost:3000' });
 
 //Interceptor
@@ -10,3 +11,5 @@ api.interceptors.response.use(
         return Promise.reject(error.response?.data?.message || "Erro interno no servidor");
     }
 );
+
+export default api;
