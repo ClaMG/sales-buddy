@@ -22,7 +22,8 @@
     width: 100%;
 }
 
-.button-menu{
+.nav-link {
+    text-decoration: none;
     display: flex;
     background: none;
     border: none;
@@ -40,4 +41,18 @@
 .p-menu{
     color: var(--unnamed-color-a32c65);
     font-size: medium;
+}
+
+.nav-link.active .p-menu {
+    font: var(--unnamed-font-style-normal) normal bold 20px/24px var(--unnamed-font-family-montserrat);
+    color: var(--unnamed-color-074a82);
+}
+
+.nav-link.active #sales-menu{
+        content: url('../../assets/icons-menu/icon-sales-select.png');
+
+}
+.nav-link.active #user-menu{
+        content: url('../../assets/icons-menu/icon-user-select.png');
+
 }
