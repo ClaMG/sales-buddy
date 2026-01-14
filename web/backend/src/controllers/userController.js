@@ -58,7 +58,7 @@ export async function updateUsersControler(req, res) {
     try {
         const resultado = await Update(novoupdateUser);
         return res.status(201).json({
-            message: "Usuario deletado com sucesso",
+            message: "Usuario atualizado com sucesso",
             resposta: resultado});
     } catch (error) {
         return res.status(400).json({ message: error.message });

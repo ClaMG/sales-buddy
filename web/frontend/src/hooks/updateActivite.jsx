@@ -7,7 +7,7 @@ function useUpdateActive(){
     const handleSave = async(id, usuario, nome, empresa, cnpj, email) =>{
         try {
             setError(null)
-            const userFromApi = await api.post('user/cadastro',{
+            const userFromApi = await api.put('user/update',{
                 id: id,
                 usuario: usuario,
                 nome: nome,

@@ -22,7 +22,7 @@ function useTableUserActions(){
 
     async function send(id) {
         localStorage.setItem("idUpdate", id)
-        console.log(id)
+        console.log("id do user:",id)
         navigate('/update')
     }
 

@@ -11,7 +11,7 @@ function TableUser() {
 
     useEffect(() => {
         getUser()
-    }, []);
+    }, [getUser]);
     return (
         <div>
         <table className='table-user table-base'>
@@ -38,7 +38,7 @@ function TableUser() {
                             <td>{user.empresa}</td>
                             <td>{user.cnpj}</td>
                             <td>
-                                <button className='btn-table' onClick={send(user.id)}>
+                                <button className='btn-table' onClick={() => send(user.id)}>
                                     <img src={editIcon} alt="icone para editar usuario" />
                                 </button>
                             </td>

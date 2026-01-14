@@ -48,11 +48,15 @@ function Create(){
                         onClick1={() => {}} 
                         className1="btn-gray"
                         text1="RESETAR SENHA"
+                        type1="button"
+                        desablit1={true}
                         classNameIcon2="btn-blue-icon"
                         image2={save}
                         onClick2={handleSubmit} 
                         className2="btn-blue"
                         text2="SALVAR ALTERAÇÕES"
+                        type2="submit"
+                        desablit2={false}
                     />
                 </div>
                 <div className="table-container">
