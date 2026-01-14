@@ -18,10 +18,6 @@ function User() {
         navigate('/create');
     }
 
-    async function update() {
-        navigate('/update')
-    }
-
     return (
 
         <div className="page-container">
@@ -47,9 +43,7 @@ function User() {
                     />
                 </div>
                 <div className="table-container">
-                   <TableUser
-                        onclick={() => {update()}}
-                   />
+                   <TableUser/>
                 </div>
                 
             </div>

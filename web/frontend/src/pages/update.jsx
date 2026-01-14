@@ -8,8 +8,28 @@ import './css/btnGray.css'
 import refresh from '../assets/icons-btn/refresh.png'
 import save from '../assets/icons-btn/save.png'
 import titleIcon from '../assets/icons-btn/edit.png'
+import { useState } from 'react';
+
 
 function Update(){
+    //para puxar os dados do register
+        const [formData, setFormData] = useState({
+            usuario: '', nome: '', email: '', empresa: '', cnpj: ''
+        });
+
+        const usuario = formData.usuario
+        const nome = formData.nome
+        const empresa = formData.empresa
+        const cnpj = formData.cnpj
+        const email = formData.email
+
+        console.log("campo1:", usuario)
+                console.log("campo2:", nome)
+                console.log("campo3:", empresa)
+                console.log("campo4:", cnpj)
+                console.log("campo5:", email)
+
+
     return(
         <div className="page-container">
             <SideMenu />
@@ -32,6 +52,8 @@ function Update(){
                     <Register 
                         textTitle={ "EDITAR USUÁRIO"}
                         icon={titleIcon}
+                        formData={formData} 
+                        setFormData={setFormData}
                     />
                 </div>
             </div>

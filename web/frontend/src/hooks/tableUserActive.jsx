@@ -1,9 +1,12 @@
 import api from '../services/api.jsx';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function useTableUserActions(){
    const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     async function getUser() {
         try {
@@ -17,7 +20,13 @@ function useTableUserActions(){
         }
     }
 
-    return { users, getUser, error };
+    async function send(id) {
+        localStorage.setItem("idUpdate", id)
+        console.log(id)
+        navigate('/update')
+    }
+
+    return { users, getUser, error, send };
 }
 
 export default useTableUserActions

@@ -6,8 +6,8 @@ import './css/tableUser.css'
 import useTableUserActions from '../hooks/tableUserActive.jsx';
 
 
-function TableUser({onclick}) {
-    const { users, getUser, error } = useTableUserActions();
+function TableUser() {
+    const { users, getUser, error, send } = useTableUserActions();
 
     useEffect(() => {
         getUser()
@@ -38,7 +38,7 @@ function TableUser({onclick}) {
                             <td>{user.empresa}</td>
                             <td>{user.cnpj}</td>
                             <td>
-                                <button className='btn-table' onClick={onclick}>
+                                <button className='btn-table' onClick={send(user.id)}>
                                     <img src={editIcon} alt="icone para editar usuario" />
                                 </button>
                             </td>

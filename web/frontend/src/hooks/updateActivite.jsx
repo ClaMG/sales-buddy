@@ -4,8 +4,7 @@ import { useState } from 'react';
 function useUpdateActive(){
     const [error, setError] = useState(null);
     const senha = '1234'
-
-    const handleSave = async(id,usuario, nome, empresa, cnpj, email) =>{
+    const handleSave = async(id, usuario, nome, empresa, cnpj, email) =>{
         try {
             setError(null)
             const userFromApi = await api.post('user/cadastro',{
