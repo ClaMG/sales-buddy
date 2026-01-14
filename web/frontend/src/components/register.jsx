@@ -7,7 +7,16 @@ function Register({textTitle, icon, formData, setFormData,}){
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        //Fazer a logica para começa com isso//
+        if(textTitle == "EDITAR USUÁRIO"){
+            localStorage.getItem("usuarioUpdate")
+            localStorage.getItem("nomeUpdate")
+            localStorage.getItem("empresaUpdate")
+            localStorage.getItem("cnpjUpdate")
+            localStorage.getItem("emailUpdate")
+        }
     };
+
 
     return(
         <div>
