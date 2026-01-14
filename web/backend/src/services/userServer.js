@@ -90,19 +90,19 @@ export async function Update(dados) {
         throw new Error("Usuário não encontrado.");
     }
 
-    //Usuario pertence a outro id
-    if (dados.usuario && dados.usuario !== usuarioAtual.usuario) {
+    //Usuario pertence a outro id tirando o dele atual
+    if (dados.usuario && dados.usuario != usuarioAtual.usuario) {
         const jaExisteUsuario = await findByUsername(dados.usuario);
-        if (jaExisteUsuario) {
+        if (jaExisteUsuario && jaExisteUsuario.id != dados.id) {
             throw new Error("Usuário já cadastrado.");
         }
     }
 
     //Email pertence a outro id
-    if (dados.email && dados.email !== usuarioAtual.email) {
+    if (dados.email && dados.email != usuarioAtual.email) {
         const jaExisteEmail = await findByEmail(dados.email);
-        if (jaExisteEmail) {
-            throw new Error("E-mail Usuário já cadastrado.");
+        if (jaExisteEmail && jaExisteEmail.id != dados.id) {
+            throw new Error("E-mail já cadastrado.");
         }
     }
 
