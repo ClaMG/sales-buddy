@@ -18,13 +18,13 @@ function useUpdateActive(){
             })
             return userFromApi
         } catch (err) {
-            const errorMessage = err || 'Erro ao atualizar usuario';
+            const errorMessage = err || 'Erro Interno';
             setError(errorMessage)
             console.error(err);
         }
     }
 
-    
+
     return{handleSave , error}
 
 }

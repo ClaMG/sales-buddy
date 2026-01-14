@@ -1,6 +1,6 @@
 import {insertUser, loginUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername, findById } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
-
+import {hashPassword, comparePassword} from '../utils/authUtils.js'
 //Login
 export async function Login(usuario, senha) {
      if (!usuario || !senha) {
@@ -13,7 +13,7 @@ export async function Login(usuario, senha) {
         throw new Error("Usuario não existe.");
     }
 
-    const senhaValida = userValido.senha === senha
+    const senhaValida = await comparePassword(senha, userValido.senha);
 
     if(!senhaValida){
         throw new Error("Senha incorreta");
@@ -29,7 +29,6 @@ export async function Login(usuario, senha) {
 
 
     return { 
-        usuario: usuarioEncontrado, 
         token: token 
     };
 
@@ -52,7 +51,18 @@ export async function Create(dados) {
         throw new Error("Email já cadastrado");
     }
 
-    const criarUsuario = await insertUser(dados)
+    const senhaCriptografada = await hashPassword(dados.senha);
+
+    const usuarioParaSalvar = {
+        usuario: dados.usuario,
+        nome: dados.nome,
+        empresa: dados.empresa,
+        cnpj: dados.cnpj,
+        email: dados.email,
+        senha: senhaCriptografada 
+    };
+
+    const criarUsuario = await insertUser(usuarioParaSalvar)
 
     return criarUsuario;
 
@@ -106,7 +116,18 @@ export async function Update(dados) {
         }
     }
 
-    const atualizar = await updateUser(dados.id, dados)
+    const senhaCriptografada = await hashPassword(dados.senha);
+
+    const usuarioParaSalvar = {
+        usuario: dados.usuario,
+        nome: dados.nome,
+        empresa: dados.empresa,
+        cnpj: dados.cnpj,
+        email: dados.email,
+        senha: senhaCriptografada 
+    };
+
+    const atualizar = await updateUser(dados.id, usuarioParaSalvar)
 
     if(!atualizar){
         throw new Error("Erro ao atualizar.");

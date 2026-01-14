@@ -20,7 +20,7 @@ function useLoginActivite(){
 
             return userFromApi 
         } catch (err) {
-            const errorMessage = err || "Erro ao logar";
+            const errorMessage = err || "Erro Interno";
             setError(errorMessage); 
             console.log(errorMessage); 
         }

@@ -11,7 +11,7 @@ function useTableSalesActive(){
             const salesFromApi = await api.get('sales/sales');
             setSales(salesFromApi.data)
         } catch (err) {
-            const errorMessage = err|| 'Vendas não encontradas';
+            const errorMessage = err|| 'Erro Interno';
             setError(errorMessage)
             console.error(err);
         }

@@ -14,7 +14,7 @@ function useTableUserActions(){
             const userFromApi = await api.get('user/users');
             setUsers(userFromApi.data); 
         } catch (err) {
-            const errorMessage = err || 'Usuarios não encontradas';
+            const errorMessage = err || 'Erro Interno';
             setError(errorMessage)
             console.error(err);
         }

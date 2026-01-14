@@ -14,7 +14,7 @@ function useDeletActive(){
 
             return userFromApi
         } catch (err) {
-            const errorMessage = err || 'Erro ao deletar usuário';
+            const errorMessage = err || 'Erro Interno';
             setError(errorMessage)
             console.error(err);
         }
