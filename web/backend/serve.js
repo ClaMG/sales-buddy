@@ -13,7 +13,7 @@ async function startServer() {
     await sequelize.sync({ force: false }); 
     console.log('Modelos sincronizados com o banco de dados.');
 
-    app.listen(port, () => {
+    app.listen(port, '0.0.0.0', () => {
       console.log(`Api rodando na porta ${port}`);
     });
   } catch (error) {
