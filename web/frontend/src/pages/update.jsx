@@ -11,6 +11,7 @@ import titleIcon from '../assets/icons-btn/edit.png'
 import { useState } from 'react';
 import useUpdateActive from '../hooks/updateActivite.jsx'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 function Update(){
@@ -44,7 +45,13 @@ function Update(){
         const success = await handleSave(id, usuario, nome, empresa, cnpj, email );
 
         if(success){
+            toast.success("Usuário atualizado com sucesso!");
             navigate('/user')
+            return
+        }
+
+        if (error) {
+            toast.error(error); 
         }
     }
 

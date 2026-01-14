@@ -4,6 +4,8 @@ import '../assets/css/global.css'
 import './css/login.css'
 import logo from '../assets/logo.svg'
 import useLoginActivite from '../hooks/loginActive'
+import { toast } from 'react-toastify';
+
 
 function Login() {
     const {handleSave, error} = useLoginActivite()
@@ -18,7 +20,12 @@ function Login() {
         const success = await handleSave({ username, password });
 
         if(success){
+            toast.success("Login realizado com sucesso!");
             navigate('/user')
+            return
+        }
+        if (error) {
+            toast.error(error); 
         }
     }
     
@@ -35,7 +42,6 @@ function Login() {
                     <button className="forgot-password-button" type='button'>Esqueci a senha</button>
                 </div>
             </form>
-            {error && <p className='p-erro-table'>{error}</p>}
         </div>
     );
 

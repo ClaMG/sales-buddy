@@ -11,7 +11,7 @@ import titleIcon from '../assets/icons-title/add_blue.svg'
 import useRegisterActivite from '../hooks/registerActive.jsx'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
+import { toast } from 'react-toastify';
 
 function Create(){
     const {handleSave, error} = useRegisterActivite()
@@ -33,14 +33,19 @@ function Create(){
         const success = await handleSave( usuario, nome, empresa, cnpj, email  );
 
         if(success){
+            toast.success("Usuário cadastrado com sucesso!");
             navigate('/user')
+            return;
+        }
+
+        if (error) {
+            toast.error(error); 
         }
     }
     return(
         <div className="page-container">
             <SideMenu />
             <div className="content-container">
-                {error && <p className='p-erro-table'>{error}</p>}
                 <div className='btn-container-create'>
                     <Btns
                         classNameIcon1="btn-gray-icon"

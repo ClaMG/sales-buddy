@@ -4,14 +4,18 @@ import './css/tables.css'
 import './css/tableSales.css'
 import comprovanteIcon from '../assets/icons-btn/receipt.svg'
 import useTableSalesActive from '../hooks/tableSalesActive'
+import { toast } from 'react-toastify';
 
 
 function TableSales() {
     const {getSales, sales, error} = useTableSalesActive()
     
     useEffect(() => {
-            getSales();
-        }, []);
+        getSales();
+        if (error) {
+            toast.error(error); 
+        }
+    }, [getSales]);
     return (
         <div>
         <table className='table-sales table-base'>
@@ -51,7 +55,6 @@ function TableSales() {
                 
             </tbody>
         </table>
-        {error && <p className='p-erro-table'>{error}</p>}
         </div>
     );
 }

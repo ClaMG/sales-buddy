@@ -4,13 +4,16 @@ import editIcon from '../assets/icons-btn/edit.png'
 import './css/tables.css'
 import './css/tableUser.css'
 import useTableUserActions from '../hooks/tableUserActive.jsx';
-
+import { toast } from 'react-toastify';
 
 function TableUser() {
     const { users, getUser, error, send } = useTableUserActions();
 
     useEffect(() => {
         getUser()
+        if (error) {
+            toast.error(error); 
+        }
     }, [getUser]);
     return (
         <div>
@@ -46,7 +49,6 @@ function TableUser() {
                     ))}
             </tbody>
         </table>
-        {error && <p className='p-erro-table'>{error}</p>}
         </div>
     );
 }
