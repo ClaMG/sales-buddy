@@ -6,9 +6,9 @@ import { useState } from 'react';
 function Register({textTitle, icon, onSubmit}){
     const [usuario, setUsuario] = useState('');
     const [nome, setNome] = useState('');
-    const [empresa, setEmpresa] = useState('');
-    const [cnpj, setCnpj] = useState('');
-    const [email, setEmail] = useState('');
+    //const [empresa, setEmpresa] = useState('');
+    //const [cnpj, setCnpj] = useState('');
+    //const [email, setEmail] = useState('');
 
     return(
         <div>

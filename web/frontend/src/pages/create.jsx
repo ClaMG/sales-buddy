@@ -17,7 +17,7 @@ function Create(){
     async function handleSubmit(event) {
         event.preventDefault()
 
-        const success = await handleSave({ usuario, nome, empresa, cnpj, email });
+        const success = await handleSave({  });
 
         if(success){
             //navigate('/user')
@@ -27,6 +27,7 @@ function Create(){
         <div className="page-container">
             <SideMenu />
             <div className="content-container">
+                {error && <p className='p-erro-table'>{error}</p>}
                 <div className='btn-container-create'>
                     <Btns
                         classNameIcon1="btn-gray-icon"
