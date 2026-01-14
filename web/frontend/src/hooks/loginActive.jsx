@@ -4,17 +4,23 @@ import { useState } from 'react';
 function useLoginActivite(){
     const [error, setError] = useState(null);
 
-    const handleSave = async (usuario, senha) =>{
+    const handleSave = async ({ username, password }) =>{
+        if(!username || !password){
+            setError("Preencha todos os campos")
+            return false
+        }
+        
         try {
             setError(null)
             const userFromApi = await api.post('user/login',{
-                usuario: usuario,
-                senha: senha
+                usuario: username,
+                senha: password,
             })
-            return userFromApi
+            return userFromApi 
         } catch (err) {
-            setError('Não foi possível logar.')
-            console.error(err);
+            const errorMessage = err || "Erro desconhecido";
+            setError(errorMessage); 
+            console.log(errorMessage); 
         }
     }
 

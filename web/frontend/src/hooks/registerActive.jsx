@@ -3,8 +3,9 @@ import { useState } from 'react';
 
 function useRegisterActivite(){
     const [error, setError] = useState(null);
+    const senha = '1234'
 
-    async function insertUsers(usuario, nome, empresa, cnpj, email, senha) {
+    const handleSave = async (usuario, nome, empresa, cnpj, email) => {
         try {
             setError(null)
             const userFromApi = await api.post('user/cadastro',{
@@ -18,12 +19,13 @@ function useRegisterActivite(){
 
         return userFromApi
         } catch (err) {
-            setError('Não foi possível Criar um novo usuario.')
+            const errorMessage = err.response.data.message || 'Erro ao criar usuário';
+            setError(errorMessage)
             console.error(err);
         }
 
     }
-    return{insertUsers, error}
+    return{handleSave , error}
 }
 
 export default useRegisterActivite

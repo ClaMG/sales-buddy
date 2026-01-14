@@ -11,7 +11,8 @@ function useTableSalesActive(){
             const salesFromApi = await api.get('sales/sales');
             setSales(salesFromApi.data)
         } catch (err) {
-            setError('Não foi possível carregar as vendas.')
+            const errorMessage = err.response.data.message || 'Vendas não encontradas';
+            setError(errorMessage)
             console.error(err);
         }
     }

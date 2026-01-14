@@ -20,7 +20,7 @@ export async function Login(usuario, senha) {
     }
 
     const token = jwt.sign(
-        { id: userValido.id, senha: userValido.senha }, 
+        { id: userValido.id}, 
         process.env.JWT_SECRET || 'chave_mestra_temporaria_123', 
         { expiresIn: '1d' }
     );

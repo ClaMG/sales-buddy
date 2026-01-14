@@ -5,7 +5,7 @@ function useDeletActive(){
     const [error, setError] = useState(null);
    
 
-    async function deletUser(id) {
+    const handleSave =  async(id) => {
         try {
             setError(null)
             const userFromApi = await api.delete('user/delet',{
@@ -14,11 +14,12 @@ function useDeletActive(){
 
             return userFromApi
         } catch (err) {
-            setError('Não foi possível deletar o usuario.')
+            const errorMessage = err.response.data.message || 'Erro ao deletar usuário';
+            setError(errorMessage)
             console.error(err);
         }
     }
-    return{deletUser, error}
+    return{handleSave, error}
 }
 
 export default useDeletActive

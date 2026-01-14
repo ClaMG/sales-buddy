@@ -11,7 +11,8 @@ function useTableUserActions(){
             const userFromApi = await api.get('user/users');
             setUsers(userFromApi.data); 
         } catch (err) {
-            setError("Não foi possível carregar os usuários.");
+            const errorMessage = err.response.data.message || 'Usuario não encontradas';
+            setError(errorMessage)
             console.error(err);
         }
     }

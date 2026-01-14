@@ -3,8 +3,9 @@ import { useState } from 'react';
 
 function useUpdateActive(){
     const [error, setError] = useState(null);
+    const senha = '1234'
 
-    async function putUpdate(id,usuario, nome, empresa, cnpj, email, senha) {
+    const handleSave = async(id,usuario, nome, empresa, cnpj, email) =>{
         try {
             setError(null)
             const userFromApi = await api.post('user/cadastro',{
@@ -18,11 +19,12 @@ function useUpdateActive(){
             })
             return userFromApi
         } catch (err) {
-            setError('Não foi possível atualizar o usuario.')
+            const errorMessage = err.response.data.message || 'Erro ao atualizar usuario';
+            setError(errorMessage)
             console.error(err);
         }
     }
-    return{putUpdate, error}
+    return{handleSave , error}
 
 }
 
