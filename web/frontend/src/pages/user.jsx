@@ -11,11 +11,9 @@ import './css/btnGray.css'
 import './css/btnBlue.css'
 
 
-
 function User() {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
      
-
     async function create() {
         navigate('/create');
     }
@@ -37,11 +35,15 @@ function User() {
                         onClick1={() => {}} 
                         className1="btn-gray"
                         text1="EXCLUIR USUÁRIO"
+                        type1= "submit"
+                        desablit1= {""}
                         classNameIcon2="btn-blue-icon"
                         image2={addIcon}
                         onClick2={() => {create()}} 
                         className2="btn-blue"
                         text2="CADASTRAR NOVO USUÁRIO"
+                        type2= "button"
+                        desablit2= {false}
                     />
                 </div>
                 <div className="table-container">

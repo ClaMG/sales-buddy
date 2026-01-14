@@ -21,9 +21,6 @@ function Login() {
             navigate('/user')
         }
     }
-
-
-
     
     return (
         <div className="login-container">

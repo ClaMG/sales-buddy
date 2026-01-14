@@ -19,7 +19,7 @@ function useUpdateActive(){
             })
             return userFromApi
         } catch (err) {
-            const errorMessage = err.response.data.message || 'Erro ao atualizar usuario';
+            const errorMessage = err || 'Erro ao atualizar usuario';
             setError(errorMessage)
             console.error(err);
         }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import{insertUsersControler, loginUsersControler, deletUsersControler, updateUsersControler, findAllUsersControler } from '../controllers/userController.js'
-//import{CreateController } from '../controllers/salesController.js'
+//import {authMiddleware} from '../middlewares/authMiddlewares.js'
 
 const router = Router();
 
@@ -9,6 +9,5 @@ router.get('/users', findAllUsersControler)
 router.post('/cadastro', insertUsersControler)
 router.delete('/delet', deletUsersControler)
 router.put('/update', updateUsersControler)
-//router.post('/test', CreateController)
 
 export default router;

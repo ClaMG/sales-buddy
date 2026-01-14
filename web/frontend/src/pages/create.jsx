@@ -8,9 +8,21 @@ import './css/base.css'
 import './css/btnBlue.css'
 import './css/btnGray.css'
 import titleIcon from '../assets/icons-title/add_blue.svg'
-
+import useRegisterActivite from '../hooks/registerActive.jsx'
 
 function Create(){
+    const {handleSave, error} = useRegisterActivite()
+    
+
+    async function handleSubmit(event) {
+        event.preventDefault()
+
+        const success = await handleSave({ usuario, nome, empresa, cnpj, email });
+
+        if(success){
+            //navigate('/user')
+        }
+    }
     return(
         <div className="page-container">
             <SideMenu />
@@ -33,6 +45,7 @@ function Create(){
                     <Register 
                         textTitle={ "CADASTRAR NOVO USUÁRIO"}
                         icon={titleIcon}
+                        onSubmit={handleSubmit}
                     />
                 </div>
             </div>

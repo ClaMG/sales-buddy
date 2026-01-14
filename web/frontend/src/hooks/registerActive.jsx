@@ -19,7 +19,7 @@ function useRegisterActivite(){
 
         return userFromApi
         } catch (err) {
-            const errorMessage = err.response.data.message || 'Erro ao criar usuário';
+            const errorMessage = err || 'Erro ao criar usuário';
             setError(errorMessage)
             console.error(err);
         }

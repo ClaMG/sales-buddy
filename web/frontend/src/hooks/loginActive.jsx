@@ -5,10 +5,6 @@ function useLoginActivite(){
     const [error, setError] = useState(null);
 
     const handleSave = async ({ username, password }) =>{
-        if(!username || !password){
-            setError("Preencha todos os campos")
-            return false
-        }
         
         try {
             setError(null)
@@ -16,9 +12,15 @@ function useLoginActivite(){
                 usuario: username,
                 senha: password,
             })
+
+            if (!userFromApi.data.token) {
+                localStorage.setItem('token', userFromApi.data.token); 
+            }
+            
+
             return userFromApi 
         } catch (err) {
-            const errorMessage = err || "Erro desconhecido";
+            const errorMessage = err || "Erro ao logar";
             setError(errorMessage); 
             console.log(errorMessage); 
         }
