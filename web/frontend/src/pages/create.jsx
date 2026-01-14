@@ -9,18 +9,31 @@ import './css/btnBlue.css'
 import './css/btnGray.css'
 import titleIcon from '../assets/icons-title/add_blue.svg'
 import useRegisterActivite from '../hooks/registerActive.jsx'
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 
 function Create(){
     const {handleSave, error} = useRegisterActivite()
-    
+    const navigate = useNavigate()
+    //para puxar os dados do register
+    const [formData, setFormData] = useState({
+        usuario: '', nome: '', email: '', empresa: '', cnpj: ''
+    });
 
     async function handleSubmit(event) {
         event.preventDefault()
 
-        const success = await handleSave({  });
+        const usuario = formData.usuario
+        const nome = formData.nome
+        const empresa = formData.empresa
+        const cnpj = formData.cnpj
+        const email = formData.email
+
+        const success = await handleSave( usuario, nome, empresa, cnpj, email  );
 
         if(success){
-            //navigate('/user')
+            navigate('/user')
         }
     }
     return(
@@ -37,7 +50,7 @@ function Create(){
                         text1="RESETAR SENHA"
                         classNameIcon2="btn-blue-icon"
                         image2={save}
-                        onClick2={() => {}} 
+                        onClick2={handleSubmit} 
                         className2="btn-blue"
                         text2="SALVAR ALTERAÇÕES"
                     />
@@ -46,7 +59,8 @@ function Create(){
                     <Register 
                         textTitle={ "CADASTRAR NOVO USUÁRIO"}
                         icon={titleIcon}
-                        onSubmit={handleSubmit}
+                        formData={formData} 
+                        setFormData={setFormData}
                     />
                 </div>
             </div>

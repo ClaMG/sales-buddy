@@ -1,50 +1,49 @@
 import '../assets/css/global.css'
 import './css/register.css'
-import { useState } from 'react';
 
 
-function Register({textTitle, icon, onSubmit}){
-    const [usuario, setUsuario] = useState('');
-    const [nome, setNome] = useState('');
-    //const [empresa, setEmpresa] = useState('');
-    //const [cnpj, setCnpj] = useState('');
-    //const [email, setEmail] = useState('');
+function Register({textTitle, icon, formData, setFormData,}){
+    //para enviar os dados digitados no campo
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
     return(
         <div>
                 <div className='title-register'>
-                    <img src={icon} alt="icone de cadastrar" />
+                    <img src={icon} alt="icone de titulo" />
                     <p>{textTitle}</p>
                 </div>
-            <form action="" onSubmit={onSubmit}>
+            <form action="">
                 <div className='group-inputs-registre'>
                     <div className='container-input-register'>
                         <label className='label-ragistre'>USUÁRIO</label>
-                        <input type="text" className='input-registre' value={usuario} onChange={(e)=> setUsuario(e.target.value)} required/>
+                        <input type="text" className='input-registre' name='usuario' value={formData.usuario || ''} onChange={handleChange} required/>
                     </div>
                 </div>
                 <div className='group-inputs-registre'>
                     <div className='container-input-register'>
                         <label className='label-ragistre'>NOME</label>
-                        <input type="text" className='input-registre' value={nome} onChange={(e)=> setNome(e.target.value)} required/>
+                        <input type="text" className='input-registre' name='nome' value={formData.nome} onChange={handleChange} required/>
                     </div>
                 </div>
                 <div className='group-inputs-registre'>
                     <div className='container-input-register'>
                         <label className='label-ragistre'>E-MAIL</label>
-                        <input type="text" className='input-registre'/>
+                        <input type="text" className='input-registre' name='email' value={formData.email} onChange={handleChange} required/>
                     </div>
                 </div>
                 <div className='group-inputs-registre'>
                     <div className='container-input-register'>
                         <label className='label-ragistre'>EMPRESA</label>
-                        <input type="text" className='input-registre'/>
+                        <input type="text" className='input-registre' name='empresa' value={formData.empresa} onChange={handleChange} required/>
                     </div>
                 </div>
                 <div className='group-inputs-registre'>
                     <div className='container-input-register'>
                         <label className='label-ragistre'>CNPJ</label>
-                        <input type="text" className='input-registre'/>
+                        <input type="text" className='input-registre' name='cnpj' value={formData.cnpj} onChange={handleChange} required/>
                     </div>
                 </div>
             </form>
