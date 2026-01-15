@@ -100,13 +100,11 @@ export async function Delet(ids, idUser) {
          const userExiste = await findById(id)
      
          if(!userExiste){
-            throw new Error(`Usuario ${id} não encontrado.`);
-            continue
+            throw new Error(`Usuario com o id ${id} não encontrado.`)
          }
 
          if(id == idUser){
             throw new Error("Usuário ativo no momento, não pode ser deletado.");
-            continue
          }
 
          const deletar = await deleteUser(id)
@@ -115,7 +113,9 @@ export async function Delet(ids, idUser) {
              throw new Error(`Erro ao deletar usuario ${userExiste.usuario}.`);
          }
 
-        resultados.push({ id, status: "deletado" });
+         const user = userExiste.usuario
+
+        resultados.push({ user, status: "deletado" });
 
      }
 

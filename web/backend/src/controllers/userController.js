@@ -35,8 +35,7 @@ export async function loginUsersControler(req, res) {
 }
 
 export async function deletUsersControler(req, res) {
-    const { ids } = req.body;
-    const idUser = req.body.idUser 
+    const { ids, idUser } = req.body; 
 
     try {
         const resultado = await Delet(ids, idUser);

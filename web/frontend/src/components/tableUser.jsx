@@ -7,7 +7,8 @@ import useTableUserActions from '../hooks/tableUserActive.jsx';
 import { toast } from 'react-toastify';
 
 function TableUser() {
-    const { users, getUser, error, send, formData, receberIds } = useTableUserActions();
+    const { users, getUser, error, send, formData, receberIds } = useTableUserActions(); 
+    
     const handleCheckboxChange = (id) => {
         
         const idsAtuais = formData?.idsSelecionados || []; 
@@ -25,6 +26,7 @@ function TableUser() {
         if (error) {
             toast.error(error); 
         }
+        localStorage.removeItem('arrayIds');
     }, []);
     return (
         <div>

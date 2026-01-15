@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/base.css'
 import './css/btnGray.css'
 import './css/btnBlue.css'
+import { toast } from 'react-toastify';
 
 
 function User() {
@@ -18,8 +19,14 @@ function User() {
         navigate('/create');
     }
 
+
     async function delet() {
+        console.log(`como o btn ve: ${localStorage.getItem('arrayIds')}`)
+        if(localStorage.getItem('arrayIds')){
             navigate('/tes')   
+        }else{
+            toast.error('Nenhum usuario selecionado')
+        }
     }
 
     return (
@@ -36,7 +43,7 @@ function User() {
                         className1="btn-gray"
                         text1="EXCLUIR USUÁRIO"
                         type1= "submit"
-                        desablit1= {""}
+                        desablit1= {''}
                         classNameIcon2="btn-blue-icon"
                         image2={addIcon}
                         onClick2={() => {create()}} 

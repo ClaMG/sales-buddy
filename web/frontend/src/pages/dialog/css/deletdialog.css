@@ -4,6 +4,27 @@
     margin-top: 10%;
 }
 
+.container-head-deletDialog{
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #0000000D;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 27%;
+    padding: 20px;
+}
+
+.group-text-deletDialog{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
 .text-deletDialog{
     font: var(--unnamed-font-style-normal) normal medium 14px/20px var(--unnamed-font-family-montserrat);
     color: #A32C2C;
@@ -13,9 +34,15 @@
     font-weight: bold;
 }
 
+.group-btn-deletDialog{
+    width: 78%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .btn-deletDialog{
     background: #408140 0% 0% no-repeat padding-box;
-    padding: 10px;
+    padding: 15px 55px;
     border-radius: 5px;
     border: none;
     color: var(--unnamed-color-ffffff);
@@ -25,3 +52,4 @@
 .no{
     background: #A32C2C 0% 0% no-repeat padding-box;
 }
+
