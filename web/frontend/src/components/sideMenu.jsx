@@ -8,7 +8,6 @@ import iconSales from '../assets/icons-menu/icon-sales.png'
 import iconLogOut from '../assets/icons-menu/icon-logout.png'
 
 function SideMenu() {
-
     return(
         <div className="side-menu-container">
             <img className="logo-menu" src={logo} alt="Logo do site" />

@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import app from './src/app.js';
 import sequelize from './src/config/database.js'; // Importe a conexão do Sequelize
-import './src/models/implement.js'; // Basta importar o implement, ele já puxa os outros
+import './src/models/implementSales.js'; 
+import './src/models/implementUser.js'; 
 
 const port = process.env.PORT || 3000;
 

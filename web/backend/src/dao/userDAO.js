@@ -1,4 +1,4 @@
-import { User } from '../models/userModels.js';
+import { User, PasswordTemp} from '../models/implementUser.js'
 // Buscar todos os usuários
 export async function findAllUsers() {
     return await User.findAll();

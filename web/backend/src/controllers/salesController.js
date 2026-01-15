@@ -1,4 +1,3 @@
-//import SalesDao from '../dao/salesDAO.js'
 import {findAllSales, createSales} from '../dao/salesDAO.js'
 
 

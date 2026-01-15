@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import '../assets/css/global.css'
 import editIcon from '../assets/icons-btn/edit.png'
 import './css/tables.css'
@@ -20,7 +20,6 @@ function TableUser() {
         receberIds(novosIds)
     };
 
-
     useEffect(() => {
         getUser()
         if (error) {
@@ -28,6 +27,7 @@ function TableUser() {
         }
         localStorage.removeItem('arrayIds');
     }, []);
+
     return (
         <div>
         <table className='table-user table-base'>

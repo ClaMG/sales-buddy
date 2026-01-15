@@ -53,7 +53,7 @@ function Update(){
         }
 
         if (error) {
-            toast.error(error); 
+            toast.error(error);     
         }
     }
 
@@ -62,7 +62,6 @@ function Update(){
         <div className="page-container">
             <SideMenu />
             <div className="content-container">
-                {error && <p className='p-erro-table'>{error}</p>}
                 <div className='btn-container-create'>
                     <Btns
                         classNameIcon1="btn-blue-icon"

@@ -1,4 +1,4 @@
-import { Sale, ItemSales } from "../models/implement.js";
+import { Sale, ItemSales } from "../models/implementSales.js";
 
 //Buscar todas as vendas
 export async function findAllSales() {

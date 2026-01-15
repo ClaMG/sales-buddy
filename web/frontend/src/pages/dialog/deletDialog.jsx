@@ -5,14 +5,16 @@ import { toast } from 'react-toastify';
 
 
 
-function DeletDialog(){
-    const {handleSave, error, back} = useDeletActive()
-    const tes = "sllslsl"
-    
+function DeletDialog({isOpen, onClose}){
+    const {handleSave, error} = useDeletActive()
+    const arrayIds = localStorage.getItem('arrayIds')
+    const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
+
+    if(!isOpen){
+        return null
+    }
     
     async function handleSubmit(){
-        const arrayIds = localStorage.getItem('arrayIds')
-        const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
         const idUser= 1
 
         const success = await handleSave( ids, idUser);
@@ -33,15 +35,15 @@ return(
             <div className='group-text-deletDialog'>
                 <p className='text-deletDialog'>Você está prestes a excluir os seguintes usuários: </p>
                 <div className='text-deletDialog negrito'>
-                    <p>{tes}</p>
-                    <p>{tes}</p>
-                    <p>{tes}</p>
+                    <p>{ids}</p>
+                    <p>{ids}</p>
+                    <p>{ids}</p>
                 </div>
                 <p className='text-deletDialog'>Deseja prosseguir?</p>
             </div>
             <div className='group-btn-deletDialog'>
                 <button className='btn-deletDialog' onClick={()=> (handleSubmit())}>SIM</button>
-                <button className='btn-deletDialog no' onClick={()=>back()}>NÃO</button>
+                <button className='btn-deletDialog no' onClick={onClose}>NÃO</button>
             </div>
         </div>
     </div>

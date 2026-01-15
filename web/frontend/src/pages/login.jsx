@@ -5,14 +5,16 @@ import './css/login.css'
 import logo from '../assets/logo.svg'
 import useLoginActivite from '../hooks/loginActive'
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 
 function Login() {
-    const {handleSave, error} = useLoginActivite()
+    const {handleSave, error, resetLocalStorage} = useLoginActivite()
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
 
     async function handleSubmit(event) {
         event.preventDefault()
@@ -28,6 +30,10 @@ function Login() {
             toast.error(error); 
         }
     }
+
+    useEffect(() => {
+           resetLocalStorage()
+        }, []);
     
     return (
         <div className="login-container">

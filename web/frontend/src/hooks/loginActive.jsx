@@ -26,7 +26,12 @@ function useLoginActivite(){
         }
     }
 
-    return { handleSave, error}
+    async function resetLocalStorage() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('arrayIds')
+    } 
+
+    return { handleSave, error, resetLocalStorage}
 }
 
 export default useLoginActivite

@@ -1,10 +1,11 @@
-import React from 'react';
 import '../assets/css/global.css'
 import SideMenu from '../components/sideMenu.jsx'
 import TableUser from '../components/tableUser.jsx';
 import Btns from '../components/btns.jsx';
+import DeletDialog from './dialog/deletDialog.jsx'
 import deleteIcon from '../assets/icons-btn/delet.png'
 import addIcon from '../assets/icons-btn/add.png'
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/base.css'
 import './css/btnGray.css'
@@ -14,6 +15,8 @@ import { toast } from 'react-toastify';
 
 function User() {
     const navigate = useNavigate();
+    const [showToast, setShowToast] = useState(false);
+
      
     async function create() {
         navigate('/create');
@@ -23,16 +26,22 @@ function User() {
     async function delet() {
         console.log(`como o btn ve: ${localStorage.getItem('arrayIds')}`)
         if(localStorage.getItem('arrayIds')){
-            navigate('/tes')   
+           setShowToast(true) 
         }else{
             toast.error('Nenhum usuario selecionado')
         }
     }
+    
+
+
 
     return (
 
         <div className="page-container">
-
+            <DeletDialog
+                isOpen= {showToast}
+                onClose={() => setShowToast(false)}
+            />
             <SideMenu/>
             <div className="content-container">
                 <div className='btn-container-user'>

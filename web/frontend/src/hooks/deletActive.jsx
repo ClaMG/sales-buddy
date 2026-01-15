@@ -24,12 +24,8 @@ function useDeletActive(){
             console.error(err);
         }
     }
-
-    async function back() {
-        navigate('/user')
-    }
     
-    return{handleSave, error, back}
+    return{handleSave, error}
 }
 
 export default useDeletActive

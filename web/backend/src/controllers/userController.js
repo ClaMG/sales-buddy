@@ -1,4 +1,4 @@
-import {Create, Login, Delet, Update} from '../services/userServer.js'
+import {Create, Login, Delet, Update} from '../services/userServices.js'
 import {findAllUsers } from '../dao/userDAO.js'
 
 export async function insertUsersControler(req, res) {

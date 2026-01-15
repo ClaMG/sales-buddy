@@ -16,6 +16,7 @@ function TableSales() {
             toast.error(error); 
         }
     }, [getSales]);
+    
     return (
         <div>
         <table className='table-sales table-base'>
