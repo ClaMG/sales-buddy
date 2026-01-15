@@ -12,8 +12,10 @@ import useRegisterActivite from '../hooks/registerActive.jsx'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { maskCNPJ } from '../utils/mascarasUtils.jsx';
 
 function Create(){
+    const [cnpj, setCnpj] = useState('');
     const {handleSave, error} = useRegisterActivite()
     const navigate = useNavigate()
     //para puxar os dados do register
@@ -27,8 +29,11 @@ function Create(){
         const usuario = formData.usuario
         const nome = formData.nome
         const empresa = formData.empresa
-        const cnpj = formData.cnpj
         const email = formData.email
+
+        const valorFormatado = maskCNPJ(formData.cnpj);
+        setCnpj(valorFormatado);
+
 
         const success = await handleSave( usuario, nome, empresa, cnpj, email  );
 

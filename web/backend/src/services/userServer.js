@@ -1,6 +1,7 @@
 import {insertUser, loginUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername, findById } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
-import {hashPassword, comparePassword} from '../utils/authUtils.js'
+import {hashPassword, comparePassword, validarEmail, validarCNPJ, formatarCNPJ} from '../utils/authUtils.js'
+
 //Login
 export async function Login(usuario, senha) {
      if (!usuario || !senha) {
@@ -45,6 +46,21 @@ export async function Create(dados) {
     if(usuarioExistente){
         throw new Error("Usuario já cadastrado");
     }
+
+     const formatoCnpj = validarCNPJ(dados.cnpj)
+
+    if(!formatoCnpj){
+        throw new Error("o cnpj precisa dos 14 números")
+    }
+
+    const cnpjFormatado = formatarCNPJ(dados.cnpj)
+
+    const fomatoEmail = validarEmail(dados.email)
+
+    if(!fomatoEmail){
+        throw new Error("Email com o fomato errado, deve conter o @ e .com")
+    }
+
     const emailExistente = await findByEmail(dados.email)
     
     if(emailExistente){
@@ -57,7 +73,7 @@ export async function Create(dados) {
         usuario: dados.usuario,
         nome: dados.nome,
         empresa: dados.empresa,
-        cnpj: dados.cnpj,
+        cnpj: cnpjFormatado,
         email: dados.email,
         senha: senhaCriptografada 
     };
@@ -69,24 +85,43 @@ export async function Create(dados) {
 }
 
 //Deletar user
-export async function Delet(id) {
-    if(!id){
-        throw new Error("Nenhum id encontrado.");
+export async function Delet(ids, idUser) {
+    if(!ids || !Array.isArray(ids) || ids.length === 0){
+        throw new Error("Nenhum id encontrado para excluir.");
     }
 
-    const userExiste = await findById(id)
-
-    if(!userExiste){
-         throw new Error("Usuario não encontrado.");
+    if(!idUser){
+        throw new Error("Não foi informado qual o seu id.");
     }
 
-    const deletar = await deleteUser(id)
+    const resultados = [];
 
-    if(!deletar){
-        throw new Error("Erro ao deletar usuario.");
-    }
+     for (const id of ids) {
+         const userExiste = await findById(id)
+     
+         if(!userExiste){
+            throw new Error(`Usuario ${id} não encontrado.`);
+            continue
+         }
 
-    return deletar;
+         if(id == idUser){
+            throw new Error("Usuário ativo no momento, não pode ser deletado.");
+            continue
+         }
+
+         const deletar = await deleteUser(id)
+     
+         if(!deletar){
+             throw new Error(`Erro ao deletar usuario ${userExiste.usuario}.`);
+         }
+
+        resultados.push({ id, status: "deletado" });
+
+     }
+
+
+
+    return resultados;
 }
 
 //Atualizar dados
@@ -108,6 +143,20 @@ export async function Update(dados) {
         }
     }
 
+     const formatoCnpj = validarCNPJ(dados.cnpj)
+
+    if(!formatoCnpj){
+        throw new Error("o cnpj precisa dos 14 números")
+    }
+
+    const cnpjFormatado = formatarCNPJ(dados.cnpj)
+
+    const fomatoEmail = validarEmail(dados.email)
+
+    if(!fomatoEmail){
+        throw new Error("Email com o fomato errado, deve conter o @ e .com")
+    }
+
     //Email pertence a outro id
     if (dados.email && dados.email != usuarioAtual.email) {
         const jaExisteEmail = await findByEmail(dados.email);
@@ -116,13 +165,15 @@ export async function Update(dados) {
         }
     }
 
+   
+
     const senhaCriptografada = await hashPassword(dados.senha);
 
     const usuarioParaSalvar = {
         usuario: dados.usuario,
         nome: dados.nome,
         empresa: dados.empresa,
-        cnpj: dados.cnpj,
+        cnpj: cnpjFormatado,
         email: dados.email,
         senha: senhaCriptografada 
     };

@@ -33,8 +33,7 @@ export async function loginUser(user) {
 //pesquisar por nome 
 export async function findByUsername(usuario) {
     return await User.findOne({
-        where: { usuario: usuario },
-        attributes: ['id']
+        where: { usuario: usuario }
     });
 }
 

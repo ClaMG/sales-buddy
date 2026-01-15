@@ -35,8 +35,11 @@ export async function loginUsersControler(req, res) {
 }
 
 export async function deletUsersControler(req, res) {
+    const { ids } = req.body;
+    const idUser = req.body.idUser 
+
     try {
-        const resultado = await Delet(req.body.id);
+        const resultado = await Delet(ids, idUser);
         return res.status(201).json({
             message: "Usuario deletado com sucesso",
             resposta: resultado});

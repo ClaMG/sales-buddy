@@ -7,14 +7,25 @@ import useTableUserActions from '../hooks/tableUserActive.jsx';
 import { toast } from 'react-toastify';
 
 function TableUser() {
-    const { users, getUser, error, send } = useTableUserActions();
+    const { users, getUser, error, send, formData, receberIds } = useTableUserActions();
+    const handleCheckboxChange = (id) => {
+        
+        const idsAtuais = formData?.idsSelecionados || []; 
+    
+        const novosIds = idsAtuais.includes(id)
+            ? idsAtuais.filter(item => item !== id) 
+            : [...idsAtuais, id];
+
+        receberIds(novosIds)
+    };
+
 
     useEffect(() => {
         getUser()
         if (error) {
             toast.error(error); 
         }
-    }, [getUser]);
+    }, []);
     return (
         <div>
         <table className='table-user table-base'>
@@ -33,7 +44,9 @@ function TableUser() {
                         <tr key={user.id}>
                             <td className='user-close'>
                                 <label htmlFor={user.id}>
-                                <input type="checkbox" name="user" id={user.id} />
+                                <input type="checkbox" name="user" id={user.id} 
+                                checked={formData.idsSelecionados?.includes(user.id) || false}  
+                                onChange={() => handleCheckboxChange(user.id)}/>
                                 </label>
                             </td>
                             <td className='user-field'>{user.usuario}</td>

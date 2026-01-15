@@ -1,12 +1,16 @@
 import '../../assets/css/global.css'
 import './css/deletdialog.css'
 
+
 function DeletDialog(){
+    const ids = localStorage.getItem('arrayIds')
+    console.log(`dialog: ${ids}`)
+     
 return(
     <div className='container-body-deletDialog'>
         <div>
             <p className='text-deletDialog'>Você está prestes a excluir os seguintes usuários: </p>
-            <div className='text-deletDialog negrito'></div>
+            <div className='text-deletDialog negrito'>{ids}</div>
             <p className='text-deletDialog'>Deseja prosseguir?</p>
         </div>
         <button className='btn-deletDialog'>SIM</button>

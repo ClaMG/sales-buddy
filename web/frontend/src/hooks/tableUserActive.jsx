@@ -1,11 +1,14 @@
 import api from '../services/api.jsx';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
 function useTableUserActions(){
    const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({
+                idsSelecionados: []
+            });
     const navigate = useNavigate();
 
     async function getUser() {
@@ -20,6 +23,7 @@ function useTableUserActions(){
         }
     }
 
+
     async function send(id, usuario, nome, empresa, cnpj, email) {
         localStorage.setItem("idUpdate", id)
         localStorage.setItem("usuarioUpdate", usuario)
@@ -31,7 +35,21 @@ function useTableUserActions(){
         navigate('/update')
     }
 
-    return { users, getUser, error, send };
+    
+    const receberIds = useCallback((novosIds) => {
+        // Atualização
+        setFormData(prev => {
+            const estadoAtualizado = {
+                ...prev,
+                idsSelecionados: novosIds
+            };
+            
+            localStorage.setItem('arrayIds', JSON.stringify(estadoAtualizado.idsSelecionados))
+            return estadoAtualizado;
+        });
+    }, []);
+
+    return { users, getUser, error, send, formData, receberIds };
 }
 
 export default useTableUserActions

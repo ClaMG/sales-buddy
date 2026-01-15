@@ -18,6 +18,10 @@ function User() {
         navigate('/create');
     }
 
+    async function delet() {
+            navigate('/tes')   
+    }
+
     return (
 
         <div className="page-container">
@@ -28,7 +32,7 @@ function User() {
                     <Btns
                         classNameIcon1="btn-gray-icon"
                         image1={deleteIcon}
-                        onClick1={() => {}} 
+                        onClick1={() => {delet()}} 
                         className1="btn-gray"
                         text1="EXCLUIR USUÁRIO"
                         type1= "submit"
