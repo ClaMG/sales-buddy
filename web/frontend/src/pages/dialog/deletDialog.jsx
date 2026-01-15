@@ -2,12 +2,11 @@ import '../../assets/css/global.css'
 import './css/deletdialog.css'
 import useDeletActive from '../../hooks/deletActive'
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+
 
 
 function DeletDialog(){
-    const {handleSave, error} = useDeletActive()
-    const navigate = useNavigate()
+    const {handleSave, error, back} = useDeletActive()
     const tes = "sllslsl"
     
     
@@ -15,17 +14,12 @@ function DeletDialog(){
         const arrayIds = localStorage.getItem('arrayIds')
         const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
         const idUser= 1
-        console.log(`dialog: ${ids}`)
 
         const success = await handleSave( ids, idUser);
-        console.log(`user ${ids}, ${idUser}`)
 
         if(success){
             toast.success("Usuário deletados com sucesso!");
-            navigate('/user')
-            return;
         }
-
 
         if (error) {
             toast.error(error); 
@@ -47,7 +41,7 @@ return(
             </div>
             <div className='group-btn-deletDialog'>
                 <button className='btn-deletDialog' onClick={()=> (handleSubmit())}>SIM</button>
-                <button className='btn-deletDialog no'>NÃO</button>
+                <button className='btn-deletDialog no' onClick={()=>back()}>NÃO</button>
             </div>
         </div>
     </div>

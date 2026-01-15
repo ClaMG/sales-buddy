@@ -104,7 +104,7 @@ export async function Delet(ids, idUser) {
          }
 
          if(id == idUser){
-            throw new Error("Usuário ativo no momento, não pode ser deletado.");
+            throw new Error(`Usuário ${userExiste.usuario} ativo no momento, não pode ser deletado.`);
          }
 
          const deletar = await deleteUser(id)
