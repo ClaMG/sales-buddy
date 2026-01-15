@@ -12,11 +12,9 @@ import { useState } from 'react';
 import useUpdateActive from '../hooks/updateActivite.jsx'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { maskCNPJ } from '../utils/mascarasUtils.jsx';
 
 
 function Update(){
-    const [cnpj, setCnpj] = useState('');
     const navigate = useNavigate();
     const{handleSave , error}= useUpdateActive()
     //para puxar os dados do register
@@ -32,17 +30,7 @@ function Update(){
         const nome = formData.nome
         const empresa = formData.empresa
         const email = formData.email
-
-        const valorFormatado = maskCNPJ(formData.cnpj);
-        setCnpj(valorFormatado);
-
-        console.log("campo1:", usuario)
-        console.log("campo2:", nome)
-        console.log("campo3:", empresa)
-        console.log("campo4:", cnpj)
-        console.log("campo5:", email)
-        console.log("campo6:", id)
-
+        const cnpj = formData.cnpj
 
         const success = await handleSave(id, usuario, nome, empresa, cnpj, email );
 
@@ -82,7 +70,7 @@ function Update(){
                 </div>
                 <div className="table-container">
                     <Register 
-                        textTitle={ "EDITAR USUÁRIO"}
+                        textTitle={"EDITAR USUÁRIO"}
                         icon={titleIcon}
                         formData={formData} 
                         setFormData={setFormData}

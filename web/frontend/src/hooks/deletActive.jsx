@@ -21,6 +21,7 @@ function useDeletActive(){
         } catch (err) {
             const errorMessage = err || 'Erro Interno';
             setError(errorMessage)
+            navigate('/user')
             console.error(err);
         }
     }

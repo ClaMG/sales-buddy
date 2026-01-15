@@ -1,27 +1,33 @@
 import '../../assets/css/global.css'
 import './css/proof.css'
-import {exportarPDF, handlePrint}  from '../../utils/pdfUtils'
+import {exportarPDF, handlePrint}  from '../../utils/proofUtils'
+import useComprovanteActive from '../../hooks/comprovanteActive'
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+
 
 function Proof(){
-    const usersData =[ { id: 1, nome: "Ana Silva", cpf: "123.456.789-01", 
-        email: "ana.silva@email.com", quantidade: 2, valorR: "R$ 150,00", valorV: 'R$30,00', troco: "R$ 0,00", 
-        item: [
-      { id: 101, descricao: "Licença SalesBuddy" },
-      { id: 102, descricao: "Suporte Premium" }
-    ] }]
+    const{getComprovante, sales, error} = useComprovanteActive()
+
+     useEffect(() => {
+        getComprovante()
+        if (error) {
+            toast.error(error); 
+        }
+    }, []);
 
     return (
         <div className='container-body-proof'>
             <div className='containe-head-proof'>
                 <div className='container-beige-proof' id='relatorio-final' >
                 {
-                usersData.map((user) => (
+                sales.map((user) => (
                         <div key={user.id} className='container-info-proof'>
                             <div>
                                 <div className='container-primary-proof'>
                                     <div>
                                         <p className='title-camp-proof'>Nome</p>
-                                        <p className='connoteudo-camp-proof'>{user.nome}</p>
+                                        <p className='connoteudo-camp-proof'>sla</p>
                                     </div>
                                     <div>
                                         <p className='title-camp-proof'>CPF</p>
@@ -43,8 +49,8 @@ function Proof(){
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td className='connoteudo-camp-proof'>{user.item.id}</td>
-                                                <td className='connoteudo-camp-proof'>{user.item.descricao}</td>
+                                                <td className='connoteudo-camp-proof'>{user.item?.id}</td>
+                                                <td className='connoteudo-camp-proof'>{user.item?.descricao}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -53,15 +59,15 @@ function Proof(){
                                 <div>
                                     <div className='container-valor'>
                                         <p className='title-camp-proof-valor'>Valor recebido</p>
-                                        <p className='title-camp-proof'>{user.valorR}</p>
+                                        <p className='title-camp-proof'>1</p>
                                     </div>
                                     <div className='container-valor'>
                                         <p className='title-camp-proof-valor'>Valor venda</p>
-                                        <p className='title-camp-proof'>{user.valorV}</p>
+                                        <p className='title-camp-proof'>2</p>
                                     </div>
                                     <div className='container-valor'>
                                         <p className='title-camp-proof-valor'>Troco devido</p>
-                                        <p className='title-camp-proof'>{user.valorR}</p>
+                                        <p className='title-camp-proof'>{user.troco}</p>
                                     </div>
                                 </div>
                             </div>

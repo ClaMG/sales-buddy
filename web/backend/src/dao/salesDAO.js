@@ -7,6 +7,15 @@ export async function findAllSales() {
     });
 }
 
+//Pesquisar por id
+export async function findByIdSales(id) {
+    return await Sale.findOne({
+        include: [{ model: ItemSales, as: 'itens' }],
+        where: { id: id }
+    });
+}
+
+
 //temporario
 
 export async function createSales(dados) {

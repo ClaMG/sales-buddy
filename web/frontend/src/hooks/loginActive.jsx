@@ -29,6 +29,7 @@ function useLoginActivite(){
     async function resetLocalStorage() {
         localStorage.removeItem('token')
         localStorage.removeItem('arrayIds')
+        localStorage.removeItem('idComprovante')
     } 
 
     return { handleSave, error, resetLocalStorage}

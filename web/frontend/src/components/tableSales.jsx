@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import '../assets/css/global.css'
 import './css/tables.css'
 import './css/tableSales.css'
@@ -8,15 +8,14 @@ import { toast } from 'react-toastify';
 
 
 function TableSales() {
-    const {getSales, sales, error} = useTableSalesActive()
+    const {getSales, sales, error, enviarID} = useTableSalesActive()
     
     useEffect(() => {
         getSales();
         if (error) {
             toast.error(error); 
         }
-    }, [getSales]);
-    
+    }, []);
     return (
         <div>
         <table className='table-sales table-base'>
@@ -44,7 +43,7 @@ function TableSales() {
                             <td className='sales-center'>{sale.valor}</td>
                             <td className='sales-center'>{sale.troco}</td>
                             <td className='sales-center'>
-                                <button className='btn-table'>
+                                <button className='btn-table' onClick={() => enviarID(sale.id)}>
                                     <img src={comprovanteIcon} alt="Icone de garar comprovante" />
                                 </button>
                             </td>

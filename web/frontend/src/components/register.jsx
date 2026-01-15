@@ -1,22 +1,21 @@
 import '../assets/css/global.css'
 import './css/register.css'
-
+import { maskCNPJ } from '../utils/mascarasUtils.jsx';
 
 function Register({textTitle, icon, formData, setFormData,}){
+
     //para enviar os dados digitados no campo
     const handleChange = (e) => {
-        const { name, value } = e.target;
+    const { name, value } = e.target;
+
+    //mascara
+    if (name === 'cnpj') {
+        const valorMascarado = maskCNPJ(value);
+        setFormData({ ...formData, [name]: valorMascarado });
+    } else {
         setFormData({ ...formData, [name]: value });
-        
-        //Fazer a logica para começa com isso//
-        if(textTitle == "EDITAR USUÁRIO"){
-            localStorage.getItem("usuarioUpdate")
-            localStorage.getItem("nomeUpdate")
-            localStorage.getItem("empresaUpdate")
-            localStorage.getItem("cnpjUpdate")
-            localStorage.getItem("emailUpdate")
-        }
-    };
+    }
+};
 
 
     return(

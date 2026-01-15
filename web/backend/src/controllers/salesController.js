@@ -1,4 +1,5 @@
 import {findAllSales, createSales} from '../dao/salesDAO.js'
+import {comprovante} from '../services/salesServices.js'
 
 
 export async function findAllSale(req, res) {
@@ -8,6 +9,15 @@ export async function findAllSale(req, res) {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
+}
+
+export async function Comprovante(req, res) {
+        try{
+            const resultado = await comprovante(req.body.id)
+            return res.status(201).json(resultado)
+        }catch(error){
+            return res.status(400).json({ message: error.message });
+        }
 }
 //temporario
 

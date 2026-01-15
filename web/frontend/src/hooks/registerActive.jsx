@@ -5,6 +5,7 @@ function useRegisterActivite(){
     const [error, setError] = useState(null);
     const senha = '1234'
 
+
     const handleSave = async (usuario, nome, empresa, cnpj, email) => {
         try {
             setError(null)

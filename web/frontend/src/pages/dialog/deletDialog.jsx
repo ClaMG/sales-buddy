@@ -25,6 +25,7 @@ function DeletDialog({isOpen, onClose}){
 
         if (error) {
             toast.error(error); 
+            onClose()
         }
      }
 
