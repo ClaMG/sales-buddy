@@ -48,7 +48,7 @@ export const gerarSenhaAleatoria = (tamanho) => {
 
 
 const transporter = nodemailer.createTransport({
-    host: "erick.galdino@gfxconsultoria.com", // Ou o host do seu serviço
+    host: "smtp.titan.email",
     port: 465,
     secure: true, // true para porta 465
     auth: {
@@ -58,6 +58,15 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
+    console.log(`DEBUG ENVIO: Para: ${destinatario} | Usuário: ${nomeUsuario}`);
+    transporter.verify(function (error, success) {
+    if (error) {
+        console.error("DEBUG SMTP: Erro na configuração do Transporter:", error);
+    } else {
+        console.log("DEBUG SMTP: Servidor pronto para enviar mensagens!");
+    }
+});
+
     const mailOptions = {
         from: '"Sistema de Vendas" <seu-email@gmail.com>',
         to: destinatario,

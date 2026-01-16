@@ -13,8 +13,9 @@ function useLoginActivite(){
                 senha: password,
             })
 
-            if (!userFromApi.data.token) {
-                localStorage.setItem('token', userFromApi.data.token); 
+            
+            if (userFromApi.data.token) {
+                localStorage.setItem('token', userFromApi.data.token);
             }
             
 
@@ -29,7 +30,6 @@ function useLoginActivite(){
     async function resetLocalStorage() {
         localStorage.removeItem('token')
         localStorage.removeItem('arrayIds')
-        localStorage.removeItem('idComprovante')
     } 
 
     return { handleSave, error, resetLocalStorage}

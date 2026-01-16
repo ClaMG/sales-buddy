@@ -18,10 +18,7 @@ function TableSales() {
     }, []);
     return (
         <div>
-            <ProofDialog
-            isOpen={isModalOpen}
-            onClose={fecharComprovante} 
-            saleId={selectedSaleId} />
+            
         <table className='table-sales table-base'>
             <thead className='thead'>
                 <tr>
@@ -59,6 +56,11 @@ function TableSales() {
                 
             </tbody>
         </table>
+
+        <ProofDialog
+            isOpen={isModalOpen}
+            onClose={fecharComprovante} 
+            saleId={selectedSaleId} />
         
         </div>
     );

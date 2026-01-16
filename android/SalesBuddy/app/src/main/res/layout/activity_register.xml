@@ -24,8 +24,9 @@
         android:id="@+id/imageButton3"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_menu" />
@@ -35,7 +36,8 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_arrow" />
@@ -44,7 +46,7 @@
         android:id="@+id/imageView7"
         android:layout_width="238dp"
         android:layout_height="35dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/imageButton3"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toEndOf="@+id/imageButton2"
@@ -57,7 +59,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
         android:text="@string/tvTitleRegister"
+        android:textColor="@color/blue"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,54 +88,87 @@
         tools:layout_editor_absoluteY="101dp" />
 
     <LinearLayout
+        android:id="@+id/LayoutRegister"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="25dp"
+        android:background="@color/white"
         android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnResumer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleRegister">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/txName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name" />
+            android:text="@string/tvnameUser" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/txCpf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name" />
+            android:text="@string/tvCpf" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/txEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name" />
+            android:text="@string/tvEmail" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="100dp"
+            android:layout_marginBottom="15dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <EditText
-            android:id="@+id/editTextText5"
+            android:id="@+id/txSaleValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name" />
+            android:text="@string/tvValueSales" />
+
+        <EditText
+            android:id="@+id/txAmountReceived"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="@string/tvValueReceived" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnResumer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="@color/blue"
+        android:text="@string/btnResitring"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
