@@ -24,11 +24,14 @@ export const Sale = sequelize.define('Sale', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-    valor: {
+    valor_venda: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
-    troco: {
+  valor_recebido: { 
+  type: DataTypes.DECIMAL(10, 2), 
+  allowNull: false,
+  }, troco: {
     type: DataTypes.DECIMAL(10, 2)
   },
 }, {
@@ -36,4 +39,3 @@ export const Sale = sequelize.define('Sale', {
     freezeTableName: true, // Impede o Sequelize de tentar pluralizar o nome
     timestamps: false       // campos 'createdAt' e 'updatedAt'
 });
-

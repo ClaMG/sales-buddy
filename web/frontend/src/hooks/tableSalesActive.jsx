@@ -1,12 +1,13 @@
 import api from '../services/api.jsx';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 
 function useTableSalesActive(){
     const [sales, setSales] = useState([]);
     const [error, setError] = useState(null);
-           const navigate = useNavigate()
-
+    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [selectedSaleId, setSelectedSaleId] = useState(null);
+     
 
     async function getSales() {
         try {
@@ -20,13 +21,18 @@ function useTableSalesActive(){
         }
     }
 
-    async function enviarID(id) {
-        localStorage.setItem('idComprovante', id)
-        navigate('/tes')
 
+   function abrirComprovante(id) {
+        setSelectedSaleId(id); 
+        setIsModalOpen(true); 
+    } 
+
+    function fecharComprovante() { 
+        setIsModalOpen(false);
+        setSelectedSaleId(null); 
     }
 
-    return {getSales, sales, error, enviarID} 
+    return {getSales, sales, error, isModalOpen, selectedSaleId, abrirComprovante, fecharComprovante} 
 }
 
 export default useTableSalesActive

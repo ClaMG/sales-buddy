@@ -1,5 +1,5 @@
 import {findAllSales, createSales} from '../dao/salesDAO.js'
-import {comprovante} from '../services/salesServices.js'
+import {saleById} from '../services/salesServices.js'
 
 
 export async function findAllSale(req, res) {
@@ -12,14 +12,14 @@ export async function findAllSale(req, res) {
 }
 
 export async function Comprovante(req, res) {
+const { id } = req.body; 
         try{
-            const resultado = await comprovante(req.body.id)
-            return res.status(201).json(resultado)
+            const resultado = await saleById(id )
+            return res.status(200).json(resultado);
         }catch(error){
             return res.status(400).json({ message: error.message });
         }
 }
-//temporario
 
 export async function CreateController(req, res) {
    const novaVenda = {
@@ -28,7 +28,8 @@ export async function CreateController(req, res) {
             email: req.body.email,
             // Conversão de tipos para segurança do banco
             quantidade: parseInt(req.body.quantidade) || 0,
-            valor: parseFloat(req.body.valor) || 0,
+            valor_venda: parseFloat(req.body.valor_venda) || 0,
+            valor_recebido: parseFloat(req.body.valor_recebido) || 0,
             troco: parseFloat(req.body.troco) || 0,
             itens: req.body.itens || [] // Garante que seja ao menos um array vazio
         };

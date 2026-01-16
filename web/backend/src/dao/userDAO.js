@@ -51,3 +51,10 @@ export async function findByEmail(email) {
     });
 }
 
+//Inserir codigo
+export async function insertCodeTemp(dados) {
+    return await PasswordTemp.create(dados);
+}
+
+
+

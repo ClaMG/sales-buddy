@@ -1,4 +1,4 @@
-import {Create, Login, Delet, Update} from '../services/userServices.js'
+import {Create, Login, Delet, Update, CreateCodetemp, UpdateSenha} from '../services/userServices.js'
 import {findAllUsers } from '../dao/userDAO.js'
 
 export async function insertUsersControler(req, res) {
@@ -7,8 +7,7 @@ export async function insertUsersControler(req, res) {
     nome: req.body.nome,
     empresa: req.body.empresa,
     cnpj: req.body.cnpj,
-    email: req.body.email,
-    senha: req.body.senha
+    email: req.body.email
     };
     try {
         const resultado = await Create(novoCadastro);
@@ -25,7 +24,7 @@ export async function loginUsersControler(req, res) {
         const resultado = await Login(usuario, senha);
 
     return res.status(200).json({
-        message: "Usuario logado com sucesso",
+        message: "Usuário logado com sucesso",
         user: resultado.usuario,
         token: resultado.token
     });
@@ -40,7 +39,7 @@ export async function deletUsersControler(req, res) {
     try {
         const resultado = await Delet(ids, idUser);
         return res.status(201).json({
-            message: "Usuario deletado com sucesso",
+            message: "Usuário deletado com sucesso",
             resposta: resultado});
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -54,13 +53,24 @@ export async function updateUsersControler(req, res) {
     nome: req.body.nome,
     empresa: req.body.empresa,
     cnpj: req.body.cnpj,
-    email: req.body.email,
-    senha: req.body.senha
+    email: req.body.email   
     };
     try {
         const resultado = await Update(novoupdateUser);
         return res.status(201).json({
-            message: "Usuario atualizado com sucesso",
+            message: "Usuário atualizado com sucesso",
+            resposta: resultado});
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+
+export async function updateSenhaControler(req, res) {
+    const id = req.body.id
+    try {
+        const resultado = await UpdateSenha(id);
+        return res.status(201).json({
+            message: "Senha atualizada com sucesso",
             resposta: resultado});
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -75,3 +85,17 @@ export async function findAllUsersControler(req, res) {
         return res.status(400).json({ message: error.message });
     }
 }
+
+export async function insertCodeTempControler(req, res) {
+    const codigo= {
+    user_id: req.body.user_id,
+    usuario: req.body.usuario,
+      };
+    try {
+        const resultado = await CreateCodetemp(codigo);
+        return res.status(201).json(resultado);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+

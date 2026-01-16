@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 function useUpdateActive(){
     const [error, setError] = useState(null);
-    const senha = '1234'
     const handleSave = async(id, usuario, nome, empresa, cnpj, email) =>{
         try {
             setError(null)
@@ -13,8 +12,7 @@ function useUpdateActive(){
                 nome: nome,
                 empresa: empresa,
                 cnpj: cnpj,
-                email: email,
-                senha: senha
+                email: email
             })
             return userFromApi
         } catch (err) {

@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 function useRegisterActivite(){
     const [error, setError] = useState(null);
-    const senha = '1234'
 
 
     const handleSave = async (usuario, nome, empresa, cnpj, email) => {
@@ -14,8 +13,7 @@ function useRegisterActivite(){
             nome: nome,
             empresa: empresa,
             cnpj: cnpj,
-            email: email,
-            senha: senha
+            email: email
         })
 
         return userFromApi

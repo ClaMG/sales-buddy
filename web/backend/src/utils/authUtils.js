@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import nodemailer from 'nodemailer';
 
 // Transforma a senha 
 export const hashPassword = async (password) => {
@@ -33,3 +34,49 @@ export const formatarCNPJ = (cnpj) => {
         .replace(/(-\d{2})\d+?$/, '$1'); // Limita o tamanho
 };
 
+import crypto from 'crypto';
+
+export const gerarSenhaAleatoria = (tamanho) => {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    
+    // No Node, usamos crypto.randomBytes
+    return Array.from({ length: tamanho }, () => {
+        const randomIndex = crypto.randomInt(0, caracteres.length);
+        return caracteres[randomIndex];
+    }).join('');
+};
+
+
+const transporter = nodemailer.createTransport({
+    host: "erick.galdino@gfxconsultoria.com", // Ou o host do seu serviço
+    port: 465,
+    secure: true, // true para porta 465
+    auth: {
+        user: process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com", // Seu e-mail no .env
+        pass: process.env.EMAIL_PASS || 'mtur zfov ikpk qjyx'  // Sua senha de app no .env
+    }
+});
+
+export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
+    const mailOptions = {
+        from: '"Sistema de Vendas" <seu-email@gmail.com>',
+        to: destinatario,
+        subject: "Sua Nova Senha de Acesso",
+        html: `
+            <h1>Olá, ${nomeUsuario}!</h1>
+            <p>Uma nova senha foi gerada para o seu acesso ao sistema.</p>
+            <p>Sua nova senha é: <strong>${novaSenha}</strong></p>
+            <br>
+            <p>Recomendamos que você altere esta senha após o primeiro login.</p>
+        `
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("E-mail enviado com sucesso!");
+        return true;
+    } catch (error) {
+        console.error("Erro ao enviar e-mail:", error);
+        return false;
+    }
+}

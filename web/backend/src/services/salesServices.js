@@ -1,16 +1,16 @@
 import {findByIdSales} from '../dao/salesDAO.js'
 
-export async function comprovante(id){
+export async function saleById(id){
     if(!id){
-        throw new Error("Nenhum id encontrado para gerar o comprovante.");
+        throw new Error("Nenhum id encontrado.");
     }
 
-    const comprovante = await findByIdSales(id)
+    const vendaExistente= await findByIdSales(id)
 
-    if(!comprovante){
-             throw new Error(`Comprovante não encontrado.`);
+    if(!vendaExistente){
+             throw new Error(`Venda não encontrado.`);
     }
 
-    return comprovante
+    return vendaExistente
     
 }
