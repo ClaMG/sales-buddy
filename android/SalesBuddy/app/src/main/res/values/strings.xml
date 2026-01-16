@@ -6,4 +6,5 @@
     <string name="btnLogin">LOGIN</string>
     <string name="btnSales">REGISTRAR VENDA</string>
     <string name="btnReprocess">REPROCESSAR</string>
+    <string name="tvTitleRegister">REGISTRAR VENDA</string>
 </resources>

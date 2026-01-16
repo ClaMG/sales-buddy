@@ -31,7 +31,8 @@ export const Sale = sequelize.define('Sale', {
   valor_recebido: { 
   type: DataTypes.DECIMAL(10, 2), 
   allowNull: false,
-  }, troco: {
+  },
+   troco: {
     type: DataTypes.DECIMAL(10, 2)
   },
 }, {

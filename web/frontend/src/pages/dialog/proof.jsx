@@ -1,7 +1,7 @@
 import '../../assets/css/global.css'
 import './css/proof.css'
 import {exportarPDF, handlePrint}  from '../../utils/proofUtils'
-import useProofActive from '../../hooks/ProofActive'
+import useProofActive from '../../hooks/comprovanteActive'
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
