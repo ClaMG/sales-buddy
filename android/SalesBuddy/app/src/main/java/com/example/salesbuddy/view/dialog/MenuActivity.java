@@ -1,7 +1,6 @@
-package com.example.salesbuddy.view;
+package com.example.salesbuddy.view.dialog;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,21 +10,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.salesbuddy.R;
 
-public class SplashActivity extends AppCompatActivity {
-
-    private TextView tvVersion;
+public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_menu);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        tvVersion = findViewById(R.id.tvVersion);
     }
 }

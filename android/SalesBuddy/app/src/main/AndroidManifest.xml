@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SalesBuddy">
         <activity
+            android:name=".view.dialog.MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.LoginActivity"
             android:exported="false" />
         <activity

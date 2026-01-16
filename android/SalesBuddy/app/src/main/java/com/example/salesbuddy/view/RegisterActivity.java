@@ -1,8 +1,6 @@
 package com.example.salesbuddy.view;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,19 +10,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.salesbuddy.R;
 
-public class LoginActivity extends AppCompatActivity {
-
-    private EditText txUser, txPassword;
-    private Button btnLogin;
+public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
-        txPassword = findViewById(R.id.txPassword);
-        txUser = findViewById(R.id.txUser);
-        btnLogin = findViewById(R.id.btnLogin);
     }
 }

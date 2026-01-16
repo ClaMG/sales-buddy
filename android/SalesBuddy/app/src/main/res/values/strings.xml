@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Sales Buddy</string>
+    <string name="tvVersion">Versão 1.01.50</string>
+    <string name="txUser">Usuário</string>
+    <string name="txPassword">Senha</string>
+    <string name="btnLogin">LOGIN</string>
+    <string name="btnSales">REGISTRAR VENDA</string>
+    <string name="btnReprocess">REPROCESSAR</string>
 </resources>
