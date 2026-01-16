@@ -3,6 +3,7 @@ import '../assets/css/global.css'
 import './css/tables.css'
 import './css/tableSales.css'
 import comprovanteIcon from '../assets/icons-btn/receipt.svg'
+import ProofDialog from '../pages/dialog/proof';
 import useTableSalesActive from '../hooks/tableSalesActive'
 import { toast } from 'react-toastify';
 
@@ -37,31 +38,24 @@ function TableSales() {
             </thead>
             <tbody className='tbody'>
                 
-                {sales.length > 0 ? (
-                        sales.map((sale) => (
-                            <tr key={sale.id}>
-                                <td className='sales-field sales-center'>{sale.id}</td>
-                                <td className='sales-field'>{sale.nome}</td>
-                                <td>{sale.cpf}</td>
-                                <td>{sale.email}</td>
-                                <td className='sales-center'>{sale.quantidade}</td>
-                                <td className='sales-center'>{sale.valor}</td>
-                                <td className='sales-center'>{sale.troco}</td>
-                                <td className='sales-center'>
-                                    <button 
-                                        className='btn-table' 
-                                        onClick={() => abrirComprovante(sale.id)}
-                                    >
-                                        <img src={comprovanteIcon} alt="Icone de gerar comprovante" />
-                                    </button>
-                                </td>
+                {sales.map((sale) => (
+                        <tr key={sale.id}>
+                            <td className='sales-field sales-center'>{sale.id}</td>
+                            <td className='sales-field'>{sale.nome}</td>
+                            <td>{sale.cpf}</td>
+                            <td>{sale.email}</td>
+                            <td className='sales-center'>{sale.quantidade}</td>
+                            <td className='sales-center'>{sale.valor}</td>
+                            <td className='sales-center'>{sale.troco}</td>
+                            <td className='sales-center'>
+                                <button className='btn-table' onClick={() => abrirComprovante(sale.id)}>
+                                    <img src={comprovanteIcon} alt="Icone de garar comprovante" />
+                                </button>
+                            </td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="8" style={{ textAlign: 'center' }}>Nenhuma venda encontrada.</td>
-                        </tr>
-                    )}
+                        )
+                    )
+                }
                     
                 
             </tbody>
