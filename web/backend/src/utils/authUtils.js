@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 // Transforma a senha 
 export const hashPassword = async (password) => {
@@ -34,7 +35,7 @@ export const formatarCNPJ = (cnpj) => {
         .replace(/(-\d{2})\d+?$/, '$1'); // Limita o tamanho
 };
 
-import crypto from 'crypto';
+
 
 export const gerarSenhaAleatoria = (tamanho) => {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -68,7 +69,7 @@ export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
 });
 
     const mailOptions = {
-        from: '"Sistema de Vendas" <seu-email@gmail.com>',
+        from: process.env.EMAIL_USER,
         to: destinatario,
         subject: "Sua Nova Senha de Acesso",
         html: `

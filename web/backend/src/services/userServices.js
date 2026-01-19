@@ -219,25 +219,27 @@ export async function UpdateSenha(id) {
 
     const senhaCriptografada = await hashPassword(senhaGerada );
     
-    const usuarioParaSalvar = {
+    const senhaParaSalvar = {
         senha: senhaCriptografada
     };
 
-    const atualizar = await updateUser(id, usuarioParaSalvar)
+const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
+    
+    if(!emailEnviado){
+        throw new Error("Erro ao enviar e-mail com a senha"); 
+    }
+
+
+    const atualizar = await updateUser(id, senhaParaSalvar )
 
     if(!atualizar){
         throw new Error("Erro ao atualizar.");
-    }else { 
-        try { 
-            // Enviamos a senha pura (texto limpo) para o e-mail do usuário 
-            await enviarEmailSenha(usuarioAtual.email, usuarioAtual.nome, senhaGerada); 
-        } catch (mailError) { 
-            // Logamos o erro de e-mail, mas não travamos a criação do usuário 
-            throw new Error("Usuário atualizado, mas erro ao enviar e-mail:", mailError); 
-        } 
-}
+    }
 
-    return atualizar;
+    return {
+        usuario:atualizar , 
+        email: emailEnviado};
+
 
     
 }
@@ -245,7 +247,7 @@ export async function UpdateSenha(id) {
 
 
 export async function CreateCodetemp(dados) {
-    if (!dados || !dados.user_id || !dados.usuario) {
+    if (!dados || !dados.usuario) {
         throw new Error("Preencha todos os campo.");
     }
 
@@ -266,15 +268,15 @@ export async function CreateCodetemp(dados) {
         code: senhaTemporaria ,
         expiresAt:validadeCurta 
       };
+	
+ await deleteCodeTemp(usuarioExistente.id )
 
     const criarCodeTemp= await insertCodeTemp(CodeParaSalvar )
 
     if (criarCodeTemp) { 
-    try { 
-        // Enviamos a senha pura (texto limpo) para o e-mail do usuário 
+    try {
         await enviarEmailSenha(usuarioExistente.email, usuarioExistente.nome, senhaTemporaria ); 
     } catch (mailError) { 
-        // Logamos o erro de e-mail, mas não travamos a criação do usuário 
         throw new Error("Código criado, mas erro ao enviar e-mail:", mailError); 
     } 
     }else{
@@ -284,4 +286,56 @@ export async function CreateCodetemp(dados) {
     return criarCodeTemp;
 
 }
+
+export async function UpdateSenhaCodeTemp(dados) {
+    if(!dados || dados.usuario || dados.code){
+        throw new Error("Informações não encontradas");
+    }
+
+    const usuarioExistente = await findByUsername(dados.usuario)
+    
+    if(!usuarioExistente){
+        throw new Error("Usuário não existe");
+    }
+
+const codeExistente = await findByIdCodeTemp(usuarioExistente.id)
+
+if(!codeExistente ){
+        throw new Error("Codigo não existe");
+    }
+
+if(codeExistente.code !=  dados.code){
+        throw new Error("Codigo Invalido");
+    }
+
+    const senhaGerada = gerarSenhaAleatoria(10);
+
+    const senhaCriptografada = await hashPassword(senhaGerada );
+    
+    const senhaParaSalvar = {
+        senha: senhaCriptografada
+    };
+
+const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
+    
+    if(!emailEnviado){
+        throw new Error("Erro ao enviar e-mail com a senha"); 
+    }
+
+
+    const atualizar = await updateUser(id, senhaParaSalvar )
+
+    if(!atualizar){
+        throw new Error("Erro ao atualizar.");
+    }
+
+    return {
+        usuario:atualizar , 
+        email: emailEnviado};
+
+
+    
+}
+
+
 

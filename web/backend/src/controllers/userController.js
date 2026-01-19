@@ -88,14 +88,27 @@ export async function findAllUsersControler(req, res) {
 
 export async function insertCodeTempControler(req, res) {
     const codigo= {
-    user_id: req.body.user_id,
-    usuario: req.body.usuario,
+    usuario: req.body.usuario
       };
     try {
-        const resultado = await CreateCodetemp(codigo);
+        const resultado = await Create(codigo);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
 }
+
+export async function updateCodeTempControler(req, res) {
+    const dados= {
+    usuario: req.body.usuario,
+	code: req.body.codigo
+      };
+    try {
+        const resultado = await UpdateSenhaCodeTemp(dados);
+        return res.status(201).json(resultado);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+
 

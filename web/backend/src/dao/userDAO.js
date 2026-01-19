@@ -56,5 +56,18 @@ export async function insertCodeTemp(dados) {
     return await PasswordTemp.create(dados);
 }
 
+//deletar codigo
+export async function deleteCodeTemp(idUser) {
+    return await PasswordTemp.destroy({
+        where: { user_id: idUser}
+    });
+}
+
+//ver codigo
+export async function findByIdCodeTemp(id) {
+    return await PasswordTemp.findOne({
+        where: { id: id }
+    });
+}
 
 
