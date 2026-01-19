@@ -1,6 +1,7 @@
 package com.example.salesbuddy.view;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -23,5 +24,12 @@ public class HomeActivity extends AppCompatActivity {
 
         btnSales = findViewById(R.id.btnSales);
         btnReprocess = findViewById(R.id.btnReprocess);
+
+        btnSales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
