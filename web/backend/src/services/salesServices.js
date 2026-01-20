@@ -1,4 +1,5 @@
-import {findByIdSales} from '../dao/salesDAO.js'
+import {findByIdSales, createSales} from '../dao/salesDAO.js'
+import { validarEmail} from '../utils/authUtils.js'
 
 export async function saleById(id){
     if(!id){
@@ -14,3 +15,23 @@ export async function saleById(id){
     return vendaExistente
     
 }
+
+export async function createSales(dados){
+	if(!dados || !dados.nome || !dados.cpf || !dados.email || !dados.quantidade || !dados.valor_venda || !dados.valor_recebido ){
+	throw new Error("Preencha todos os campo.");
+}
+
+const fomatoEmail = validarEmail(dados.email)
+
+    if(!fomatoEmail){
+        throw new Error("Email com o fomato errado, deve conter o @ e .com")
+    }
+
+if(dados.valor_venda> dados.valor_recebido){
+	throw new Error("Valor de venda não foi pago .");
+}
+
+return dados;
+
+}
+

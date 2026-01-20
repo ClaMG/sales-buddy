@@ -1,0 +1,119 @@
+package com.example.salesbuddy.presenter;
+
+import android.content.Context;
+import android.content.Intent;
+
+import com.example.salesbuddy.model.SalesModel;
+import com.example.salesbuddy.view.HomeActivity;
+import com.example.salesbuddy.view.ResumerActivity;
+import com.example.salesbuddy.view.contract.RegisterContract;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class RegisterPresenter implements RegisterContract.Presenter {
+    private final RegisterContract.View view;
+    private final SalesModel model;
+    private Context context;
+    private String Mensage;
+    private double change;
+    private double saleValueDouble;
+    private double amountReceivedDouble;
+
+    private String name;
+    private String cpf;
+    private String email;
+    private String valueReceived;
+    private String valueSales;
+    private String title;
+
+
+    public RegisterPresenter(RegisterContract.View view, Context context) {
+        this.view = view;
+        this.model = new SalesModel();
+        this.context = context;
+    }
+
+    //Registrar venda
+    @Override
+    public void register(String name, String cpf, String email, String saleValue, String amountReceived) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        try {
+            saleValueDouble = Double.parseDouble(saleValue);
+            amountReceivedDouble = Double.parseDouble(amountReceived);
+
+            change = amountReceivedDouble - saleValueDouble;
+
+            if (name == null || name.trim().isEmpty() ||
+                    cpf == null || cpf.trim().isEmpty() ||
+                    email == null || email.trim().isEmpty() ||
+                    saleValue == null || saleValue.trim().isEmpty() ||
+                    amountReceived == null || amountReceived.trim().isEmpty()) {
+
+                Mensage ="Preencha todos os campos.";
+                return;
+            }
+
+            if (cpf.length() != 11) {
+                Mensage ="Formato do cpf invalido.";
+                return;
+            }
+
+            Matcher matcher = pattern.matcher(email);
+            if (!matcher.matches()) {
+                Mensage ="Formato do email invalido.";
+                return;
+            }
+
+            if (saleValueDouble> amountReceivedDouble){
+                Mensage ="Valor de venda não foi pago.";
+                return;
+            }
+
+            model.setName(name);
+            model.setCpf(cpf);
+            model.setEmail(email);
+            model.setSale_value(saleValueDouble);
+            model.setValue_received(amountReceivedDouble);
+            model.setChange(change);
+            //quantidade
+            //array itens
+
+            Mensage = "Venda registrada com sucesso";
+
+            Intent intent = new Intent(context, ResumerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(intent);
+            view.previosRegister();
+        } catch (Exception e) {
+            Mensage = "Erro interno"+ e;
+        }
+
+        view.showToastRegister(Mensage);
+    }
+
+    @Override
+    public void backRegister() {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+        view.previosRegister();
+    }
+
+
+    @Override
+    public void testUpdate() {
+        if (model.getUpdate() == true){
+            name = model.getName();
+            cpf = model.getCpf();
+            email = model.getEmail();
+            valueReceived = String.valueOf(model.getValue_received());
+            valueSales = String.valueOf(model.getSale_value());
+            title = "ATUALIZAR VENDA";
+
+            view.update(name, cpf, email, valueReceived, valueSales, title);
+        }
+    }
+}

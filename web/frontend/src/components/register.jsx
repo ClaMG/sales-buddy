@@ -1,8 +1,22 @@
 import '../assets/css/global.css'
 import './css/register.css'
 import { maskCNPJ } from '../utils/mascarasUtils.jsx';
+import React, { useEffect } from 'react'; 
 
 function Register({textTitle, icon, formData, setFormData,}){
+
+useEffect(() => {
+
+ if (textTitle === 'EDITAR USUÁRIO') {
+ const usuarioSalvo = localStorage.getItem('usuarioUpdate'); 
+const nomeSalvo = localStorage.getItem('nomeUpdate'); 
+const emailSalvo = localStorage.getItem('emailUpdate'); 
+const empresaSalvo = localStorage.getItem('empresaUpdate'); 
+const cnpjSalvo = localStorage.getItem('cnpjUpdate'); 
+
+setFormData({ usuario: usuarioSalvo || '', nome: nomeSalvo || '', email: emailSalvo || '', empresa: empresaSalvo || '', cnpj: cnpjSalvo || '' }); 
+}
+ }, [textTitle, setFormData]);
 
     //para enviar os dados digitados no campo
     const handleChange = (e) => {
@@ -61,3 +75,4 @@ function Register({textTitle, icon, formData, setFormData,}){
 }
 
 export default Register;
+

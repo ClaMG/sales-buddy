@@ -1,5 +1,5 @@
-import {findAllSales, createSales} from '../dao/salesDAO.js'
-import {saleById} from '../services/salesServices.js'
+import {findAllSales} from '../dao/salesDAO.js'
+import {saleById, createSales} from '../services/salesServices.js'
 
 
 export async function findAllSale(req, res) {
@@ -37,12 +37,7 @@ export async function CreateController(req, res) {
         const resultado = await createSales(novaVenda);
         return res.status(201).json(resultado);
     } catch (error) {
-       if (error.errors) {
-        console.log("DETALHES DO ERRO:", error.errors.map(e => e.message));
-    }
-    return res.status(400).json({ 
-        message: error.message,
-        details: error.errors ? error.errors.map(e => e.message) : error
-    });
+            return res.status(400).json({ message: error.message });
+
     }
 }
