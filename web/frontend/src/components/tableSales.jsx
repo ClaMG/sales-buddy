@@ -12,7 +12,6 @@ function TableSales() {
     
     useEffect(() => {
         getSales();
-        console.log("DEBUG: Vendas carregadas da API:", selectedSaleId);
         if (error) {
             toast.error(error); 
         }

@@ -6,12 +6,9 @@ function useProofActive(){
     const [error, setError] = useState(null);
 
     async function getProof(id) {
-        console.log("=== DEBUG GET_PROOF: Iniciando busca do comprovante para ID:", id, " ===");
         try {
             setError(null)
-            const saleFromApi = await api.post('sales/comprovante', { id });
-
-            console.log("Dados que chegaram da API:", saleFromApi.data);             
+            const saleFromApi = await api.post('sales/comprovante', { id });             
 	        setSale(saleFromApi.data);
         } catch (err) {
             const errorMessage = err|| 'Erro Interno';

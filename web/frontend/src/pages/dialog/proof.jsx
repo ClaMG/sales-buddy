@@ -11,8 +11,6 @@ function ProofDialog({isOpen, onClose, saleId }){
 
     
     useEffect(() => {
-        console.log("=== PROOF DIALOG: useEffect disparado ===");
-        console.log("ID da venda recebido via props:", saleId);
         if (isOpen && saleId) {
             getProof(saleId);
         }
@@ -21,11 +19,6 @@ function ProofDialog({isOpen, onClose, saleId }){
         }
 
     }, [isOpen, saleId]);
-
-
-    console.log("=== RENDERIZAÇÃO PROOF DIALOG ===");
-    console.log("Estado 'isOpen':", isOpen);
-    console.log("Dados atuais da venda (sale):", sale);
 
 
     if (!sale) {
