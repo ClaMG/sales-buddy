@@ -16,10 +16,7 @@ export async function findByIdSales(id) {
     });
 }
 
-
-
-//temporario
-
+//Criar uma nova venda
 export async function createSales(dados) {
     return await Sale.create(dados,{
          include: [{ model: ItemSales, as: 'itens' }]

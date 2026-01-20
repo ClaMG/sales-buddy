@@ -21,7 +21,7 @@ export async function createSalesService(dados){
 	throw new Error("Preencha todos os campo.");
 }
 
-const fomatoEmail = validarEmail(dados.email)
+    const fomatoEmail = validarEmail(dados.email)
 
     if(!fomatoEmail){
         throw new Error("Email com o fomato errado, deve conter o @ e .com")

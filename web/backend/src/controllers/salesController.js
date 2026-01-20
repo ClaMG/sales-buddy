@@ -12,13 +12,13 @@ export async function findAllSaleController(req, res) {
 }
 
 export async function Comprovante(req, res) {
-const { id } = req.body; 
-        try{
-            const resultado = await saleById(id )
-            return res.status(200).json(resultado);
-        }catch(error){
-            return res.status(400).json({ message: error.message });
-        }
+    const { id } = req.body; 
+    try{
+        const resultado = await saleById(id )
+        return res.status(200).json(resultado);
+    }catch(error){
+        return res.status(400).json({ message: error.message });
+    }
 }
 
 export async function CreateController(req, res) {
@@ -36,7 +36,7 @@ export async function CreateController(req, res) {
         const resultado = await createSalesService(novaVenda);
         return res.status(201).json(resultado);
     } catch (error) {
-            return res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
 
     }
 }

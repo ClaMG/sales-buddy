@@ -9,7 +9,6 @@ function useDeletActive(){
 
 
     const handleSave =  async(ids, idUser) => {
-        console.log(`array: ${ids}, id do user: ${idUser}`)
         try {
             setError(null)
             const userFromApi = await api.delete('user/delet',{

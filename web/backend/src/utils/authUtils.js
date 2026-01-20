@@ -25,6 +25,7 @@ export const validarCNPJ = (cnpj) => {
     return cnpjLimpo.length === 14;
 };
 
+//Formata o cnpj
 export const formatarCNPJ = (cnpj) => {
     const limpo = cnpj.replace(/\D/g, ''); // Garante que só existam números
     return limpo
@@ -36,7 +37,7 @@ export const formatarCNPJ = (cnpj) => {
 };
 
 
-
+//Gera senha aleatoria
 export const gerarSenhaAleatoria = (tamanho) => {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     
@@ -47,7 +48,7 @@ export const gerarSenhaAleatoria = (tamanho) => {
     }).join('');
 };
 
-
+//Configuração do nodemailer
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -58,6 +59,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+//Enviar email com a nova senha
 export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
     const remetente = process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com";
 

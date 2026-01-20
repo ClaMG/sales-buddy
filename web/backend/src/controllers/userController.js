@@ -23,11 +23,11 @@ export async function loginUsersControler(req, res) {
 
         const resultado = await Login(usuario, senha);
 
-    return res.status(200).json({
-        message: "Usuário logado com sucesso",
-        user: resultado.usuario,
-        token: resultado.token
-    });
+        return res.status(200).json({
+            message: "Usuário logado com sucesso",
+            user: resultado.usuario,
+            token: resultado.token
+        });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }

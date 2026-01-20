@@ -26,9 +26,6 @@ export async function Login(usuario, senha) {
         { expiresIn: '1d' }
     );
 
-    const usuarioEncontrado = userValido.usuario
-
-
     return { 
         token: token 
     };
@@ -206,6 +203,7 @@ export async function Update(dados) {
     
 }
 
+//Atualizar senha
 export async function UpdateSenha(dados) {
     
     if(!dados.id){
@@ -243,8 +241,7 @@ export async function UpdateSenha(dados) {
     };
 }
 
-
-
+//Inserir codigo temporario
 export async function CreateCodetemp(dados) {
     if (!dados || !dados.usuario) {
         throw new Error("Preencha todos os campo.");
@@ -268,7 +265,7 @@ export async function CreateCodetemp(dados) {
         expiresAt:validadeCurta 
       };
 	
- await deleteCodeTemp(usuarioExistente.id )
+    await deleteCodeTemp(usuarioExistente.id )
 
     const criarCodeTemp= await insertCodeTemp(CodeParaSalvar )
 
@@ -297,13 +294,13 @@ export async function UpdateSenhaCodeTemp(dados) {
         throw new Error("Usuário não existe");
     }
 
-const codeExistente = await findByIdCodeTemp(usuarioExistente.id)
+    const codeExistente = await findByIdCodeTemp(usuarioExistente.id)
 
-if(!codeExistente ){
-        throw new Error("Codigo não existe");
-    }
+    if(!codeExistente ){
+            throw new Error("Codigo não existe");
+        }
 
-if(codeExistente.code !=  dados.code){
+    if(codeExistente.code !=  dados.code){
         throw new Error("Codigo Invalido");
     }
 
@@ -315,7 +312,7 @@ if(codeExistente.code !=  dados.code){
         senha: senhaCriptografada
     };
 
-const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
+    const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
     
     if(!emailEnviado){
         throw new Error("Erro ao enviar e-mail com a senha"); 
