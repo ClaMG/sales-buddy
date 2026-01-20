@@ -50,7 +50,6 @@ public class MenuPresenter implements MenuContract.Presenter {
         model.setChange(0);
         model.setUpdate(null);
         model.setId(0);
-        model.setAmount(null);
         model.setItens(null);
         modelLogin.setPassword(null);
         modelLogin.setUser(null);

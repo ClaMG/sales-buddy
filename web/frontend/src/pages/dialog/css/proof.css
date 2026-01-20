@@ -1,7 +1,18 @@
 .container-body-proof{
-    display: flex;
+        display: flex;
     justify-content: center;
-    margin-top: 10%;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    
+    /* Fundo escurecido para dar destaque ao modal */
+    background-color: rgba(248, 245, 245, 0.315); 
+
+    backdrop-filter: blur(7px);
+-webkit-backdrop-filter: blur(7px);
+    
+    /* Garante que fique acima de menus e tabelas */
+    z-index: 9999;
 }
 
 .container-head-proof{

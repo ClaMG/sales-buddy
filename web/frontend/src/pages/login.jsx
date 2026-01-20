@@ -18,16 +18,27 @@ function Login() {
 
     async function handleSubmit(event) {
         event.preventDefault()
+        const idToast = toast.loading("Processando login...");
 
         const success = await handleSave({ username, password });
 
         if(success){
-            toast.success("Login realizado com sucesso!");
+            toast.update(idToast, { 
+            render: "Login realizado!", 
+            type: "success",
+            isLoading: false, 
+            autoClose: 2000 
+        });
             navigate('/user')
             return
         }
         if (error) {
-            toast.error(error); 
+            toast.update(idToast, { 
+            render: error, 
+            type: "error",
+            isLoading: false, 
+            autoClose: 3000 
+        }); 
         }
     }
 

@@ -22,7 +22,8 @@ function useUpdateActive(){
         }
     }
 
-        async function updatePassword(id){
+        async function updatePassword(){
+            const id = localStorage.getItem("idUpdate")
             try {
                     setError(null)
                     const userFromApi = await api.put('user/updatePassword',{

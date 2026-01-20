@@ -7,7 +7,6 @@ public class SalesModel {
     private String name;
     private String cpf;
     private String email;
-    private Integer amount;
     private double sale_value;
     private double value_received;
     private double change;
@@ -18,7 +17,6 @@ public class SalesModel {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
-        this.amount = amount;
         this.sale_value = sale_value;
         this.value_received = value_received;
         this.change = change;
@@ -55,14 +53,6 @@ public class SalesModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
     }
 
     public double getSale_value() {

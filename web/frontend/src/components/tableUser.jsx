@@ -56,7 +56,7 @@ function TableUser() {
                             <td>{user.empresa}</td>
                             <td>{user.cnpj}</td>
                             <td>
-                                <button className='btn-table' onClick={() => send(user.id)}>
+                                <button className='btn-table' onClick={() => send(user.id, user.usuario, user.nome, user.empresa, user.cnpj, user.email)}>
                                     <img src={editIcon} alt="icone para editar usuario" />
                                 </button>
                             </td>

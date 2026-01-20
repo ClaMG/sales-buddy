@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import {findAllSale, CreateController, Comprovante} from '../controllers/salesController.js'
+import {findAllSaleController, CreateController, Comprovante} from '../controllers/salesController.js'
 
 const router = Router();
 
-router.get('/sales', findAllSale)
+router.get('/sales', findAllSaleController)
 router.post('/comprovante', Comprovante)
-router.post('/create', CreateController)//temporario
+router.post('/create', CreateController)
 export default router;

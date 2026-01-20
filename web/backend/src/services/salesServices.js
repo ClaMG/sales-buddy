@@ -16,8 +16,8 @@ export async function saleById(id){
     
 }
 
-export async function createSales(dados){
-	if(!dados || !dados.nome || !dados.cpf || !dados.email || !dados.quantidade || !dados.valor_venda || !dados.valor_recebido ){
+export async function createSalesService(dados){
+	if(!dados || !dados.nome || !dados.cpf || !dados.email || !dados.valor_venda || !dados.valor_recebido ){
 	throw new Error("Preencha todos os campo.");
 }
 
@@ -27,11 +27,31 @@ const fomatoEmail = validarEmail(dados.email)
         throw new Error("Email com o fomato errado, deve conter o @ e .com")
     }
 
-if(dados.valor_venda> dados.valor_recebido){
-	throw new Error("Valor de venda não foi pago .");
-}
+    if(dados.valor_venda> dados.valor_recebido){
+	    throw new Error("Valor de venda não foi pago .");
+    }
 
-return dados;
+    const quantidadeItens = dados.itens ? dados.itens.length : 0;
+
+    const dadosParaSalvar = {
+        nome: dados.nome,
+        cpf: dados.cpf,
+        email: dados.email,
+        quantidade: quantidadeItens,
+        valor_venda: dados.valor_venda,
+        valor_recebido: dados.valor_recebido,
+        troco: dados.troco,
+        itens: dados.itens || []
+    };
+
+    const vendaCriada = await createSales( dadosParaSalvar );
+    if(!vendaCriada){
+        throw new Error("Erro ao criar a venda.");
+    }
+
+
+
+return vendaCriada;
 
 }
 

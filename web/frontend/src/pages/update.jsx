@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 
 function Update(){
     const navigate = useNavigate();
-    const{handleSave , error}= useUpdateActive()
+    const{handleSave , error, updatePassword}= useUpdateActive()
     //para puxar os dados do register
     const [formData, setFormData] = useState({
         usuario: '', nome: '', email: '', empresa: '', cnpj: ''
@@ -24,7 +24,8 @@ function Update(){
     
     async function handleSubmit(event) {
         event.preventDefault()
-        
+        const idToast = toast.loading("Salvando alterações...");
+
         const id = localStorage.getItem("idUpdate")
         const usuario = formData.usuario
         const nome = formData.nome
@@ -35,15 +36,50 @@ function Update(){
         const success = await handleSave(id, usuario, nome, empresa, cnpj, email );
 
         if(success){
-            toast.success("Usuário atualizado com sucesso!");
+            toast.update(idToast, { 
+            render: "Usuário atualizado!", 
+            type: "success", 
+            isLoading: false, 
+            autoClose: 2000 
+        });
             navigate('/user')
             return
         }
 
         if (error) {
-            toast.error(error);     
+            toast.update(idToast, { 
+            render: error, 
+            type: "error", 
+            isLoading: false, 
+            autoClose: 3000 
+        });     
         }
     }
+
+        async function password(){
+            const toastId = toast.loading("Resetando senha...");
+            const success = await updatePassword();
+
+            if(success){
+                toast.update(toastId, { 
+                    render: "Senha resetada com sucesso, confira seu email", 
+                    type: "success", 
+                    isLoading: false, 
+                    autoClose: 2000 
+                });
+                 navigate('/user')
+                return
+            }
+
+             if (error) {
+                toast.update(toastId, { 
+                render: error, 
+                type: "error", 
+                isLoading: false, 
+                autoClose: 3000 
+                });     
+            }
+        }
 
 
     return(
@@ -54,11 +90,11 @@ function Update(){
                     <Btns
                         classNameIcon1="btn-blue-icon"
                         image1={refresh}
-                        onClick1={() => {}} 
+                        onClick1={password} 
                         className1="btn-blue"
                         text1="RESETAR SENHA"
                         type1="button"
-                        desablit1=""
+                        desablit1={false}
                         classNameIcon2="btn-blue-icon"
                         image2={save}
                         onClick2={handleSubmit} 

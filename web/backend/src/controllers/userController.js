@@ -66,16 +66,19 @@ export async function updateUsersControler(req, res) {
 }
 
 export async function updateSenhaControler(req, res) {
-    const id = req.body.id
+    const dados = {
+        id: req.body.id
+    };
+
     try {
-        const resultado = await UpdateSenha(id);
+        const resultado = await UpdateSenha(dados);
         return res.status(201).json({
-            message: "Senha atualizada com sucesso",
-            resposta: resultado});
+            message: "Senha atualizada com sucesso, verifique seu email",
+            resposta: resultado}); 
     } catch (error) {
         return res.status(400).json({ message: error.message });
-    }
-}
+    } 
+} 
 
 export async function findAllUsersControler(req, res) {
     try {

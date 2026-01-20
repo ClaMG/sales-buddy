@@ -12,12 +12,21 @@ function TableSales() {
     
     useEffect(() => {
         getSales();
+        console.log("DEBUG: Vendas carregadas da API:", selectedSaleId);
         if (error) {
             toast.error(error); 
         }
     }, []);
     return (
         <div>
+            {isModalOpen && selectedSaleId && (
+            <ProofDialog
+                isOpen={isModalOpen}
+                onClose={fecharComprovante}
+                saleId={selectedSaleId} 
+            />
+        )}
+            <div>
             
         <table className='table-sales table-base'>
             <thead className='thead'>
@@ -57,11 +66,8 @@ function TableSales() {
             </tbody>
         </table>
 
-        <ProofDialog
-            isOpen={isModalOpen}
-            onClose={fecharComprovante} 
-            saleId={selectedSaleId} />
         
+            </div>
         </div>
     );
 }

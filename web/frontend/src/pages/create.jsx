@@ -23,6 +23,7 @@ function Create(){
 
     async function handleSubmit(event) {
         event.preventDefault()
+        const idToast = toast.loading("Salvando usuário...");
 
         const usuario = formData.usuario
         const nome = formData.nome
@@ -34,13 +35,23 @@ function Create(){
         const success = await handleSave( usuario, nome, empresa, cnpj, email  );
 
         if(success){
-            toast.success("Usuário cadastrado com sucesso!");
+            toast.update(idToast, { 
+            render: "Usuário cadastrado com sucesso!", 
+            type: "success",
+            isLoading: false, 
+            autoClose: 2000 
+        });
             navigate('/user')
             return;
         }
 
         if (error) {
-            toast.error(error); 
+            toast.update(idToast, { 
+            render: error, 
+            type: "error",
+            isLoading: false, 
+            autoClose: 3000 
+        }); 
         }
     }
 

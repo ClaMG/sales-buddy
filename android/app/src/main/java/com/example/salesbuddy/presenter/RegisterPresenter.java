@@ -78,7 +78,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             model.setSale_value(saleValueDouble);
             model.setValue_received(amountReceivedDouble);
             model.setChange(change);
-            //quantidade
             //array itens
 
             Mensage = "Venda registrada com sucesso";

@@ -49,44 +49,35 @@ export const gerarSenhaAleatoria = (tamanho) => {
 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.titan.email",
+    host: "smtp.gmail.com",
     port: 465,
-    secure: true, // true para porta 465
+    secure: true, 
     auth: {
-        user: process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com", // Seu e-mail no .env
-        pass: process.env.EMAIL_PASS || 'mtur zfov ikpk qjyx'  // Sua senha de app no .env
+        user: process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com",
+        pass: process.env.EMAIL_PASS || 'mtur zfov ikpk qjyx'
     }
 });
 
 export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
-    console.log(`DEBUG ENVIO: Para: ${destinatario} | Usuário: ${nomeUsuario}`);
-    transporter.verify(function (error, success) {
-    if (error) {
-        console.error("DEBUG SMTP: Erro na configuração do Transporter:", error);
-    } else {
-        console.log("DEBUG SMTP: Servidor pronto para enviar mensagens!");
-    }
-});
-
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: destinatario,
-        subject: "Sua Nova Senha de Acesso",
-        html: `
-            <h1>Olá, ${nomeUsuario}!</h1>
-            <p>Uma nova senha foi gerada para o seu acesso ao sistema.</p>
-            <p>Sua nova senha é: <strong>${novaSenha}</strong></p>
-            <br>
-            <p>Recomendamos que você altere esta senha após o primeiro login.</p>
-        `
-    };
+    const remetente = process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com";
 
     try {
+        await transporter.verify();
+
+        const mailOptions = {
+            from: remetente,
+            to: destinatario,
+            subject: "Sua Nova Senha de Acesso",
+            html: `
+                <h1>Olá, ${nomeUsuario}!</h1>
+                <p>Uma nova senha foi gerada para o seu acesso ao sistema.</p>
+                <p>Sua nova senha é: <strong>${novaSenha}</strong></p>
+            `
+        };
+
         await transporter.sendMail(mailOptions);
-        console.log("E-mail enviado com sucesso!");
         return true;
     } catch (error) {
-        console.error("Erro ao enviar e-mail:", error);
         return false;
     }
 }

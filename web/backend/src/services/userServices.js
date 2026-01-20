@@ -78,6 +78,7 @@ export async function Create(dados) {
         email: dados.email,
         senha: senhaCriptografada 
     };
+
     
     const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
     
@@ -134,7 +135,7 @@ export async function Delet(ids, idUser) {
              throw new Error(`Erro ao deletar usuário ${userExiste.usuario}.`);
          }
 
-         const user = userExiste.usuario
+         const user = userExiste.id;
 
         resultados.push({ user, status: "deletado" });
 
@@ -205,43 +206,41 @@ export async function Update(dados) {
     
 }
 
-export async function UpdateSenha(id) {
-    if(!id){
+export async function UpdateSenha(dados) {
+    
+    if(!dados.id){
         throw new Error("id para atualizar a senha não encontrado");
     }
 
-    const usuarioAtual = await findAllUsers(id);
+    const usuarioAtual = await findById(dados.id); 
+    
     if (!usuarioAtual) {
         throw new Error("Usuário não encontrado.");
     }
 
     const senhaGerada = gerarSenhaAleatoria(10);
-
-    const senhaCriptografada = await hashPassword(senhaGerada );
+    const senhaCriptografada = await hashPassword(senhaGerada);
     
     const senhaParaSalvar = {
         senha: senhaCriptografada
     };
 
-const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
+    const emailEnviado = await enviarEmailSenha(usuarioAtual.email, usuarioAtual.nome, senhaGerada); 
     
     if(!emailEnviado){
         throw new Error("Erro ao enviar e-mail com a senha"); 
     }
 
-
-    const atualizar = await updateUser(id, senhaParaSalvar )
+    const atualizar = await updateUser(dados.id, senhaParaSalvar);
 
     if(!atualizar){
-        throw new Error("Erro ao atualizar.");
+        throw new Error("Erro ao atualizar no banco.");
     }
 
     return {
-        usuario:atualizar , 
-        email: emailEnviado};
-
-
-    
+        usuario: atualizar, 
+        email: emailEnviado
+    };
 }
 
 

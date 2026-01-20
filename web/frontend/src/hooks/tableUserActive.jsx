@@ -25,13 +25,14 @@ function useTableUserActions(){
 
 
     async function send(id, usuario, nome, empresa, cnpj, email) {
+        console.log("Dados enviados para Update:", { id, usuario, nome, empresa, cnpj, email });
         localStorage.setItem("idUpdate", id)
         localStorage.setItem("usuarioUpdate", usuario)
         localStorage.setItem("nomeUpdate", nome)
         localStorage.setItem("empresaUpdate", empresa)
         localStorage.setItem("cnpjUpdate", cnpj)
         localStorage.setItem("emailUpdate", email)
-        console.log("id do user:",id)
+       
         navigate('/update')
     }
 

@@ -11,13 +11,33 @@ function ProofDialog({isOpen, onClose, saleId }){
 
     
     useEffect(() => {
-        getProof(saleId)
+        console.log("=== PROOF DIALOG: useEffect disparado ===");
+        console.log("ID da venda recebido via props:", saleId);
+        if (isOpen && saleId) {
+            getProof(saleId);
+        }
         if (error) {
             toast.error(error); 
         }
-    }, []);
 
-    if (!isOpen) return null;
+    }, [isOpen, saleId]);
+
+
+    console.log("=== RENDERIZAÇÃO PROOF DIALOG ===");
+    console.log("Estado 'isOpen':", isOpen);
+    console.log("Dados atuais da venda (sale):", sale);
+
+
+    if (!sale) {
+        return (
+            <div className='container-body-proof'>
+                <div className='container-beige-proof' style={{padding: '20px', textAlign: 'center'}}>
+                    <p>Carregando dados da venda...</p>
+                    <button className='btn-red-proof' onClick={onClose}>FECHAR</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className='container-body-proof'>

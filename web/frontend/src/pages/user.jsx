@@ -24,16 +24,19 @@ function User() {
 
 
     async function delet() {
-        console.log(`como o btn ve: ${localStorage.getItem('arrayIds')}`)
+        const idToast = toast.loading("Processando...");
         if(localStorage.getItem('arrayIds')){
            setShowToast(true) 
         }else{
-            toast.error('Nenhum usuario selecionado')
+            toast.update(idToast, { 
+                render: "Nenhum usuário selecionado!", 
+                type: "error",
+                isLoading: false, 
+                autoClose: 3000 
+            });
         }
     }
     
-
-
 
     return (
 
