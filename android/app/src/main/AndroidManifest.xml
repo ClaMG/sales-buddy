@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="com.seu.pacote.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+    </provider>
+
 
     <application
         android:allowBackup="true"
@@ -11,6 +24,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalesBuddy">
+        <activity
+            android:name=".view.adapter.AdpterRegister"
+            android:exported="false" />
+        <activity
+            android:name=".view.adapter.AdpterProof"
+            android:exported="false" />
+        <activity
+            android:name=".view.adapter.AdpterResumer"
+            android:exported="false" />
         <activity
             android:name=".view.dialog.DialogActivity"
             android:exported="false" />

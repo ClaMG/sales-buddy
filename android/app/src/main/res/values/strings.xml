@@ -33,4 +33,9 @@
     <string name="tvVALUESALE">VALOR VENDA</string>
     <string name="tvVALUERECEIVED">VALOR RECEBIDO</string>
     <string name="tvlogout">LOG OUT</string>
+    <string name="numItems">01</string>
+    <string name="tvdescription">Bolinho Ana Maria</string>
+    <string name="titleItem">Itm</string>
+    <string name="titleDescription">Descrição</string>
+    <string name="txItems">ITEM 01</string>
 </resources>

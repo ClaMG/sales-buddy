@@ -4,11 +4,23 @@ import '../assets/css/global.css'
 import SideMenu from '../components/sideMenu.jsx'
 import TableSales from '../components/tableSales.jsx';
 import './css/base.css'
+import useTableSalesActive from '../hooks/tableSalesActive'
+import ProofDialog from '../components/proofDialog.jsx';
 
 function Sales(){
+
+const { isModalOpen, selectedSaleId, fecharComprovante } = useTableSalesActive(); 
+
+
     return(
 
         <div className="page-container">
+	{isModalOpen && selectedSaleId && ( 
+<ProofDialog 
+isOpen={isModalOpen} 
+onClose={fecharComprovante} 
+saleId={selectedSaleId} /> 
+)}
 
             <SideMenu/>
             <div className="content-container">
@@ -23,3 +35,5 @@ function Sales(){
 }
 
 export default Sales;
+
+

@@ -1,19 +1,22 @@
-package com.example.salesbuddy.view.dialog;
+package com.example.salesbuddy.view.adapter;
 
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.salesbuddy.R;
 
-public class DialogActivity extends AppCompatActivity {
+public class AdpterRegister extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.dialog_strings);
+        setContentView(R.layout.item_register);
 
     }
 }

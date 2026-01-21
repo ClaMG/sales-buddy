@@ -206,6 +206,7 @@
             android:layout_height="53dp"
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/montserrat_bold"
+            android:paddingRight="0dp"
             android:text="@string/btnResitring"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -214,6 +215,7 @@
             android:id="@+id/imageView14"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:rotation="180"

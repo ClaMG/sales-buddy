@@ -2,17 +2,23 @@ import '../../assets/css/global.css'
 import './css/deletdialog.css'
 import useDeletActive from '../../hooks/deletActive'
 import { toast } from 'react-toastify';
-
+import {useEffect} from 'react';
 
 
 function DeletDialog({isOpen, onClose}){
-    const {handleSave, error} = useDeletActive()
+    const {handleSave, error, names, getDelet} = useDeletActive()
     const arrayIds = localStorage.getItem('arrayIds')
     const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
 
-    if(!isOpen){
-        return null
-    }
+    useEffect(() => {
+        if (isOpen && ids.length > 0) { 
+            getDelet(ids);
+        }
+
+        if (error) {
+            toast.error(error); 
+        }
+    }, [error]);
     
     async function handleSubmit(){
         const idUser= 1
@@ -36,9 +42,12 @@ return(
             <div className='group-text-deletDialog'>
                 <p className='text-deletDialog'>Você está prestes a excluir os seguintes usuários: </p>
                 <div className='text-deletDialog negrito'>
-                    <p>{ids}</p>
-                    <p>{ids}</p>
-                    <p>{ids}</p>
+                     <ul > 
+                        {names.map((nome, index) => ( 
+                            <li key={index}>{nome}</li>
+                        ))} 
+                    </ul>
+
                 </div>
                 <p className='text-deletDialog'>Deseja prosseguir?</p>
             </div>

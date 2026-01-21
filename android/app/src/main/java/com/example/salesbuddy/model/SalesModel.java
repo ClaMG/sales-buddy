@@ -1,6 +1,7 @@
 package com.example.salesbuddy.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SalesModel {
     private  int id;
@@ -10,7 +11,7 @@ public class SalesModel {
     private double sale_value;
     private double value_received;
     private double change;
-    private ArrayList itens;
+    private ItemsModel itens;
     private Boolean update;
 
     public SalesModel() {
@@ -78,11 +79,12 @@ public class SalesModel {
     public void setChange(double change) {
         this.change = change;
     }
-    public ArrayList getItens() {
+
+    public ItemsModel getItens() {
         return itens;
     }
 
-    public void setItens(ArrayList itens) {
+    public void setItens(ItemsModel itens) {
         this.itens = itens;
     }
 

@@ -37,6 +37,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     //Registrar venda
     @Override
     public void register(String name, String cpf, String email, String saleValue, String amountReceived) {
+        //Para verificar email
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
 

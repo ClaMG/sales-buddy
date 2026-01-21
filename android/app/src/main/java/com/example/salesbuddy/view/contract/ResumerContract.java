@@ -1,9 +1,12 @@
 package com.example.salesbuddy.view.contract;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface ResumerContract {
 
     interface View{
-        void printInfo(String name,String cpf,String email,String valueReceived,String valueSales,String change);
+        void printInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change);
         void previosResumer();
     }
     interface Presenter{

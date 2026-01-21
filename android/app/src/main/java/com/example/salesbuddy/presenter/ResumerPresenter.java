@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.salesbuddy.model.SalesModel;
-import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ProofActivity;
 import com.example.salesbuddy.view.RegisterActivity;
-import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.contract.ResumerContract;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumerPresenter implements ResumerContract.Presenter {
     private final ResumerContract.View view;
@@ -37,6 +38,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         valueReceived = String.valueOf(model.getValue_received());
         valueSales = String.valueOf(model.getSale_value());
         change = String.valueOf(model.getChange());
+
 
         view.printInfo(name, cpf, email, valueReceived, valueSales, change);
     }

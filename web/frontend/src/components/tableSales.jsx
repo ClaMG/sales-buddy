@@ -8,7 +8,7 @@ import useTableSalesActive from '../hooks/tableSalesActive'
 import { toast } from 'react-toastify';
 
 function TableSales() {
-    const {getSales, sales, error, isModalOpen, selectedSaleId, abrirComprovante, fecharComprovante} = useTableSalesActive()
+    const { getSales, sales, error, abrirComprovante } = useTableSalesActive() 
     
     useEffect(() => {
         getSales();
@@ -18,14 +18,7 @@ function TableSales() {
     }, []);
     return (
         <div>
-            {isModalOpen && selectedSaleId && (
-            <ProofDialog
-                isOpen={isModalOpen}
-                onClose={fecharComprovante}
-                saleId={selectedSaleId} 
-            />
-        )}
-            <div>
+                       
             
         <table className='table-sales table-base'>
             <thead className='thead'>
@@ -66,9 +59,10 @@ function TableSales() {
         </table>
 
         
-            </div>
+            
         </div>
     );
 }
 
 export default TableSales;
+

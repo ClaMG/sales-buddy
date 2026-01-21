@@ -1,5 +1,9 @@
 package com.example.salesbuddy.view.contract;
 
+import android.view.View;
+
+import java.util.List;
+
 public interface ProofContract {
 
     interface View{
@@ -9,7 +13,8 @@ public interface ProofContract {
     interface Presenter{
         void getInfo();
         void no();
-        void yes();
+        void yes(android.view.View LayoutProof);
+
         void backProof();
     }
 }

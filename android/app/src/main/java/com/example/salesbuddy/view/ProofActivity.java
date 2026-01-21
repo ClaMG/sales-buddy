@@ -1,6 +1,7 @@
 package com.example.salesbuddy.view;
 
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,15 +11,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
+import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.ProofPresenter;
+import com.example.salesbuddy.view.adapter.AdpterProof;
+import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ProofContract;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProofActivity extends AppCompatActivity implements ProofContract.View {
 
     private TextView tvNameProof,tvCpfProof,tvEmailProof,tvValueReceivedProof,tvValueSalesProof ,tvChangeProof , tvSaleId;
     private Button btnNo, btnYes, btnBackProof;
+    private RecyclerView recyclerViewProof;
+    private View LayoutProof;
     private ProofPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +47,19 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         btnNo = findViewById(R.id.btnNo);
         btnYes = findViewById(R.id.btnYes);
         btnBackProof = findViewById(R.id.btnBackProof);
+        recyclerViewProof =findViewById(R.id.recyclerViewProof);
+        LayoutProof = findViewById(R.id.LayoutProof);
         //Presenter
         presenter = new ProofPresenter(this, getApplicationContext());
+
+        recyclerViewProof.setNestedScrollingEnabled(false);
+
         //Eventos
         presenter.getInfo();
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.yes();
+                presenter.yes(LayoutProof);
             }
         });
         btnNo.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +87,11 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         tvValueSalesProof.setText(valueSales);
         tvChangeProof.setText(change);
         tvSaleId.setText(idNum);
+
+        List<ItemsModel> itens = new ArrayList<>();
+        AdpterProof adapter = new AdpterProof(itens);
+        recyclerViewProof.setAdapter(adapter);
+
     }
 
     //Fechar tela
