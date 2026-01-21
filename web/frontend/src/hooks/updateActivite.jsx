@@ -17,22 +17,7 @@ function useUpdateActive(){
             })
             return userFromApi
         } catch (err) {
-            const errorMessage = err || 'Erro Interno';
-            setError(errorMessage)
-            console.error(err);
-        }
-    }
-
-        async function updatePassword(){
-            const id = localStorage.getItem("idUpdate")
-            try {
-                    setError(null)
-                    const userFromApi = await api.put('user/updatePassword',{
-                        id: id
-                    })
-                    return userFromApi
-                } catch (err) {
-                    if(!err.response || !err) {
+           if(!err.response || !err) {
                 setError("O servidor está offline. Volte mais tarde.");
                 navigate('/')
             }
@@ -41,10 +26,29 @@ function useUpdateActive(){
             setError(errorMessage); 
             console.log(errorMessage); 
         }
+    }
+    }
+
+    async function updatePassword(){
+        const id = localStorage.getItem("idUpdate")
+        try {
+                setError(null)
+                const userFromApi = await api.put('user/updatePassword',{
+                    id: id
+                })
+                return userFromApi
+            } catch (err) {
+                if(!err.response || !err) {
+                    setError("O servidor está offline. Volte mais tarde.");
+                    navigate('/')
                 }
-
-}
-
+                if (err.response || err) {
+                    const errorMessage = err || "Erro Interno";
+                    setError(errorMessage); 
+                    console.log(errorMessage); 
+            }
+            }
+        }
 
     return{handleSave , error, updatePassword}
 

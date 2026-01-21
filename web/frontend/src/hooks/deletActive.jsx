@@ -23,9 +23,16 @@ function useDeletActive(){
             return nomesEncontrados;
 
         } catch (err) {
+            if(!err.response || !err) {
+                setError("O servidor está offline. Volte mais tarde.");
+                navigate('/')
+            }
+            if (err.response || err) {
             console.error("Erro ao buscar nomes:", err); 
             setError("Não foi possível carregar os nomes."); 
             return [];
+        }
+            
         }
 
     } 

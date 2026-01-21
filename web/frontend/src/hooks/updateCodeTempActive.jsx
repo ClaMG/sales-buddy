@@ -11,9 +11,8 @@ function useUpdateCodeTempActivite(){
             const userFromApi = await api.put('user/updatePasswordCodeTemp',{
                 usuario: usuario,
                 code: code         
- 	})
+ 	        })
 
-	
             return userFromApi
         } catch (err) {
             if(!err.response || !err) {
