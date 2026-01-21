@@ -7,16 +7,22 @@ import {useEffect} from 'react';
 
 function DeletDialog({isOpen, onClose}){
     const {handleSave, error, names, getDelet} = useDeletActive()
-    const arrayIds = localStorage.getItem('arrayIds')
-    const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
+
 
     useEffect(() => {
-        if (isOpen && ids.length > 0) { 
-            getDelet(ids);
+        if (isOpen) {
+            const arrayIds = localStorage.getItem('arrayIds');
+            const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
+            
+            if (ids.length > 0) {
+                getDelet(ids);
+            }
         }
+    }, [isOpen]);
 
+    useEffect(() => {
         if (error) {
-            toast.error(error); 
+            toast.error(error);
         }
     }, [error]);
 
@@ -25,12 +31,23 @@ function DeletDialog({isOpen, onClose}){
     }
     
     async function handleSubmit(){
-        const idUser= 1
-
-        const success = await handleSave( ids, idUser);
+        const arrayIds = localStorage.getItem('arrayIds');
+        const ids = arrayIds ? JSON.parse(arrayIds).map(Number) : [];
+        
+        const success = await handleSave( ids);
 
         if(success){
             toast.success("Usuário deletados com sucesso!");
+            onClose()
+            setTimeout(() => {
+                window.location.reload();
+            }, 5000);
+            
+        }else{
+            onClose()
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         }
 
         if (error) {

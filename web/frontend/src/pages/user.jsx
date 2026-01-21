@@ -24,17 +24,17 @@ function User() {
 
 
     async function delet() {
-        const idToast = toast.loading("Processando...");
         if(localStorage.getItem('arrayIds')){
            setShowToast(true) 
         }else{
-            toast.update(idToast, { 
-                render: "Nenhum usuário selecionado!", 
-                type: "error",
-                isLoading: false, 
-                autoClose: 3000 
-            });
+            toast.error("Nenhum usuário selecionado")
         }
+    }
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+        navigate('/login');
+        return null; 
     }
     
 

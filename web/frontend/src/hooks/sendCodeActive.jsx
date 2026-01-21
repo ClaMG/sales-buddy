@@ -1,8 +1,9 @@
 import api from '../services/api.jsx';
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 function useSendCodeActive(){
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
     const handleSave = async(usuario) =>{
         try {
             setError(null)
@@ -17,9 +18,15 @@ function useSendCodeActive(){
 
             return userFromApi
         } catch (err) {
-            const errorMessage = err || 'Erro Interno';
-            setError(errorMessage)
-            console.error(err);
+            if(!err.response || !err) {
+                setError("O servidor está offline. Volte mais tarde.");
+                navigate('/')
+            }
+            if (err.response || err) {
+            const errorMessage = err || "Erro Interno";
+            setError(errorMessage); 
+            console.log(errorMessage); 
+        }
         }
     }
 

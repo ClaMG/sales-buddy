@@ -1,9 +1,10 @@
 import api from '../services/api.jsx';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function useRegisterActivite(){
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate()
 
     const handleSave = async (usuario, nome, empresa, cnpj, email) => {
         try {
@@ -18,9 +19,15 @@ function useRegisterActivite(){
 
         return userFromApi
         } catch (err) {
-            const errorMessage = err || 'Erro Interno';
-            setError(errorMessage)
-            console.error(err);
+            if(!err.response || !err){
+                setError("O servidor está offline. Volte mais tarde.");
+                navigate('/');
+            }
+            if (err.response || err) {
+            const errorMessage = err || "Erro Interno";
+            setError(errorMessage); 
+            console.log(errorMessage); 
+            }
         }
 
     }

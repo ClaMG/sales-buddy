@@ -7,8 +7,8 @@ import ProofDialog from '../pages/dialog/proof';
 import useTableSalesActive from '../hooks/tableSalesActive'
 import { toast } from 'react-toastify';
 
-function TableSales() {
-    const { getSales, sales, error, abrirComprovante } = useTableSalesActive() 
+function TableSales({ onOpenProof }) {
+    const { getSales, sales, error } = useTableSalesActive() 
     
     useEffect(() => {
         getSales();
@@ -45,7 +45,10 @@ function TableSales() {
                             <td className='sales-center'>{sale.valor_venda}</td>
                             <td className='sales-center'>{sale.troco}</td>
                             <td className='sales-center'>
-                                <button className='btn-table' onClick={() => abrirComprovante(sale.id)}>
+                                <button className='btn-table' onClick={() => {
+                                    console.log("Botão clicado para ID:", sale.id);
+                                    onOpenProof(sale.id); // Chama a função que veio da página Sales
+                                }}>
                                     <img src={comprovanteIcon} alt="Icone de garar comprovante" />
                                 </button>
                             </td>

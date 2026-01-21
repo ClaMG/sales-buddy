@@ -7,10 +7,12 @@ import { useEffect } from 'react';
 
 
 function ProofDialog({isOpen, onClose, saleId }){
+    console.log("DIALOG: Fui renderizado! isOpen:", isOpen, "saleId:", saleId);
     const{getProof, sale, error} = useProofActive ()
 
     
     useEffect(() => {
+        console.log("DIALOG EFFECT: Tentando buscar dados da venda...");
         if (isOpen && saleId) {
             getProof(saleId);
         }

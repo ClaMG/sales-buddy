@@ -23,9 +23,14 @@ function useLoginActivite(){
 
             return userFromApi 
         } catch (err) {
+            if(!err.response || !err) {
+                setError("O servidor está offline. Volte mais tarde.");
+            }
+            if (err.response || err) {
             const errorMessage = err || "Erro Interno";
             setError(errorMessage); 
             console.log(errorMessage); 
+        }
         }
     }
 

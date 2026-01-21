@@ -6,11 +6,25 @@ import TableSales from '../components/tableSales.jsx';
 import './css/base.css'
 import useTableSalesActive from '../hooks/tableSalesActive'
 import ProofDialog from './dialog/proof.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function Sales(){
+    const navigate = useNavigate()
+    const { 
+        isModalOpen, 
+        selectedSaleId, 
+        fecharComprovante, 
+        abrirComprovante // Pegue essa função aqui
+    } = useTableSalesActive(); 
 
-const { isModalOpen, selectedSaleId, fecharComprovante } = useTableSalesActive(); 
+    console.log("PÁGINA SALES - Modal Aberto?", isModalOpen);
+    console.log("PÁGINA SALES - ID Selecionado:", selectedSaleId);
 
+    const token = localStorage.getItem('token');
+    if (!token) {
+        navigate('/login');
+        return null; 
+    }
 
     return(
 
@@ -25,7 +39,7 @@ saleId={selectedSaleId} />
             <SideMenu/>
             <div className="content-container">
                 <div className="table-container">
-                  <TableSales/>
+                  <TableSales onOpenProof={abrirComprovante}/>
                 </div>
             </div>
 

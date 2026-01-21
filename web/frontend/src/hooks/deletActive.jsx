@@ -1,7 +1,7 @@
-import api from '../services/api.jsx';
+import api from '../services/api';
 import { useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
-
 
 function useDeletActive(){
     const [error, setError] = useState(null);
@@ -14,13 +14,13 @@ function useDeletActive(){
             const response = await api.get('user/users'); 
             const todosUsuarios = response.data; // O Axios coloca a resposta dentro de 'data' 
 
-        //Filtra quem tem o ID na lista e pega só o nome 
-        const nomesEncontrados = todosUsuarios 
-        .filter(usuario => ids.includes(usuario.id)) 
-        .map(usuario => usuario.nome);
+            //Filtra quem tem o ID na lista e pega só o nome 
+            const nomesEncontrados = todosUsuarios 
+            .filter(usuario => ids.includes(usuario.id)) 
+            .map(usuario => usuario.usuario);
 
-        setNames(nomesEncontrados);
-        return nomesEncontrados;
+            setNames(nomesEncontrados);
+            return nomesEncontrados;
 
         } catch (err) {
             console.error("Erro ao buscar nomes:", err); 
@@ -31,20 +31,30 @@ function useDeletActive(){
     } 
 
 
-    const handleSave =  async(ids, idUser) => {
+    const handleSave =  async(ids) => {
+        
+
+        const token = localStorage.getItem('token'); 
+        
         try {
             setError(null)
+            const decoded = jwtDecode(token);
+            const idUser = decoded.id;
             const userFromApi = await api.delete('user/delet',{
                 data: { ids: ids, idUser }
             })
 
-            navigate('/user')
             return userFromApi
         } catch (err) {
-            const errorMessage = err || 'Erro Interno';
-            setError(errorMessage)
-            navigate('/user')
-            console.error(err);
+            if(!err.response || !err) {
+                setError("O servidor está offline. Volte mais tarde.");
+                navigate('/')
+            }
+            if (err.response || err) {
+            const errorMessage = err || "Erro Interno";
+            setError(errorMessage); 
+            console.log(errorMessage); 
+        }
         }
     }
     

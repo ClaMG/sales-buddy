@@ -17,9 +17,15 @@ function useTableUserActions(){
             const userFromApi = await api.get('user/users');
             setUsers(userFromApi.data); 
         } catch (err) {
-            const errorMessage = err || 'Erro Interno';
-            setError(errorMessage)
-            console.error(err);
+            if(!err.response || !err) {
+                setError("O servidor está offline. Volte mais tarde.");
+                navigate('/')
+            }
+            if (err.response || err) {
+            const errorMessage = err || "Erro Interno";
+            setError(errorMessage); 
+            console.log(errorMessage); 
+        }
         }
     }
 

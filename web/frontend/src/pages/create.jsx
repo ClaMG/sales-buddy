@@ -36,7 +36,7 @@ function Create(){
 
         if(success){
             toast.update(idToast, { 
-            render: "Usuário cadastrado com sucesso!", 
+            render: "Usuário cadastrado com sucesso, confira seu email para a senha", 
             type: "success",
             isLoading: false, 
             autoClose: 2000 
@@ -53,6 +53,11 @@ function Create(){
             autoClose: 3000 
         }); 
         }
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+        navigate('/login');
+        return null; 
     }
 
     return(

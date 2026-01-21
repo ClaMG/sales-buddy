@@ -1,9 +1,9 @@
 import api from '../services/api.jsx';
 import { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 function useTableSalesActive(){
-    
+    const navigate = useNavigate();
     const [sales, setSales] = useState([]);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -16,23 +16,24 @@ function useTableSalesActive(){
             const salesFromApi = await api.get('sales/sales');
             setSales(salesFromApi.data)
         } catch (err) {
-            const errorMessage = err|| 'Erro Interno';
-            setError(errorMessage)
-            console.error(err);
+            if(!err.response || !err) {
+                setError("O servidor está offline. Volte mais tarde.");
+                navigate('/')
+            }
+            if (err.response || err) {
+            const errorMessage = err || "Erro Interno";
+            setError(errorMessage); 
+            console.log(errorMessage); 
+        }
         }
     }
 
 
    function abrirComprovante(id) {
-    console.log("=== TENTANDO ABRIR COMPROVANTE ===");
-        console.log("ID recebido no clique:", id);
+        console.log("HOOK: Executando abrirComprovante para ID:", id);
         setSelectedSaleId(id); 
         setIsModalOpen(true); 
-        console.log("Estado isModalOpen definido para: true");
-        console.log("Estado selectedSaleId definido para:", id);
-        console.log("selectedSaleId:", selectedSaleId);
-        console.log("====================================");
-    } 
+    }
 
     function fecharComprovante() { 
         console.log("DEBUG: Fechando comprovante e limpando ID.");
