@@ -94,7 +94,7 @@ export async function insertCodeTempControler(req, res) {
     usuario: req.body.usuario
       };
     try {
-        const resultado = await Create(codigo);
+        const resultado = await CreateCodetemp(codigo);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });

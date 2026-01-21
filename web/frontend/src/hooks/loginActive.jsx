@@ -8,6 +8,8 @@ function useLoginActivite(){
         
         try {
             setError(null)
+            
+
             const userFromApi = await api.post('user/login',{
                 usuario: username,
                 senha: password,

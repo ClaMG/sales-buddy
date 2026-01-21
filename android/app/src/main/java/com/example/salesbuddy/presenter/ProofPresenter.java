@@ -62,44 +62,9 @@ public class ProofPresenter implements ProofContract.Presenter {
         view.previosProof();
     }
 
-    public Bitmap takeScreenShot(View view) {
-        // Cria o Bitmap com o tamanho da view
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
-    }
-
     @Override
-    public void yes(View LayoutProof) {
-        Bitmap bitmap = takeScreenShot(LayoutProof);
-
-
-        //Salvar cache
-        File imageFile = new File(context.getCacheDir(), "screenshot.png");
-        try {
-            FileOutputStream fos = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Obtem uri (decobrir que pacote é esse)
-        Uri uri = FileProvider.getUriForFile(context, "com.seu.pacote.fileprovider", imageFile);
-
-        //Cria o email
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("image/png");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{model.getEmail()});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Comprovante da venda");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Segue anexo o comprovante da venda.");
-        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-
-
+    public void yes() {
+        //Enviar email
         //Ativar o dilog
     }
 

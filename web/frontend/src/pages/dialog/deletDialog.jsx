@@ -19,6 +19,10 @@ function DeletDialog({isOpen, onClose}){
             toast.error(error); 
         }
     }, [error]);
+
+    if(!isOpen){
+        return null
+    }
     
     async function handleSubmit(){
         const idUser= 1

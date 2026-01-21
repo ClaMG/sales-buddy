@@ -5,7 +5,7 @@ import SideMenu from '../components/sideMenu.jsx'
 import TableSales from '../components/tableSales.jsx';
 import './css/base.css'
 import useTableSalesActive from '../hooks/tableSalesActive'
-import ProofDialog from '../components/proofDialog.jsx';
+import ProofDialog from './dialog/proof.jsx';
 
 function Sales(){
 

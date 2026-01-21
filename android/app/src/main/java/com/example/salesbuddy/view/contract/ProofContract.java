@@ -13,7 +13,7 @@ public interface ProofContract {
     interface Presenter{
         void getInfo();
         void no();
-        void yes(android.view.View LayoutProof);
+        void yes();
 
         void backProof();
     }

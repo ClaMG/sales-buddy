@@ -23,7 +23,7 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/txItemAdd"
                 android:layout_width="330dp"
                 android:layout_height="45dp"
                 android:layout_marginRight="10dp"
@@ -36,7 +36,7 @@
                 android:textColor="@color/blueGray" />
 
             <ImageView
-                android:id="@+id/imageView15"
+                android:id="@+id/btnSume"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/btn_register_sume"

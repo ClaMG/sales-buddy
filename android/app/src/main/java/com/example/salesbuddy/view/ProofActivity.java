@@ -28,7 +28,6 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
     private TextView tvNameProof,tvCpfProof,tvEmailProof,tvValueReceivedProof,tvValueSalesProof ,tvChangeProof , tvSaleId;
     private Button btnNo, btnYes, btnBackProof;
     private RecyclerView recyclerViewProof;
-    private View LayoutProof;
     private ProofPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,6 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         btnYes = findViewById(R.id.btnYes);
         btnBackProof = findViewById(R.id.btnBackProof);
         recyclerViewProof =findViewById(R.id.recyclerViewProof);
-        LayoutProof = findViewById(R.id.LayoutProof);
         //Presenter
         presenter = new ProofPresenter(this, getApplicationContext());
 
@@ -59,7 +57,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.yes(LayoutProof);
+                presenter.yes();
             }
         });
         btnNo.setOnClickListener(new View.OnClickListener() {

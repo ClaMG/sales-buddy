@@ -23,12 +23,7 @@ export async function updateUser(id, dados) {
     });
 }
 
-//login
-export async function loginUser(user) {
-    return await User.findOne({
-        where: { usuario: user} 
-    });
-}
+
 
 //pesquisar por nome 
 export async function findByUsername(usuario) {

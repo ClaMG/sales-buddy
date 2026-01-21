@@ -12,15 +12,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
+import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.presenter.RegisterPresenter;
+import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.RegisterContract;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterContract.View{
 
     private EditText txName,txCpf,txEmail,txSaleValue,txAmountReceived;
     private TextView tvTitleRegister;
+    private RecyclerView recyclerViewRegister;
 
     private Button btnResumer, btnBackRegister;
 
@@ -41,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         txAmountReceived = findViewById(R.id.txAmountReceived);
         btnResumer = findViewById(R.id.btnResumer);
         btnBackRegister = findViewById(R.id.btnBackRegister);
+        recyclerViewRegister = findViewById(R.id.recyclerViewRegister);
         //Presenter
         presenter = new RegisterPresenter(this,getApplicationContext());
 
@@ -88,5 +96,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         txAmountReceived.setText(valor_recebido);
         txSaleValue.setText(valor_venda);
         tvTitleRegister.setText(title);
+
+        List<SalesModel> itens = new ArrayList<>();
+        itens.add(new SalesModel()); // Adiciona o primeiro campo
+        AdpterRegister adpter = new AdpterRegister(itens);
+        recyclerViewRegister.setAdapter(adpter);
     }
 }

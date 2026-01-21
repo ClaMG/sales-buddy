@@ -1,4 +1,4 @@
-import {insertUser, loginUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername, findById } from '../dao/userDAO.js'
+import {insertUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername, findById, deleteCodeTemp } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
 import {hashPassword, comparePassword, validarEmail, validarCNPJ, formatarCNPJ, gerarSenhaAleatoria, enviarEmailSenha} from '../utils/authUtils.js'
 
@@ -8,7 +8,7 @@ export async function Login(usuario, senha) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const userValido = await loginUser(usuario)
+    const userValido = await findByUsername(usuario)
 
     if(!userValido){
         throw new Error("Usuário não existe.");
@@ -207,7 +207,7 @@ export async function Update(dados) {
 export async function UpdateSenha(dados) {
     
     if(!dados.id){
-        throw new Error("id para atualizar a senha não encontrado");
+        throw new Error("id para atualizar não encontrado");
     }
 
     const usuarioAtual = await findById(dados.id); 
@@ -259,13 +259,23 @@ export async function CreateCodetemp(dados) {
     
     const senhaTemporaria = gerarSenhaAleatoria(4);
 
+    console.log(`usuarioExistente:${usuarioExistente}`)
+
     const CodeParaSalvar = {
         user_id: usuarioExistente.id,
         code: senhaTemporaria ,
         expiresAt:validadeCurta 
       };
 	
-    await deleteCodeTemp(usuarioExistente.id )
+    const delet = await deleteCodeTemp(usuarioExistente.id )
+
+    console.log(`teste delet:${delet}`)
+
+    if(!delet){
+        throw new Error("Erro ao deletar código antigo");
+    }
+
+    console.log(`teste codeparasalvar:${CodeParaSalvar}`)
 
     const criarCodeTemp= await insertCodeTemp(CodeParaSalvar )
 
