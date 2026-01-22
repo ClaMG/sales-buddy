@@ -3,12 +3,14 @@ package com.example.salesbuddy.view.dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.presenter.MenuPresenter;
@@ -16,7 +18,8 @@ import com.example.salesbuddy.view.contract.MenuContract;
 
 public class MenuActivity extends AppCompatActivity implements MenuContract.View {
 
-    private Button btnMenuLogout, btnMenuRegister, btnMenuReprocessing, btnMenuBack;
+    private Button btnMenuLogout, btnMenuRegister, btnMenuReprocessing;
+    private ImageButton btnMenuBack;
     private MenuPresenter presenter;
 
     @Override
@@ -67,4 +70,6 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     public void previosMenu() {
         finish();
     }
+
+
 }

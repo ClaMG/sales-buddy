@@ -42,4 +42,9 @@ public class HomePresenter implements HomeContract.Presenter {
         view.previosHome();
     }
 
+    @Override
+    public void onMenuButtonClicked() {
+        view.showMenuDialog();
+    }
+
 }

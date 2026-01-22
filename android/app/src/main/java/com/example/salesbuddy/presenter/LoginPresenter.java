@@ -31,6 +31,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     password == null || password.trim().isEmpty()) {
 
                 Mensage ="Preencha todos os campos.";
+                view.showToastLogin(Mensage);
                 return;
             }
 
@@ -38,10 +39,13 @@ public class LoginPresenter implements LoginContract.Presenter {
             model.setPassword(password);
 
             Mensage = "Login realizado com sucesso";
-            Intent intent = new Intent(context, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            context.startActivity(intent);
-            view.previosLogin();
+            view.showToastLogin(Mensage);
+            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
+                view.previosLogin();
+            }, 2000);
         }catch (Exception e){
             Mensage = "Erro interno:" + e;
         }
