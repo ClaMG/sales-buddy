@@ -130,7 +130,7 @@
             android:ems="10"
             android:fontFamily="@font/montserrat"
             android:hint="@string/tvCpf"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingLeft="15dp"
             android:textColor="@color/pink"
             android:textColorHint="@color/blueGray"
@@ -145,19 +145,25 @@
             android:ems="10"
             android:fontFamily="@font/montserrat"
             android:hint="@string/tvEMAIL"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:paddingLeft="15dp"
             android:textColor="@color/pink"
             android:textColorHint="@color/blueGray"
             android:textSize="16sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRegister"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="15dp">
+            android:layout_height="130dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/txSaleValue"
@@ -168,7 +174,7 @@
             android:ems="10"
             android:fontFamily="@font/montserrat"
             android:hint="@string/tvVALUESALE"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingLeft="15dp"
             android:textColor="@color/pink"
             android:textColorHint="@color/blueGray"
@@ -183,7 +189,7 @@
             android:ems="10"
             android:fontFamily="@font/montserrat"
             android:hint="@string/tvVALUERECEIVED"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingLeft="15dp"
             android:textColor="@color/pink"
             android:textColorHint="@color/blueGray"
@@ -204,7 +210,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="true"
+        android:focusable="true">
 
         <Button
             android:id="@+id/btn"
@@ -217,10 +225,11 @@
             android:paddingBottom="0dp"
             android:text="@string/btnResitring"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:clickable="false"/>
 
         <ImageButton
-            android:id="@+id/imageView14"
+            android:id="@+id/btnRimg"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="20dp"
@@ -228,7 +237,8 @@
             android:background="@android:color/transparent"
             android:rotation="180"
             android:tint="@color/white"
-            app:srcCompat="@drawable/icon_arrow" />
+            app:srcCompat="@drawable/icon_arrow"
+            android:clickable="false"/>
 
     </LinearLayout>
 

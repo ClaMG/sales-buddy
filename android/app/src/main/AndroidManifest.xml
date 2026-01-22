@@ -36,9 +36,8 @@
             android:name=".view.ResumerActivity"
             android:exported="false" />
         <activity
-            android:name=".view.dialog.MenuActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Transparent"/>
+            android:name=".view.dialog.MenuFragment"
+            android:exported="false"/>
         <activity
             android:name=".view.RegisterActivity"
             android:exported="false" />

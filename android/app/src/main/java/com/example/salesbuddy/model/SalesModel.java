@@ -11,8 +11,7 @@ public class SalesModel {
     private double sale_value;
     private double value_received;
     private double change;
-    private ItemsModel itens;
-
+    private List<ItemsModel> itemList; // O ARRAY DE ITENS FICA AQUI
     public SalesModel() {
         this.name = name;
         this.cpf = cpf;
@@ -20,6 +19,8 @@ public class SalesModel {
         this.sale_value = sale_value;
         this.value_received = value_received;
         this.change = change;
+        this.itemList = new ArrayList<>();
+        this.itemList.add(new ItemsModel());
     }
 
     public int getId() {
@@ -78,11 +79,11 @@ public class SalesModel {
         this.change = change;
     }
 
-    public ItemsModel getItens() {
-        return itens;
+    public List<ItemsModel> getItemList() {
+        return itemList;
     }
 
-    public void setItens(ItemsModel itens) {
-        this.itens = itens;
+    public void setItemList(List<ItemsModel> itemList) {
+        this.itemList = itemList;
     }
 }

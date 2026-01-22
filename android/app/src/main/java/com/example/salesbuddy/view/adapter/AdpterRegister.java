@@ -26,22 +26,10 @@ import java.util.List;
 
 public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHolderRegister> {
 
-    private List<SalesModel> items;
+    private List<ItemsModel> items;
 
-    public AdpterRegister(List<SalesModel> items) {
+    public AdpterRegister(List<ItemsModel> items) {
         this.items = items;
-    }
-
-    public static class ViewHolderRegister extends RecyclerView.ViewHolder {
-        EditText txItemAdd;
-        ImageButton btnSume;
-        public ViewHolderRegister(@NonNull View itemView){
-            super(itemView);
-
-            btnSume = itemView.findViewById(R.id.btnSume);
-            txItemAdd = itemView.findViewById(R.id.txItemAdd);
-        }
-
     }
 
 
@@ -54,46 +42,50 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdpterRegister.ViewHolderRegister holder, int position) {
-        SalesModel item = items.get(position);
+    public void onBindViewHolder(@NonNull ViewHolderRegister holder, int position) {
+        ItemsModel item = items.get(position);
 
-        // 1. IMPORTANTE: Remova o listener antigo antes de mexer no texto
-        // Para fazer isso de forma simples, podemos usar uma "tag" ou limpar o foco
-        holder.txItemAdd.clearFocus();
+        // 1. Limpa o listener anterior antes de setar o texto para não disparar o evento sem querer
+        if (holder.textWatcher != null) {
+            holder.txItemAdd.removeTextChangedListener(holder.textWatcher);
+        }
 
-        // 2. Antes de adicionar o novo listener, remova os anteriores (se possível)
-        // ou use uma lógica para ignorar a atualização programática
-        // Vamos usar a forma mais segura: carregar o texto e DEPOIS colocar o listener
-        holder.txItemAdd.setText(item.getCpf()); // Ou o campo correto do seu model
+        // 2. Seta o texto que está no model
+        holder.txItemAdd.setText(item.getDescricao());
 
-        // 3. Criamos o listener
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
+        // 3. Cria e guarda o listener no ViewHolder para podermos remover depois
+        holder.textWatcher = new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Salva apenas se o usuário estiver digitando
-                item.setCpf(s.toString());
+                item.setDescricao(s.toString());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
         };
 
-        // 4. Limpamos listeners antigos que possam estar pendurados na View reciclada
-        // (O Android não tem um "removeTextWatchers", então a dica é setar o texto ANTES)
-        holder.txItemAdd.addTextChangedListener(textWatcher);
+        holder.txItemAdd.addTextChangedListener(holder.textWatcher);
 
-        // 5. Botão de Adicionar (Seu código está correto aqui)
         holder.btnSume.setOnClickListener(v -> {
-            SalesModel novoItem = new SalesModel();
+            ItemsModel novoItem = new ItemsModel();
             int currentPosition = holder.getAdapterPosition();
             if (currentPosition != RecyclerView.NO_POSITION) {
                 items.add(currentPosition + 1, novoItem);
                 notifyItemInserted(currentPosition + 1);
             }
         });
+    }
+
+    // 4. Atualize seu ViewHolder para guardar o listener
+    public static class ViewHolderRegister extends RecyclerView.ViewHolder {
+        EditText txItemAdd;
+        ImageButton btnSume;
+        TextWatcher textWatcher; // Adicione isso aqui
+
+        public ViewHolderRegister(@NonNull View itemView){
+            super(itemView);
+            btnSume = itemView.findViewById(R.id.btnSume);
+            txItemAdd = itemView.findViewById(R.id.txItemAdd);
+        }
     }
 
     @Override

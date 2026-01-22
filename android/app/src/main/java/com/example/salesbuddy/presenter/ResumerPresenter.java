@@ -2,6 +2,7 @@ package com.example.salesbuddy.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.ProofActivity;
@@ -38,6 +39,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         valueReceived = String.valueOf(model.getValue_received());
         valueSales = String.valueOf(model.getSale_value());
         change = String.valueOf(model.getChange());
+
+        Log.d("Get", name +"/"+ cpf +"/"+ email+"/"+ valueSales +"/"+ change);
 
 
         view.printInfo(name, cpf, email, valueReceived, valueSales, change);

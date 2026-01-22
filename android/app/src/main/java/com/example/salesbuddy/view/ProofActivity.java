@@ -2,7 +2,6 @@ package com.example.salesbuddy.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,18 +9,14 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.ProofPresenter;
 import com.example.salesbuddy.view.adapter.AdpterProof;
-import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ProofContract;
-import com.example.salesbuddy.view.dialog.MenuActivity;
+import com.example.salesbuddy.view.dialog.MenuFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +106,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
 
     @Override
     public void showMenuDialog() {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
+        MenuFragment menu = new MenuFragment();
+        menu.show(getSupportFragmentManager(), "menu_dialog");
     }
 }

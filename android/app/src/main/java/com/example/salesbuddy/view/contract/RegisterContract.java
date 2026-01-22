@@ -1,5 +1,9 @@
 package com.example.salesbuddy.view.contract;
 
+import com.example.salesbuddy.model.ItemsModel;
+
+import java.util.List;
+
 public interface RegisterContract {
 
     interface View{
@@ -13,7 +17,7 @@ public interface RegisterContract {
     }
     interface Presenter{
         //Registar venda
-        void register(String nome,String cpf,String email,String valor_venda,String valor_recebido);
+        void register(String nome,String cpf,String email,String valor_venda,String valor_recebido, List<ItemsModel> listaDeItens);
         //voltar para pagina anterio
         void backRegister();
         void testUpdate(boolean isUpdade);

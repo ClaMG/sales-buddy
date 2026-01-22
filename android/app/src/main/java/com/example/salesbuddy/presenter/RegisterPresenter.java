@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.contract.RegisterContract;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,18 +41,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     //Registrar venda
     @Override
-    public void register(String name, String cpf, String email, String saleValue, String amountReceived) {
+    public void register(String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> listaDeItens) {
         //Para verificar email
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
 
-        Log.d("SOS", name + "/"+ cpf+ "/"+email+"/"+saleValue+"/"+amountReceived);
+        Log.d("SOS", name + "/"+ cpf+ "/"+email+"/"+saleValue+"/"+amountReceived +"/"+ model.getItemList() +"/"+ listaDeItens);
 
-            saleValueDouble = Double.parseDouble(saleValue);
-            amountReceivedDouble = Double.parseDouble(amountReceived);
-
-            change = amountReceivedDouble - saleValueDouble;
-            Log.d("SOS", amountReceivedDouble + "/"+ saleValueDouble+ "/"+change+"/");
         try {
 
             if (name == null || name.trim().isEmpty() ||
@@ -63,11 +60,26 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 return;
             }
 
-            if (cpf.length() != 11) {
-                Mensage ="Formato do cpf invalido.";
+            if(listaDeItens ==null || listaDeItens.isEmpty()){
+                Mensage ="Preencha no minimo 1 item.";
                 view.showToastRegister(Mensage);
                 return;
             }
+
+            saleValueDouble = Double.parseDouble(saleValue);
+            amountReceivedDouble = Double.parseDouble(amountReceived);
+
+            change = amountReceivedDouble - saleValueDouble;
+            Log.d("SOS", amountReceivedDouble + "/"+ saleValueDouble+ "/"+change+"/");
+
+
+            if (cpf.length() != 11) {
+                Mensage = "Formato do CPF inválido.";
+                view.showToastRegister(Mensage);
+                return;
+            }
+
+            cpf = cpf.replaceAll("[^0-9]", "");
 
             Matcher matcher = pattern.matcher(email);
             if (!matcher.matches()) {
@@ -88,7 +100,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             model.setSale_value(saleValueDouble);
             model.setValue_received(amountReceivedDouble);
             model.setChange(change);
-            //array itens
+
 
             Mensage = "Venda registrada com sucesso";
             view.showToastRegister(Mensage);

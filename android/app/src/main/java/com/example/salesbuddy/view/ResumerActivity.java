@@ -16,10 +16,9 @@ import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.ResumerPresenter;
 import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ResumerContract;
-import com.example.salesbuddy.view.dialog.MenuActivity;
+import com.example.salesbuddy.view.dialog.MenuFragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ResumerActivity extends AppCompatActivity implements ResumerContract.View {
@@ -109,7 +108,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
 
     @Override
     public void showMenuDialog() {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
+        MenuFragment menu = new MenuFragment();
+        menu.show(getSupportFragmentManager(), "menu_dialog");
     }
 }
