@@ -57,13 +57,18 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
 
         //Eventos
         boolean isUpdate = getIntent().getBooleanExtra("IS_UPDATE", false);
-        presenter.testUpdate(isUpdate);
+        String nome = getIntent().getStringExtra("nome");
+        String cpf = getIntent().getStringExtra("cpf");
+        String email = getIntent().getStringExtra("email");
+        String saleValue = getIntent().getStringExtra("valor_venda");
+        String amountReceived = getIntent().getStringExtra("valor_recebido");
+        presenter.testUpdate(isUpdate, nome,cpf,email, saleValue, amountReceived);
 
         recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this)); // ESSENCIAL
-        List<ItemsModel> listaDeItens = new ArrayList<>();
+        List<String> listaDeItens = new ArrayList<>();
 
-        // GARANTIA: Adiciona um item vazio inicial
-        listaDeItens.add(new ItemsModel());
+        // CORREÇÃO: Adiciona uma String vazia, não o tipo List
+        listaDeItens.add("");
 
         // Agora passa a lista com 1 item para o Adapter
         AdpterRegister adapter = new AdpterRegister(listaDeItens);
@@ -79,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
                 String email = txEmail.getText().toString().trim();
                 String saleValue = txSaleValue.getText().toString().trim();
                 String amountReceived = txAmountReceived.getText().toString().trim();
-                presenter.register(name, cpf, email, saleValue, amountReceived, listaDeItens);
+                presenter.register(isUpdate,name, cpf, email, saleValue, amountReceived, listaDeItens);
             }
         });
         btnBackRegister.setOnClickListener(new View.OnClickListener() {

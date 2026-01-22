@@ -1,5 +1,5 @@
 import {findByIdSales, createSales} from '../dao/salesDAO.js'
-import { validarEmail} from '../utils/authUtils.js'
+import { validarEmail,enviarEmailComprovante} from '../utils/authUtils.js'
 
 export async function saleById(id){
     if(!id){
@@ -53,5 +53,18 @@ export async function createSalesService(dados){
 
 return vendaCriada;
 
+}
+
+export async function enviarComprovantePagamento(destinatario, comprovante) {
+    if (!destinatario || !comprovante) {
+        throw new Error("Preencha todos os campos.");
+    }
+
+
+    const emailEnviado = await enviarEmailComprovante(destinatario, comprovante);
+    if (!emailEnviado) {
+        throw new Error("Erro ao enviar e-mail com o comprovante de pagamento");
+    }
+    return emailEnviado;
 }
 

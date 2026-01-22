@@ -21,7 +21,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     private final SalesModel model;
     private Context context;
     private String Mensage;
-    private double change;
+    private String change;
     private double saleValueDouble;
     private double amountReceivedDouble;
 
@@ -31,6 +31,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     private String valueReceived;
     private String valueSales;
     private String title;
+    private String amount;
 
 
     public RegisterPresenter(RegisterContract.View view, Context context) {
@@ -41,77 +42,51 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     //Registrar venda
     @Override
-    public void register(String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> listaDeItens) {
-        //Para verificar email
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-
-        Log.d("SOS", name + "/"+ cpf+ "/"+email+"/"+saleValue+"/"+amountReceived +"/"+ model.getItemList() +"/"+ listaDeItens);
-
+    public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<String> listaDeItens) {
         try {
-
-            if (name == null || name.trim().isEmpty() ||
-                    cpf == null || cpf.trim().isEmpty() ||
-                    email == null || email.trim().isEmpty() ||
-                    saleValue.trim().isEmpty() || amountReceived.trim().isEmpty()) {
-
-                Mensage ="Preencha todos os campos.";
-                view.showToastRegister(Mensage);
-                return;
-            }
-
-            if(listaDeItens ==null || listaDeItens.isEmpty()){
-                Mensage ="Preencha no minimo 1 item.";
-                view.showToastRegister(Mensage);
-                return;
-            }
 
             saleValueDouble = Double.parseDouble(saleValue);
             amountReceivedDouble = Double.parseDouble(amountReceived);
 
-            change = amountReceivedDouble - saleValueDouble;
-            Log.d("SOS", amountReceivedDouble + "/"+ saleValueDouble+ "/"+change+"/");
+            change = String.valueOf(amountReceivedDouble - saleValueDouble);
+
+            String itens="";
+
+            amount = String.valueOf(itens.length());
 
 
-            if (cpf.length() != 11) {
-                Mensage = "Formato do CPF inválido.";
-                view.showToastRegister(Mensage);
-                return;
+            String jsonString = "{"
+                    + "\"nome\": \"" + name + "\","
+                    + "\"cpf\": \"" + cpf + "\","
+                    + "\"email\": \"" + email + "\","
+                    + "\"quantidade\": " + amount + ","
+                    + "\"valor_venda\": " + saleValue + ","
+                    + "\"valor_recebido\": " + amountReceived + ","
+                    + "\"troco\": " + change + ","
+                    + "\"itens\": " + itens
+                    + "}";
+
+
+            //create e mensagem
+
+            if(isUpdate){
+                //update
             }
-
-            cpf = cpf.replaceAll("[^0-9]", "");
-
-            Matcher matcher = pattern.matcher(email);
-            if (!matcher.matches()) {
-                Mensage ="Formato do email invalido.";
-                view.showToastRegister(Mensage);
-                return;
-            }
-
-            if (saleValueDouble> amountReceivedDouble){
-                Mensage ="Valor de venda não foi pago.";
-                view.showToastRegister(Mensage);
-                return;
-            }
-
-            model.setName(name);
-            model.setCpf(cpf);
-            model.setEmail(email);
-            model.setSale_value(saleValueDouble);
-            model.setValue_received(amountReceivedDouble);
-            model.setChange(change);
-
-
-            Mensage = "Venda registrada com sucesso";
-            view.showToastRegister(Mensage);
 
             Intent intent = new Intent(context, ResumerActivity.class);
+            intent.putExtra("nome", name);
+            intent.putExtra("cpf", cpf);
+            intent.putExtra("email", email);
+            intent.putExtra("quantidade", amount);
+            intent.putExtra("valor_venda", saleValue);
+            intent.putExtra("valor_recebido", amountReceived);
+            intent.putExtra("troco", change);
+            //itens
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
             view.previosRegister();
         } catch (Exception e) {
             Mensage = "Erro interno"+ e;
-            view.showToastRegister(Mensage);
         }
 
         view.showToastRegister(Mensage);
@@ -127,13 +102,10 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
 
     @Override
-    public void testUpdate(boolean isUpdate) {
+    public void testUpdate(boolean isUpdate, String name, String cpf, String email, String valueReceived, String valueSales) {
         if (isUpdate){
-            name = model.getName();
-            cpf = model.getCpf();
-            email = model.getEmail();
-            valueReceived = String.valueOf(model.getValue_received());
-            valueSales = String.valueOf(model.getSale_value());
+            //atualizar
+
             title = "ATUALIZAR VENDA";
 
             view.update(name, cpf, email, valueReceived, valueSales, title);

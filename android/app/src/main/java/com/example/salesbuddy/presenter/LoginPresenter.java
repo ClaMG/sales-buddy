@@ -28,22 +28,12 @@ public class LoginPresenter implements LoginContract.Presenter {
     public void login(String user, String password) {
 
         try {
-            Log.d("Login", user +" 2 "+ password);
-            if (user == null || user.trim().isEmpty() ||
-                    password == null || password.trim().isEmpty()) {
-
-                Mensage ="Preencha todos os campos.";
-                view.showToastLogin(Mensage);
-                return;
-            }
-
-            model.setUser(user);
-            model.setPassword(password);
+            String jsonString = "{\"usuario\": \"" + user + "\", \"senha\": \"" + password + "\"}";
             
             //teste do login
+            //enviar mensagem do login
 
-            Mensage = "Login realizado com sucesso";
-            view.showToastLogin(Mensage);
+
             new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                 Intent intent = new Intent(context, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -12,15 +12,11 @@ import com.example.salesbuddy.view.contract.MenuContract;
 
 public class MenuPresenter implements MenuContract.Presenter {
     private final MenuContract.View view;
-    private final SalesModel model;
-    private final LoginModel modelLogin;
     private Context context;
 
     public MenuPresenter(MenuContract.View view, Context context) {
         this.view = view;
         this.context = context;
-        this.model = new SalesModel();
-        this.modelLogin = new LoginModel();
     }
 
     @Override
@@ -42,16 +38,6 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void menuLogout() {
-        model.setName(null);
-        model.setCpf(null);
-        model.setEmail(null);
-        model.setSale_value(0);
-        model.setValue_received(0);
-        model.setChange(0);
-        model.setId(0);
-        model.setItemList(null);
-        modelLogin.setPassword(null);
-        modelLogin.setUser(null);
         
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

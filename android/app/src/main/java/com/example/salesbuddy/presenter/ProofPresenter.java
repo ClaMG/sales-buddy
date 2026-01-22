@@ -22,12 +22,6 @@ public class ProofPresenter implements ProofContract.Presenter {
     private final ProofContract.View view;
     private Context context;
 
-    private String name;
-    private String cpf;
-    private String email;
-    private String valueReceived;
-    private String valueSales;
-    private String change;
     private String idNum;
 
     private final SalesModel model;
@@ -40,15 +34,7 @@ public class ProofPresenter implements ProofContract.Presenter {
     }
 
     @Override
-    public void getInfo() {
-        name = model.getName();
-        cpf = model.getCpf();
-        email = model.getEmail();
-        valueReceived = String.valueOf(model.getValue_received());
-        valueSales = String.valueOf(model.getSale_value());
-        change = String.valueOf(model.getChange());
-        idNum = String.valueOf(model.getId());
-        //trocar para pegar do banco de dados
+    public void getInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change) {
 
 
         view.printInfo(name, cpf, email, valueReceived, valueSales, change, idNum);
@@ -67,9 +53,6 @@ public class ProofPresenter implements ProofContract.Presenter {
         //Enviar email
         //Ativar o dilog
     }
-
-
-
 
     @Override
     public void backProof() {

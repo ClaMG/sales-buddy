@@ -16,33 +16,13 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private final ResumerContract.View view;
     private Context context;
 
-    private String name;
-    private String cpf;
-    private String email;
-    private String valueReceived;
-    private String valueSales;
-    private String change;
-
-    private final SalesModel model;
-
     public ResumerPresenter(ResumerContract.View view, Context context) {
         this.view = view;
         this.context = context;
-        this.model = new SalesModel();
     }
 
     @Override
-    public void getInfo() {
-        name = model.getName();
-        cpf = model.getCpf();
-        email = model.getEmail();
-        valueReceived = String.valueOf(model.getValue_received());
-        valueSales = String.valueOf(model.getSale_value());
-        change = String.valueOf(model.getChange());
-
-        Log.d("Get", name +"/"+ cpf +"/"+ email+"/"+ valueSales +"/"+ change);
-
-
+    public void getInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change) {
         view.printInfo(name, cpf, email, valueReceived, valueSales, change);
     }
 

@@ -55,9 +55,19 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         presenter = new ResumerPresenter(this, getApplicationContext());
 
         recyclerViewResumer.setNestedScrollingEnabled(false);
+        List<ItemsModel> itens = new ArrayList<>();
+        AdpterResumer adapter = new AdpterResumer(itens);
+        recyclerViewResumer.setAdapter(adapter);
+
+        String nome = getIntent().getStringExtra("nome");
+        String cpf = getIntent().getStringExtra("cpf");
+        String email = getIntent().getStringExtra("email");
+        String saleValue = getIntent().getStringExtra("valor_venda");
+        String amountReceived = getIntent().getStringExtra("valor_recebido");
+        String change = getIntent().getStringExtra("troco");
 
         //Eventos
-        presenter.getInfo();
+        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change);
         btnResumerAlter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,14 +100,9 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         tvNameResume.setText(name);
         tvCpfResume.setText(cpf);
         tvEmailResume.setText(email);
-        tvValueReceived.setText(valueReceived);
-        tvValueSales.setText(valueSales);
-        tvChange.setText(change);
-
-        List<ItemsModel> itens = new ArrayList<>();
-        AdpterResumer adapter = new AdpterResumer(itens);
-        recyclerViewResumer.setAdapter(adapter);
-
+        tvValueReceived.setText("R$"+valueReceived);
+        tvValueSales.setText("R$"+valueSales);
+        tvChange.setText("R$"+change);
     }
 
     //Fechar a pagina

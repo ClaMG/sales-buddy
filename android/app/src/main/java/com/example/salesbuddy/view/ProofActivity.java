@@ -52,8 +52,15 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
 
         recyclerViewProof.setNestedScrollingEnabled(false);
 
+        String nome = getIntent().getStringExtra("nome");
+        String cpf = getIntent().getStringExtra("cpf");
+        String email = getIntent().getStringExtra("email");
+        String saleValue = getIntent().getStringExtra("valor_venda");
+        String amountReceived = getIntent().getStringExtra("valor_recebido");
+        String change = getIntent().getStringExtra("troco");
+
         //Eventos
-        presenter.getInfo();
+        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change);
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,10 +94,10 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         tvNameProof.setText(name);
         tvCpfProof.setText(cpf);
         tvEmailProof.setText(email);
-        tvValueReceivedProof.setText(valueReceived);
-        tvValueSalesProof.setText(valueSales);
-        tvChangeProof.setText(change);
-        tvSaleId.setText(idNum);
+        tvValueReceivedProof.setText("R$"+valueReceived);
+        tvValueSalesProof.setText("R$"+valueSales);
+        tvChangeProof.setText("R$"+change);
+        tvSaleId.setText("Venda nº" + idNum);
 
         List<ItemsModel> itens = new ArrayList<>();
         AdpterProof adapter = new AdpterProof(itens);

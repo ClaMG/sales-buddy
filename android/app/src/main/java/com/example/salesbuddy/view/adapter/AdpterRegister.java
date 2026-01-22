@@ -26,70 +26,67 @@ import java.util.List;
 
 public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHolderRegister> {
 
-    private List<ItemsModel> items;
+        private List<String> items; // Agora é uma lista simples de Strings
 
-    public AdpterRegister(List<ItemsModel> items) {
-        this.items = items;
-    }
-
-
-    @NonNull
-    @Override
-    public AdpterRegister.ViewHolderRegister onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_register, parent, false);
-        return new AdpterRegister.ViewHolderRegister(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolderRegister holder, int position) {
-        ItemsModel item = items.get(position);
-
-        // 1. Limpa o listener anterior antes de setar o texto para não disparar o evento sem querer
-        if (holder.textWatcher != null) {
-            holder.txItemAdd.removeTextChangedListener(holder.textWatcher);
+        public AdpterRegister(List<String> items) {
+            this.items = items;
         }
 
-        // 2. Seta o texto que está no model
-        holder.txItemAdd.setText(item.getDescricao());
-
-        // 3. Cria e guarda o listener no ViewHolder para podermos remover depois
-        holder.textWatcher = new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                item.setDescricao(s.toString());
-            }
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
-        };
-
-        holder.txItemAdd.addTextChangedListener(holder.textWatcher);
-
-        holder.btnSume.setOnClickListener(v -> {
-            ItemsModel novoItem = new ItemsModel();
-            int currentPosition = holder.getAdapterPosition();
-            if (currentPosition != RecyclerView.NO_POSITION) {
-                items.add(currentPosition + 1, novoItem);
-                notifyItemInserted(currentPosition + 1);
-            }
-        });
-    }
-
-    // 4. Atualize seu ViewHolder para guardar o listener
-    public static class ViewHolderRegister extends RecyclerView.ViewHolder {
-        EditText txItemAdd;
-        ImageButton btnSume;
-        TextWatcher textWatcher; // Adicione isso aqui
-
-        public ViewHolderRegister(@NonNull View itemView){
-            super(itemView);
-            btnSume = itemView.findViewById(R.id.btnSume);
-            txItemAdd = itemView.findViewById(R.id.txItemAdd);
+        @NonNull
+        @Override
+        public ViewHolderRegister onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_register, parent, false);
+            return new ViewHolderRegister(view);
         }
-    }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolderRegister holder, int position) {
+            // Remove o listener anterior para evitar que o Recycler View duplique dados ao rolar
+            if (holder.textWatcher != null) {
+                holder.txItemAdd.removeTextChangedListener(holder.textWatcher);
+            }
+
+            // Define o texto atual da lista
+            holder.txItemAdd.setText(items.get(position));
+
+            // Cria o novo vigia (TextWatcher)
+            holder.textWatcher = new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Atualiza a String diretamente na lista original
+                    items.set(holder.getAdapterPosition(), s.toString());
+                }
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void afterTextChanged(Editable s) {}
+            };
+
+            holder.txItemAdd.addTextChangedListener(holder.textWatcher);
+
+            // Botão para adicionar novo campo vazio
+            holder.btnSume.setOnClickListener(v -> {
+                int currentPosition = holder.getAdapterPosition();
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    items.add(currentPosition + 1, ""); // Adiciona uma String vazia
+                    notifyItemInserted(currentPosition + 1);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        public static class ViewHolderRegister extends RecyclerView.ViewHolder {
+            EditText txItemAdd;
+            ImageButton btnSume;
+            TextWatcher textWatcher;
+
+            public ViewHolderRegister(@NonNull View itemView) {
+                super(itemView);
+                btnSume = itemView.findViewById(R.id.btnSume);
+                txItemAdd = itemView.findViewById(R.id.txItemAdd);
+            }
+        }
 }

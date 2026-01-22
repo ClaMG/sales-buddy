@@ -12,7 +12,7 @@ public interface ProofContract {
         void showMenuDialog();
     }
     interface Presenter{
-        void getInfo();
+        void getInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change);
         void no();
         void yes();
 

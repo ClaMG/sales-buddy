@@ -17,7 +17,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     private final SplashContract.View view;
 
     private Context context;
-    private String numVersio = "1.01.50";//Conseguir esse número
+    private String numVersio = "1.01.50";
 
     public SplashPresenter(SplashContract.View view, Context context) {
         this.view = view;
