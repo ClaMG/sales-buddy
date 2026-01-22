@@ -368,7 +368,7 @@
         tools:layout_editor_absoluteY="101dp" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/btnMenuProof"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -395,7 +395,7 @@
         android:layout_width="238dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+        app:layout_constraintEnd_toStartOf="@+id/btnMenuProof"
         app:layout_constraintStart_toEndOf="@+id/btnBackProof"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/img_logo_top" />

@@ -9,6 +9,7 @@ public interface ProofContract {
     interface View{
         void printInfo(String name,String cpf,String email,String valueReceived,String valueSales,String change, String idNum);
         void previosProof();
+        void showMenuDialog();
     }
     interface Presenter{
         void getInfo();
@@ -16,5 +17,7 @@ public interface ProofContract {
         void yes();
 
         void backProof();
+        void onMenuButtonClicked();
+
     }
 }

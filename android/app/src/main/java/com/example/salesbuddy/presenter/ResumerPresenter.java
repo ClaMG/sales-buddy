@@ -45,8 +45,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
 
     @Override
     public void altResumer() {
-        model.setUpdate(true);
         Intent intent = new Intent(context, RegisterActivity.class);
+        intent.putExtra("IS_UPDATE", true);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();
@@ -62,10 +62,15 @@ public class ResumerPresenter implements ResumerContract.Presenter {
 
     @Override
     public void backResumer() {
-        model.setUpdate(false);
         Intent intent = new Intent(context, RegisterActivity.class);
+        intent.putExtra("IS_UPDATE", false);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();
+    }
+
+    @Override
+    public void onMenuButtonClicked() {
+        view.showMenuDialog();
     }
 }

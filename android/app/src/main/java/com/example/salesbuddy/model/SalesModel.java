@@ -12,7 +12,6 @@ public class SalesModel {
     private double value_received;
     private double change;
     private ItemsModel itens;
-    private Boolean update;
 
     public SalesModel() {
         this.name = name;
@@ -21,7 +20,6 @@ public class SalesModel {
         this.sale_value = sale_value;
         this.value_received = value_received;
         this.change = change;
-        this.update = update;
     }
 
     public int getId() {
@@ -86,13 +84,5 @@ public class SalesModel {
 
     public void setItens(ItemsModel itens) {
         this.itens = itens;
-    }
-
-    public Boolean getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Boolean update) {
-        this.update = update;
     }
 }

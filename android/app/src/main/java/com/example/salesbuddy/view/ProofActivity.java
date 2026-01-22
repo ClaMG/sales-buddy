@@ -1,9 +1,11 @@
 package com.example.salesbuddy.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +21,7 @@ import com.example.salesbuddy.presenter.ProofPresenter;
 import com.example.salesbuddy.view.adapter.AdpterProof;
 import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ProofContract;
+import com.example.salesbuddy.view.dialog.MenuActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,8 @@ import java.util.List;
 public class ProofActivity extends AppCompatActivity implements ProofContract.View {
 
     private TextView tvNameProof,tvCpfProof,tvEmailProof,tvValueReceivedProof,tvValueSalesProof ,tvChangeProof , tvSaleId;
-    private Button btnNo, btnYes, btnBackProof;
+    private Button btnNo, btnYes;
+    private ImageButton btnMenuProof,btnBackProof;
     private RecyclerView recyclerViewProof;
     private ProofPresenter presenter;
     @Override
@@ -47,6 +51,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         btnYes = findViewById(R.id.btnYes);
         btnBackProof = findViewById(R.id.btnBackProof);
         recyclerViewProof =findViewById(R.id.recyclerViewProof);
+        btnMenuProof = findViewById(R.id.btnMenuProof);
         //Presenter
         presenter = new ProofPresenter(this, getApplicationContext());
 
@@ -70,6 +75,12 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
             @Override
             public void onClick(View v) {
                 presenter.backProof();
+            }
+        });
+        btnMenuProof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onMenuButtonClicked();
             }
         });
 
@@ -96,5 +107,11 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
     @Override
     public void previosProof() {
         finish();
+    }
+
+    @Override
+    public void showMenuDialog() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 }

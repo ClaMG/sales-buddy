@@ -1,6 +1,12 @@
 package com.example.salesbuddy.view.contract;
 
 public interface ReprocessingContract {
-    interface View{}
-    interface Presenter{}
+    interface View{
+        void showMenuDialog();
+
+    }
+    interface Presenter{
+        void onMenuButtonClicked();
+
+    }
 }

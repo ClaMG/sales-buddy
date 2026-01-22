@@ -1,9 +1,13 @@
 package com.example.salesbuddy.view;
 
+import static android.content.Intent.getIntent;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,7 @@ import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.presenter.RegisterPresenter;
 import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.RegisterContract;
+import com.example.salesbuddy.view.dialog.MenuActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +34,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     private TextView tvTitleRegister;
     private RecyclerView recyclerViewRegister;
 
-    private Button btnResumer, btnBackRegister;
+    private View btnResumer;
+    private ImageButton btnBackRegister, btnMenuCreate;
 
     private RegisterPresenter presenter;
 
@@ -49,22 +55,22 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         btnResumer = findViewById(R.id.btnResumer);
         btnBackRegister = findViewById(R.id.btnBackRegister);
         recyclerViewRegister = findViewById(R.id.recyclerViewRegister);
+        btnMenuCreate = findViewById(R.id.btnMenuCreate);
         //Presenter
         presenter = new RegisterPresenter(this,getApplicationContext());
 
-        //Strings
-        String name = String.valueOf(txName.getText());
-        String cpf = String.valueOf(txCpf.getText());
-        String email = String.valueOf(txEmail.getText());
-        String saleValue = String.valueOf(txSaleValue.getText());
-        String amountReceived = String.valueOf(txAmountReceived.getText());
-
         //Eventos
-        presenter.testUpdate();
+        boolean isUpdate = getIntent().getBooleanExtra("IS_UPDATE", false);
+        presenter.testUpdate(isUpdate);
 
         btnResumer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = txName.getText().toString().trim();
+                String cpf = txCpf.getText().toString().trim();
+                String email = txEmail.getText().toString().trim();
+                String saleValue = txSaleValue.getText().toString().trim();
+                String amountReceived = txAmountReceived.getText().toString().trim();
                 presenter.register(name, cpf, email, saleValue, amountReceived);
             }
         });
@@ -72,6 +78,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
             @Override
             public void onClick(View v) {
                 presenter.backRegister();
+            }
+        });
+        btnMenuCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onMenuButtonClicked();
             }
         });
     }
@@ -101,5 +113,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         itens.add(new SalesModel()); // Adiciona o primeiro campo
         AdpterRegister adpter = new AdpterRegister(itens);
         recyclerViewRegister.setAdapter(adpter);
+    }
+    @Override
+    public void showMenuDialog() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 }

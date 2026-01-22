@@ -78,4 +78,9 @@ public class ProofPresenter implements ProofContract.Presenter {
         context.startActivity(intent);
         view.previosProof();
     }
+
+    @Override
+    public void onMenuButtonClicked() {
+        view.showMenuDialog();
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.salesbuddy.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +16,7 @@ import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.ResumerPresenter;
 import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ResumerContract;
+import com.example.salesbuddy.view.dialog.MenuActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +26,11 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
 
     private TextView tvNameResume,tvCpfResume,tvEmailResume,tvValueReceived,tvValueSales,tvChange;
 
-    private Button btnResumerAlter, btnEnd, btnBackResumer;
+    private Button btnResumerAlter;
     private RecyclerView recyclerViewResumer;
+
+    private ImageButton btnMenuResumer, btnBackResumer;
+    private View btnEnd;
 
     private ResumerPresenter presenter;
 
@@ -45,6 +51,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         btnEnd = findViewById(R.id.btnEnd);
         btnBackResumer = findViewById(R.id.btnBackResumer);
         recyclerViewResumer = findViewById(R.id.recyclerViewResumer);
+        btnMenuResumer = findViewById(R.id.btnMenuResumer);
         //Presenter
         presenter = new ResumerPresenter(this, getApplicationContext());
 
@@ -70,6 +77,12 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
                 presenter.backResumer();
             }
         });
+        btnMenuResumer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onMenuButtonClicked();
+            }
+        });
     }
 
     //Inserir os dados
@@ -92,5 +105,11 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
     @Override
     public void previosResumer() {
         finish();
+    }
+
+    @Override
+    public void showMenuDialog() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 }

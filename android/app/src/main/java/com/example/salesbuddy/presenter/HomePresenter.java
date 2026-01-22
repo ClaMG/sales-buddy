@@ -13,22 +13,19 @@ import com.example.salesbuddy.view.contract.LoginContract;
 public class HomePresenter implements HomeContract.Presenter {
 
     private final HomeContract.View view;
-    private final SalesModel model;
-
 
     private Context context;
 
     public HomePresenter(HomeContract.View view, Context context) {
         this.view = view;
         this.context = context;
-        this.model = new SalesModel();
     }
 
     //Encaminhar para outras paginas
     @Override
     public void goSales() {
-        model.setUpdate(false);
         Intent intent = new Intent(context, RegisterActivity.class);
+        intent.putExtra("IS_UPDATE", false);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosHome();

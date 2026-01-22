@@ -25,8 +25,8 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void menuRegister() {
-        model.setUpdate(false);
         Intent intent = new Intent(context, RegisterActivity.class);
+        intent.putExtra("IS_UPDATE", false);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosMenu();
@@ -48,7 +48,6 @@ public class MenuPresenter implements MenuContract.Presenter {
         model.setSale_value(0);
         model.setValue_received(0);
         model.setChange(0);
-        model.setUpdate(null);
         model.setId(0);
         model.setItens(null);
         modelLogin.setPassword(null);

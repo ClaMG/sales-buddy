@@ -38,14 +38,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         //Presenter
         presenter = new LoginPresenter(this, getApplicationContext());
 
-        //Strings
-        String user = String.valueOf(txUser.getText());
-        String password = String.valueOf(txPassword.getText());
 
         //Eventos
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String user = txUser.getText().toString().trim();
+                String password = txPassword.getText().toString().trim();
                 presenter.login(user, password);
             }
         });

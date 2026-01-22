@@ -2,6 +2,7 @@ package com.example.salesbuddy.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.salesbuddy.model.LoginModel;
 import com.example.salesbuddy.model.SalesModel;
@@ -27,6 +28,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     public void login(String user, String password) {
 
         try {
+            Log.d("Login", user +" 2 "+ password);
             if (user == null || user.trim().isEmpty() ||
                     password == null || password.trim().isEmpty()) {
 
@@ -37,6 +39,8 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             model.setUser(user);
             model.setPassword(password);
+            
+            //teste do login
 
             Mensage = "Login realizado com sucesso";
             view.showToastLogin(Mensage);
@@ -45,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(intent);
                 view.previosLogin();
-            }, 2000);
+            }, 1000);
         }catch (Exception e){
             Mensage = "Erro interno:" + e;
         }

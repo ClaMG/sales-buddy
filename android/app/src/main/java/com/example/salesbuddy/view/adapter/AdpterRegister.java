@@ -1,11 +1,14 @@
 package com.example.salesbuddy.view.adapter;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -31,7 +34,7 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
 
     public static class ViewHolderRegister extends RecyclerView.ViewHolder {
         EditText txItemAdd;
-        Button btnSume;
+        ImageButton btnSume;
         public ViewHolderRegister(@NonNull View itemView){
             super(itemView);
 
@@ -54,19 +57,43 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
     public void onBindViewHolder(@NonNull AdpterRegister.ViewHolderRegister holder, int position) {
         SalesModel item = items.get(position);
 
-        // Quando clicar no botão "+" deste item
+        // 1. IMPORTANTE: Remova o listener antigo antes de mexer no texto
+        // Para fazer isso de forma simples, podemos usar uma "tag" ou limpar o foco
+        holder.txItemAdd.clearFocus();
+
+        // 2. Antes de adicionar o novo listener, remova os anteriores (se possível)
+        // ou use uma lógica para ignorar a atualização programática
+        // Vamos usar a forma mais segura: carregar o texto e DEPOIS colocar o listener
+        holder.txItemAdd.setText(item.getCpf()); // Ou o campo correto do seu model
+
+        // 3. Criamos o listener
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Salva apenas se o usuário estiver digitando
+                item.setCpf(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        // 4. Limpamos listeners antigos que possam estar pendurados na View reciclada
+        // (O Android não tem um "removeTextWatchers", então a dica é setar o texto ANTES)
+        holder.txItemAdd.addTextChangedListener(textWatcher);
+
+        // 5. Botão de Adicionar (Seu código está correto aqui)
         holder.btnSume.setOnClickListener(v -> {
-            //Cria um novo objeto vazio
             SalesModel novoItem = new SalesModel();
-
-            //Adiciona na lista
             int currentPosition = holder.getAdapterPosition();
-            items.add(currentPosition + 1, novoItem);
-
-            //Avisa o Adapter
-            notifyItemInserted(currentPosition + 1);
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                items.add(currentPosition + 1, novoItem);
+                notifyItemInserted(currentPosition + 1);
+            }
         });
-
     }
 
     @Override

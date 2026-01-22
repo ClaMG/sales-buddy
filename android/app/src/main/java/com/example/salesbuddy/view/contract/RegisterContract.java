@@ -7,6 +7,7 @@ public interface RegisterContract {
         void previosRegister();
         //Mensagem do token
         void showToastRegister(String menssage);
+        void showMenuDialog();
 
         void update(String nome,String cpf,String email,String valor_venda,String valor_recebido, String title);
     }
@@ -15,6 +16,8 @@ public interface RegisterContract {
         void register(String nome,String cpf,String email,String valor_venda,String valor_recebido);
         //voltar para pagina anterio
         void backRegister();
-        void testUpdate();
+        void testUpdate(boolean isUpdade);
+        void onMenuButtonClicked();
+
     }
 }

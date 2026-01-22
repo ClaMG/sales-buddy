@@ -25,8 +25,9 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu);
+
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         //Componentes
         btnMenuLogout = findViewById(R.id.btnMenuLogout);
@@ -40,21 +41,21 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
         btnMenuLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                presenter.menuLogout();
             }
         });
 
         btnMenuRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                presenter.menuRegister();
             }
         });
 
         btnMenuReprocessing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                presenter.menuReprocessing();
             }
         });
 

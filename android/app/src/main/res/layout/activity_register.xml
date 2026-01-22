@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/img_background" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnMenuCreate"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        app:layout_constraintEnd_toStartOf="@+id/btnMenuCreate"
         app:layout_constraintStart_toEndOf="@+id/btnBackRegister"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/img_logo_top" />
@@ -114,10 +114,11 @@
             android:background="@drawable/tx_register"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/tvnameUser"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:text="@string/tvnameUser"
-            android:textColor="@color/blueGray"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/blueGray"
             android:textSize="16sp" />
 
         <EditText
@@ -128,10 +129,11 @@
             android:background="@drawable/tx_register"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/tvCpf"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:text="@string/tvCpf"
-            android:textColor="@color/blueGray"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/blueGray"
             android:textSize="16sp" />
 
         <EditText
@@ -142,10 +144,11 @@
             android:background="@drawable/tx_register"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/tvEMAIL"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:text="@string/tvEMAIL"
-            android:textColor="@color/blueGray"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/blueGray"
             android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -164,10 +167,11 @@
             android:background="@drawable/tx_register"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/tvVALUESALE"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:text="@string/tvVALUESALE"
-            android:textColor="@color/blueGray"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/blueGray"
             android:textSize="16sp" />
 
         <EditText
@@ -178,10 +182,11 @@
             android:background="@drawable/tx_register"
             android:ems="10"
             android:fontFamily="@font/montserrat"
+            android:hint="@string/tvVALUERECEIVED"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:text="@string/tvVALUERECEIVED"
-            android:textColor="@color/blueGray"
+            android:textColor="@color/pink"
+            android:textColorHint="@color/blueGray"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -189,7 +194,7 @@
     <LinearLayout
         android:id="@+id/btnResumer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="53dp"
         android:layout_marginStart="90dp"
         android:layout_marginEnd="90dp"
         android:layout_marginBottom="25dp"
@@ -204,10 +209,12 @@
         <Button
             android:id="@+id/btn"
             android:layout_width="wrap_content"
-            android:layout_height="53dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/montserrat_bold"
+            android:paddingTop="0dp"
             android:paddingRight="0dp"
+            android:paddingBottom="0dp"
             android:text="@string/btnResitring"
             android:textSize="16sp"
             android:textStyle="bold" />
