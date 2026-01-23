@@ -26,13 +26,17 @@ import java.util.List;
 
 public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHolderRegister> {
 
-        private List<String> items; // Agora é uma lista simples de Strings
+    private List<ItemsModel> items;
 
-        public AdpterRegister(List<String> items) {
-            this.items = items;
+    public AdpterRegister(List<ItemsModel> items) {
+        this.items = items;
+        if (this.items.isEmpty()) {
+            this.items.add(new ItemsModel(""));
         }
+    }
 
-        @NonNull
+
+    @NonNull
         @Override
         public ViewHolderRegister onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -42,51 +46,54 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolderRegister holder, int position) {
-            // Remove o listener anterior para evitar que o Recycler View duplique dados ao rolar
-            if (holder.textWatcher != null) {
-                holder.txItemAdd.removeTextChangedListener(holder.textWatcher);
-            }
+            ItemsModel item = items.get(position);
 
-            // Define o texto atual da lista
-            holder.txItemAdd.setText(items.get(position));
+            // Limpa o listener anterior para não dar conflito ao reciclar a view
+            holder.txItemAdd.removeTextChangedListener(holder.currentWatcher);
 
-            // Cria o novo vigia (TextWatcher)
-            holder.textWatcher = new TextWatcher() {
+            holder.txItemAdd.setText(item.getDescricao()); // Ajuste para o método do seu ItemsModel
+
+            // Novo TextWatcher
+            holder.currentWatcher = new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // Atualiza a String diretamente na lista original
-                    items.set(holder.getAdapterPosition(), s.toString());
+                    // Atualiza o objeto diretamente (mais seguro que usar o índice da lista)
+                    item.setDescricao(s.toString());
                 }
                 @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
                 @Override public void afterTextChanged(Editable s) {}
             };
 
-            holder.txItemAdd.addTextChangedListener(holder.textWatcher);
+            holder.txItemAdd.addTextChangedListener(holder.currentWatcher);
 
-            // Botão para adicionar novo campo vazio
+            // Botão Adicionar
             holder.btnSume.setOnClickListener(v -> {
-                int currentPosition = holder.getAdapterPosition();
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    items.add(currentPosition + 1, ""); // Adiciona uma String vazia
-                    notifyItemInserted(currentPosition + 1);
+                int pos = holder.getBindingAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    items.add(pos + 1, new ItemsModel(""));
+                    notifyItemInserted(pos + 1);
                 }
             });
         }
 
-        @Override
-        public int getItemCount() {
-            return items.size();
-        }
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
 
-        public static class ViewHolderRegister extends RecyclerView.ViewHolder {
-            EditText txItemAdd;
-            ImageButton btnSume;
-            TextWatcher textWatcher;
+    public List<ItemsModel> getItems() {
+        return items;
+    }
 
-            public ViewHolderRegister(@NonNull View itemView) {
-                super(itemView);
-                btnSume = itemView.findViewById(R.id.btnSume);
-                txItemAdd = itemView.findViewById(R.id.txItemAdd);
-            }
+    public static class ViewHolderRegister extends RecyclerView.ViewHolder {
+        EditText txItemAdd;
+        ImageButton btnSume;
+        TextWatcher currentWatcher; // Guardamos aqui para poder remover no onBind
+
+        public ViewHolderRegister(@NonNull View itemView) {
+            super(itemView);
+            btnSume = itemView.findViewById(R.id.btnSume);
+            txItemAdd = itemView.findViewById(R.id.txItemAdd);
         }
+    }
 }

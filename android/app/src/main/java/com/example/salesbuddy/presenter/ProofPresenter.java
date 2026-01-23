@@ -9,6 +9,7 @@ import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.request.SalesService;
 import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.ResumerActivity;
+import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.ProofContract;
 
 import java.io.IOException;
@@ -42,14 +43,13 @@ public class ProofPresenter implements ProofContract.Presenter {
 
 
     @Override
-    public void getInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change) {
+    public void getInfo(String name, String cpf, String email, String valueReceived,
+                        String valueSales, String change, List<ItemsModel> itens) {
         view.printInfo(name, cpf, email, valueReceived, valueSales, change, idNum);
 
         double saleValueDouble = Double.parseDouble(valueSales);
         double amountReceivedDouble = Double.parseDouble(valueReceived);
         double chageDouble = Double.parseDouble(change);
-        //trocar itens
-        List<ItemsModel> itens = Collections.emptyList();
 
         venda = new SalesModel(name, cpf, email, saleValueDouble, amountReceivedDouble, chageDouble, itens);
         apiService.registrarSales(venda).enqueue(new DefaultCallback());

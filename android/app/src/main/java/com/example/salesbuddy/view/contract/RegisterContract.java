@@ -17,7 +17,7 @@ public interface RegisterContract {
     }
     interface Presenter{
         //Registar venda
-        void register(boolean isUpdate, String nome,String cpf,String email,String valor_venda,String valor_recebido, List<String> listaDeItens);
+        void register(boolean isUpdate, String nome,String cpf,String email,String valor_venda,String valor_recebido);
         //voltar para pagina anterio
         void backRegister();
         void testUpdate(boolean isUpdade, String name, String cpf, String email, String valueReceived, String valueSales);

@@ -10,6 +10,12 @@ import com.example.salesbuddy.request.LoginService;
 import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.contract.LoginContract;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,29 +49,57 @@ public class LoginPresenter implements LoginContract.Presenter {
                 public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         String token = response.body().getToken();
-                        Intent intent = new Intent(context, HomeActivity.class);
-                        intent.putExtra("token", token);
+                        irParaHome(token);
                     } else {
-                        // Aqui captura o "error.message" enviado pelo seu catch (error) no Node
-                        view.mostrarErro("Usuário ou senha inválidos");
+                        String mensagemErro = extrairMensagemDeErro(response);
+                        view.mostrarErro(mensagemErro);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginModel> call, Throwable t) {
-                    view.mostrarErro("Falha na conexão");
+                    String msg;
+                    if (t instanceof ConnectException) {
+                        msg = "Não foi possível conectar ao servidor. Verifique se ele está ligado.";
+                    } else if (t instanceof SocketTimeoutException) {
+                        msg = "O servidor demorou muito para responder.";
+                    } else if (t instanceof IOException) {
+                        msg = "Falha de rede. Verifique sua conexão.";
+                    } else {
+                        msg = "Erro inesperado: " + t.getMessage();
+                    }
+                    view.mostrarErro(msg);
+
                 }
             });
 
-
-            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
-                Intent intent = new Intent(context, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(intent);
-                view.previosLogin();
-            }, 1000);
         }catch (Exception e){
             view.mostrarErro("Erro interno:" + e);
         }
+    }
+
+    private String extrairMensagemDeErro(Response<?> response) {
+        if (response.errorBody() == null) return "Erro sem corpo de resposta";
+
+        try {
+            String errorJson = response.errorBody().string();
+            // Parse manual do JSON para garantir que pegamos apenas o texto da chave "message"
+            JsonObject jsonObject = new JsonParser().parse(errorJson).getAsJsonObject();
+
+            if (jsonObject.has("message")) {
+                return jsonObject.get("message").getAsString();
+            }
+            return errorJson;
+        } catch (Exception e) {
+            return "Erro ao processar resposta do servidor";
+        }
+    }
+
+    private void irParaHome(String token) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("token", token);
+        context.startActivity(intent);
+        view.previosLogin();
     }
 }

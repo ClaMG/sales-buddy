@@ -3,11 +3,14 @@ package com.example.salesbuddy.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ResumerActivity;
+import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.RegisterContract;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class RegisterPresenter implements RegisterContract.Presenter {
@@ -35,10 +38,8 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     //Registrar venda
     @Override
-    public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<String> listaDeItens) {
+    public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived) {
         try {
-
-            String itens="";//mandar certo
 
             if (name.isEmpty() || cpf.isEmpty() || email.isEmpty() || saleValue.isEmpty() || amountReceived.isEmpty()){
                 Mensage = "Preencha todos os campos";
@@ -51,6 +52,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
             change = String.valueOf(amountReceivedDouble - saleValueDouble);
 
+
             Intent intent = new Intent(context, ResumerActivity.class);
             intent.putExtra("nome", name);
             intent.putExtra("cpf", cpf);
@@ -58,6 +60,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             intent.putExtra("valor_venda", saleValue);
             intent.putExtra("valor_recebido", amountReceived);
             intent.putExtra("troco", change);
+            intent.putExtra("itens", (Serializable) listaParaEnviar);
             //itens
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);

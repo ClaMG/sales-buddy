@@ -60,9 +60,10 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         String saleValue = getIntent().getStringExtra("valor_venda");
         String amountReceived = getIntent().getStringExtra("valor_recebido");
         String change = getIntent().getStringExtra("troco");
+        List<ItemsModel> itens = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
 
         //Eventos
-        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change);
+        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, itens);
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

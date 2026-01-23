@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     //Aparecer a mensagem no toast
     @Override
-    public void showToastLogin(String menssage) {
+    public void mostrarErro(String menssage) {
         Toast.makeText(this, menssage, Toast.LENGTH_SHORT).show();
     }
 

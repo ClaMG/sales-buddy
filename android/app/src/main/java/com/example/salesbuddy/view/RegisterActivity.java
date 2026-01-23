@@ -64,16 +64,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         String amountReceived = getIntent().getStringExtra("valor_recebido");
         presenter.testUpdate(isUpdate, nome,cpf,email, saleValue, amountReceived);
 
-        recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this)); // ESSENCIAL
-        List<String> listaDeItens = new ArrayList<>();
-
-        // CORREÇÃO: Adiciona uma String vazia, não o tipo List
-        listaDeItens.add("");
+        recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this));
+        List<ItemsModel> listaDeItens = new ArrayList<>();
 
         // Agora passa a lista com 1 item para o Adapter
         AdpterRegister adapter = new AdpterRegister(listaDeItens);
         recyclerViewRegister.setAdapter(adapter);
 
+        List<ItemsModel> listaParaEnviar = adapter.getItems();//mandar para o presenter
 
         btnResumer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
                 String email = txEmail.getText().toString().trim();
                 String saleValue = txSaleValue.getText().toString().trim();
                 String amountReceived = txAmountReceived.getText().toString().trim();
-                presenter.register(isUpdate,name, cpf, email, saleValue, amountReceived, listaDeItens);
+                presenter.register(isUpdate,name, cpf, email, saleValue, amountReceived);
             }
         });
         btnBackRegister.setOnClickListener(new View.OnClickListener() {

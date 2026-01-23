@@ -1,5 +1,9 @@
 package com.example.salesbuddy.view.contract;
 
+import com.example.salesbuddy.model.ItemsModel;
+
+import java.util.List;
+
 public interface ProofContract {
 
     interface View{
@@ -12,7 +16,8 @@ public interface ProofContract {
 
     }
     interface Presenter{
-        void getInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change);
+        void getInfo(String name, String cpf, String email,
+                     String valueReceived, String valueSales, String change, List<ItemsModel> itens);
         void no();
         void yes();
         void backProof();

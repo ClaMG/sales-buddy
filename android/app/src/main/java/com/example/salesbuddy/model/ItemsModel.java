@@ -3,7 +3,7 @@ package com.example.salesbuddy.model;
 public class ItemsModel {
     private String descricao;
 
-    public ItemsModel() {
+    public ItemsModel(String s) {
         this.descricao = descricao;
     }
 
