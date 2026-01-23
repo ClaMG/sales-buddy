@@ -2,13 +2,16 @@ package com.example.salesbuddy.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
@@ -45,7 +48,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         tvEmailResume = findViewById(R.id.tvEmailResume);
         tvValueReceived = findViewById(R.id.tvValueReceived);
         tvValueSales = findViewById(R.id.tvValueSales);
-        tvChange = findViewById(R.id.tvCpfResume);
+        tvChange = findViewById(R.id.tvChange);
         btnResumerAlter = findViewById(R.id.btnResumerAlter);
         btnEnd = findViewById(R.id.btnEnd);
         btnBackResumer = findViewById(R.id.btnBackResumer);
@@ -54,10 +57,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         //Presenter
         presenter = new ResumerPresenter(this, getApplicationContext());
 
-        recyclerViewResumer.setNestedScrollingEnabled(false);
-        List<ItemsModel> itens = new ArrayList<>();
-        AdpterResumer adapter = new AdpterResumer(itens);
-        recyclerViewResumer.setAdapter(adapter);
+
 
         String nome = getIntent().getStringExtra("nome");
         String cpf = getIntent().getStringExtra("cpf");
@@ -65,9 +65,19 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         String saleValue = getIntent().getStringExtra("valor_venda");
         String amountReceived = getIntent().getStringExtra("valor_recebido");
         String change = getIntent().getStringExtra("troco");
+        List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
+        Log.d("TAG", item.toString());
+
+        recyclerViewResumer.setNestedScrollingEnabled(false);
+        recyclerViewResumer.setLayoutManager(new LinearLayoutManager(this));
+
+
+        AdpterResumer adapter = new AdpterResumer(item);
+        recyclerViewResumer.setAdapter(adapter);
+        Log.d("tag", item.toString());
 
         //Eventos
-        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change);
+        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, item);
         btnResumerAlter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,5 +125,19 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
     public void showMenuDialog() {
         MenuFragment menu = new MenuFragment();
         menu.show(getSupportFragmentManager(), "menu_dialog");
+    }
+
+    @Override
+    public void mostrarSucesso() {
+        //dialog
+    }
+
+    @Override
+    public void mostrarErro(String msg) {
+        new AlertDialog.Builder(this)
+                .setTitle("Ops! Algo deu errado")
+                .setMessage(msg)
+                .setPositiveButton("OK", null)
+                .show();
     }
 }

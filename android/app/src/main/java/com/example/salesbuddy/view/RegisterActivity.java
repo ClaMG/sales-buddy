@@ -1,6 +1,5 @@
 package com.example.salesbuddy.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.RegisterPresenter;
-import com.example.salesbuddy.utils.utilsCpf;
 import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.RegisterContract;
 import com.example.salesbuddy.view.dialog.MenuFragment;
@@ -71,18 +69,17 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         AdpterRegister adapter = new AdpterRegister(listaDeItens);
         recyclerViewRegister.setAdapter(adapter);
 
-        List<ItemsModel> listaParaEnviar = adapter.getItems();//mandar para o presenter
 
         btnResumer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = txName.getText().toString().trim();
-                txCpf.addTextChangedListener(utilsCpf.insert(txCpf));
                 String cpf = txCpf.getText().toString().trim();
                 String email = txEmail.getText().toString().trim();
                 String saleValue = txSaleValue.getText().toString().trim();
                 String amountReceived = txAmountReceived.getText().toString().trim();
-                presenter.register(isUpdate,name, cpf, email, saleValue, amountReceived);
+                List<ItemsModel> itens = adapter.getItems();
+                presenter.register(isUpdate,name, cpf, email, saleValue, amountReceived, itens);
             }
         });
         btnBackRegister.setOnClickListener(new View.OnClickListener() {

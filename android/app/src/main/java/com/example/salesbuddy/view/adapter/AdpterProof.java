@@ -24,17 +24,6 @@ public class AdpterProof extends RecyclerView.Adapter<AdpterProof.ViewHolderProo
         this.items = items;
     }
 
-    public static class ViewHolderProof extends RecyclerView.ViewHolder {
-        TextView tvNameItenProof;
-        TextView tvNumProof;
-
-        public ViewHolderProof(@NonNull View itemView) {
-            super(itemView);
-            tvNameItenProof = itemView.findViewById(R.id.tvNameItenProof);
-            tvNumProof = itemView.findViewById(R.id.tvNumProof);
-        }
-    }
-
 
     @NonNull
     @Override
@@ -55,5 +44,16 @@ public class AdpterProof extends RecyclerView.Adapter<AdpterProof.ViewHolderProo
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public static class ViewHolderProof extends RecyclerView.ViewHolder {
+        TextView tvNameItenProof;
+        TextView tvNumProof;
+
+        public ViewHolderProof(@NonNull View itemView) {
+            super(itemView);
+            tvNameItenProof = itemView.findViewById(R.id.tvNameItenProof);
+            tvNumProof = itemView.findViewById(R.id.tvNumProof);
+        }
     }
 }

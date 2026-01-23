@@ -21,19 +21,6 @@ public class AdpterResumer extends RecyclerView.Adapter<AdpterResumer.ViewHolder
         this.items = items;
     }
 
-    public static class ViewHolderResumer extends RecyclerView.ViewHolder {
-        TextView tvNameIten;
-        TextView tvNum;
-
-        public ViewHolderResumer(@NonNull View itemView) {
-            super(itemView);
-            tvNameIten = itemView.findViewById(R.id.tvNameItenProof);
-            tvNum = itemView.findViewById(R.id.tvNum);
-        }
-    }
-
-
-
     @NonNull
     @Override
     public AdpterResumer.ViewHolderResumer onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,13 +34,32 @@ public class AdpterResumer extends RecyclerView.Adapter<AdpterResumer.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull AdpterResumer.ViewHolderResumer holder, int position) {
         ItemsModel item = items.get(position);
-        holder.tvNameIten.setText(item.getDescricao());
+        if (holder.tvNum != null) {
         int numList = position + 1;
-        holder.tvNum.setText(String.valueOf(numList));
+            holder.tvNum.setText(String.valueOf(numList));
+        }
+
+        // A descrição do item
+        if (holder.tvNameIten != null && item != null) {
+            // Use o método que retorna o texto (getDescricao)
+            holder.tvNameIten.setText(item.getDescricao());
+        }
+
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public static class ViewHolderResumer extends RecyclerView.ViewHolder {
+        TextView tvNameIten;
+        TextView tvNum;
+
+        public ViewHolderResumer(@NonNull View itemView) {
+            super(itemView);
+            tvNameIten = itemView.findViewById(R.id.tvNameIten);
+            tvNum = itemView.findViewById(R.id.tvNum);
+        }
     }
 }

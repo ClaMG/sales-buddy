@@ -1,5 +1,6 @@
 package com.example.salesbuddy.view.adapter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -66,14 +67,33 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
 
             holder.txItemAdd.addTextChangedListener(holder.currentWatcher);
 
-            // Botão Adicionar
-            holder.btnSume.setOnClickListener(v -> {
-                int pos = holder.getBindingAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    items.add(pos + 1, new ItemsModel(""));
-                    notifyItemInserted(pos + 1);
-                }
-            });
+            // LÓGICA DINÂMICA DO BOTÃO
+            // Se for a última posição, mostra o "+" (Adicionar)
+            if (position == items.size() - 1) {
+                holder.btnSume.setImageResource(R.drawable.icon_sume); // Ícone padrão +
+
+
+                holder.btnSume.setOnClickListener(v -> {
+                    int pos = holder.getBindingAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        items.add(new ItemsModel(""));
+                        notifyItemInserted(items.size() - 1);
+                        notifyItemChanged(pos); // Atualiza o botão do item anterior para virar "remover"
+                    }
+                });
+            } else {
+                // Se não for o último, vira o "-" (Remover)
+                holder.btnSume.setImageResource(R.drawable.icon_subtract); // Ícone padrão lixeira ou -
+
+                holder.btnSume.setOnClickListener(v -> {
+                    int pos = holder.getBindingAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        items.remove(pos);
+                        notifyItemRemoved(pos);
+                        notifyItemRangeChanged(pos, items.size()); // Recalcula as posições
+                    }
+                });
+            }
         }
 
     @Override

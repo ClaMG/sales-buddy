@@ -1,5 +1,5 @@
 import {findByIdSales, createSales, findBySalesName} from '../dao/salesDAO.js'
-import { validarEmail, enviarEmailComprovante} from '../utils/authUtils.js'
+import { validarEmail, enviarEmailComprovante, validarCPF} from '../utils/authUtils.js'
 
 export async function saleById(id){
     if(!id){
@@ -27,15 +27,20 @@ export async function createSalesService(dados){
         throw new Error("Email com o fomato errado, deve conter o @ e .com")
     }
 
+    const cpfValido = validarCPF(dados.cpf);
+    if (!cpfValido) {
+        throw new Error("CPF inválido.");
+    }
+
     if(dados.valorVenda> dados.valorRecebido){
-	    throw new Error("Valor de venda não foi pago .");
+	    throw new Error("Valor de venda não foi pago.");
     }
 
     const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
     const dadosParaSalvar = {
         nome: dados.nomeCliente,
-        cpf: dados.cpf,
+        cpf: cpfValido,
         email: dados.email,
         quantidade: quantidadeItens,
         valor_venda: dados.valorVenda,
@@ -72,9 +77,14 @@ export async function enviarComprovantePagamento(comprovante) {
         throw new Error("Email com o formato errado, deve conter o @ e .com");
     }
 
+    const cpfValido = validarCPF(comprovante.cpf);
+    if (!cpfValido) {
+        throw new Error("CPF inválido.");
+    }
+
     const comprovanteCompleto = {
         nomeCliente: comprovante.nomeCliente,
-        cpf: comprovante.cpf,
+        cpf: cpfValido,
         email: destinatario,
         itens: comprovante.itens || [],
         valorRecebido: comprovante.valorRecebido || 0,

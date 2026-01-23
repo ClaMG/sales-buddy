@@ -11,6 +11,8 @@ import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.ProofContract;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -28,7 +30,6 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     private String idNum;
 
-    private final SalesModel model;
     private SalesService apiService;
 
     private SalesModel venda;
@@ -36,7 +37,6 @@ public class ProofPresenter implements ProofContract.Presenter {
     public ProofPresenter(ProofContract.View view, Context context) {
         this.view = view;
         this.context = context;
-        this.model = new SalesModel();
         this.apiService = RetrofitClient.getClient().create(SalesService.class);
     }
 
@@ -52,36 +52,6 @@ public class ProofPresenter implements ProofContract.Presenter {
         double chageDouble = Double.parseDouble(change);
 
         venda = new SalesModel(name, cpf, email, saleValueDouble, amountReceivedDouble, chageDouble, itens);
-        apiService.registrarSales(venda).enqueue(new DefaultCallback());
-
-    }
-
-    private class DefaultCallback implements Callback<SalesModel> {
-        @Override
-        public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
-            if (response.isSuccessful()) {
-                view.mostrarSucesso();
-            } else {
-                tratarErroServidor(response);
-            }
-        }
-
-        @Override
-        public void onFailure(Call<SalesModel> call, Throwable t) {
-            tratarErroConexao(t);
-        }
-    }
-
-    private void tratarErroServidor(Response<?> response) {
-        String mensagemErro = "Erro no servidor";
-        try {
-            if (response.errorBody() != null) {
-                mensagemErro = response.errorBody().string();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        view.mostrarErro(mensagemErro);
     }
 
     private void tratarErroConexao(Throwable t) {
@@ -98,12 +68,26 @@ public class ProofPresenter implements ProofContract.Presenter {
         view.mostrarErro(msg);
     }
 
+    private String extrairMensagemDeErro(Response<?> response) {
+        if (response.errorBody() == null) return "Erro sem corpo de resposta";
+
+        try {
+            String errorJson = response.errorBody().string();
+            // Parse manual do JSON para garantir que pegamos apenas o texto da chave "message"
+            JsonObject jsonObject = new JsonParser().parse(errorJson).getAsJsonObject();
+
+            if (jsonObject.has("message")) {
+                return jsonObject.get("message").getAsString();
+            }
+            return errorJson;
+        } catch (Exception e) {
+            return "Erro ao processar resposta do servidor";
+        }
+    }
+
     @Override
     public void no() {
-        Intent intent = new Intent(context, RegisterActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        context.startActivity(intent);
-        view.previosProof();
+        finalizar();
     }
 
     @Override
@@ -115,8 +99,10 @@ public class ProofPresenter implements ProofContract.Presenter {
                 public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
                     if (response.isSuccessful()) {
                         view.mostrarSucessoEmail();
+                        finalizar();
                     } else {
-                        tratarErroServidor(response);
+                        String mensagemErro = extrairMensagemDeErro(response);
+                        view.mostrarErro(mensagemErro);
                     }
                 }
 
@@ -128,6 +114,13 @@ public class ProofPresenter implements ProofContract.Presenter {
         } else {
             view.mostrarErro("Dados da venda não encontrados.");
         }
+    }
+
+    private void finalizar() {
+        Intent intent = new Intent(context, RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+        view.previosProof();
     }
 
     @Override
