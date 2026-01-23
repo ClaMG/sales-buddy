@@ -1,42 +1,35 @@
 package com.example.salesbuddy.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SalesModel {
-    private  int id;
-    private String name;
-    private String cpf;
-    private String email;
-    private double sale_value;
-    private double value_received;
-    private double change;
-    private List<ItemsModel> itemList; // O ARRAY DE ITENS FICA AQUI
+    public String nomeCliente;
+    public String cpf;
+    public String email;
+    public List<ItemsModel> itens;
+    public double valorRecebido;
+    public double valorVenda;
+    public double troco;
+
     public SalesModel() {
-        this.name = name;
+
+    }
+    public SalesModel(String nomeCliente, String cpf, String email, double valorVenda, double valorRecebido, double troco, List<ItemsModel> itens) {
+        this.nomeCliente = nomeCliente;
         this.cpf = cpf;
         this.email = email;
-        this.sale_value = sale_value;
-        this.value_received = value_received;
-        this.change = change;
-        this.itemList = new ArrayList<>();
-        this.itemList.add(new ItemsModel());
+        this.valorVenda = valorVenda;
+        this.valorRecebido = valorRecebido;
+        this.troco = troco;
+        this.itens = itens;
     }
 
-    public int getId() {
-        return id;
+    public String getNomeCliente() {
+        return nomeCliente;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
     }
 
     public String getCpf() {
@@ -55,35 +48,35 @@ public class SalesModel {
         this.email = email;
     }
 
-    public double getSale_value() {
-        return sale_value;
+    public double getValorVenda() {
+        return valorVenda;
     }
 
-    public void setSale_value(double sale_value) {
-        this.sale_value = sale_value;
+    public void setValorVenda(double valorVenda) {
+        this.valorVenda = valorVenda;
     }
 
-    public double getValue_received() {
-        return value_received;
+    public double getValorRecebido() {
+        return valorRecebido;
     }
 
-    public void setValue_received(double value_received) {
-        this.value_received = value_received;
+    public void setValorRecebido(double valorRecebido) {
+        this.valorRecebido = valorRecebido;
     }
 
-    public double getChange() {
-        return change;
+    public double getTroco() {
+        return troco;
     }
 
-    public void setChange(double change) {
-        this.change = change;
+    public void setTroco(double troco) {
+        this.troco = troco;
     }
 
-    public List<ItemsModel> getItemList() {
-        return itemList;
+    public List<ItemsModel> getItens() {
+        return itens;
     }
 
-    public void setItemList(List<ItemsModel> itemList) {
-        this.itemList = itemList;
+    public void setItens(List<ItemsModel> itens) {
+        this.itens = itens;
     }
 }

@@ -30,7 +30,7 @@ public class MenuFragment extends DialogFragment implements MenuContract.View {
         // O fundo transparente do diálogo é configurado aqui
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            
+
         }
 
         // Inicialize os componentes usando o 'view.'

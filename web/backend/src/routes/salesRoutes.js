@@ -6,5 +6,5 @@ const router = Router();
 router.get('/sales', findAllSaleController)
 router.post('/comprovante', Comprovante)
 router.post('/create', CreateController)
-router.post('/enviar-comprovante', EnviarComprovanteController)
+router.post('/enviar_comprovante', EnviarComprovanteController)
 export default router;

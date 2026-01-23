@@ -23,14 +23,13 @@ export async function Comprovante(req, res) {
 
 export async function CreateController(req, res) {
    const novaVenda = {
-            nome: req.body.nome,
+            nomeCliente: req.body.nomeCliente,
             cpf: req.body.cpf,
             email: req.body.email,
-            quantidade: parseInt(req.body.quantidade) || 0,
-            valor_venda: parseFloat(req.body.valor_venda) || 0,
-            valor_recebido: parseFloat(req.body.valor_recebido) || 0,
-            troco: parseFloat(req.body.troco) || 0,
-            itens: req.body.itens || [] 
+            itens: req.body.itens || [] ,
+            valorRecebido: parseFloat(req.body.valorRecebido) || 0,
+            valorVenda: parseFloat(req.body.valorVenda) || 0,
+            troco: parseFloat(req.body.troco) || 0
         };
     try {
         const resultado = await createSalesService(novaVenda);
@@ -42,7 +41,6 @@ export async function CreateController(req, res) {
 }
 
 export async function EnviarComprovanteController(req, res) {
-    const destinatario  = req.body.destinatario;
     const comprovante ={
         nomeCliente: req.body.nomeCliente,
         cpf: req.body.cpf,
@@ -50,11 +48,10 @@ export async function EnviarComprovanteController(req, res) {
         itens: req.body.itens || [],
         valorRecebido: parseFloat(req.body.valorRecebido) || 0,
         valorVenda: parseFloat(req.body.valorVenda) || 0,
-        troco: parseFloat(req.body.troco) || 0,
-        idVenda: req.body.idVenda
+        troco: parseFloat(req.body.troco) || 0
     }
     try {
-        await enviarComprovantePagamento(destinatario, comprovante);
+        await enviarComprovantePagamento(comprovante);
         return res.status(200).json({ message: "E-mail enviado com sucesso." });
     } catch (error) {
         return res.status(500).json({ message: error.message });

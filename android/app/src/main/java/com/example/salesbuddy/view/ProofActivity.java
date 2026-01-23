@@ -8,11 +8,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
+import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.presenter.ProofPresenter;
 import com.example.salesbuddy.view.adapter.AdpterProof;
 import com.example.salesbuddy.view.contract.ProofContract;
@@ -116,4 +118,28 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         MenuFragment menu = new MenuFragment();
         menu.show(getSupportFragmentManager(), "menu_dialog");
     }
+
+    @Override
+    public void mostrarSucesso() {
+        new AlertDialog.Builder(this)
+                .setTitle("Venda registrada com sucesso")
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+
+    @Override
+    public void mostrarErro(String mensagem) {
+        new AlertDialog.Builder(this)
+                .setTitle("Ops! Algo deu errado")
+                .setMessage(mensagem)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+    @Override
+    public void mostrarSucessoEmail() {
+        //mostrar o dialog
+    }
+
 }

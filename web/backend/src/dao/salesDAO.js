@@ -16,6 +16,14 @@ export async function findByIdSales(id) {
     });
 }
 
+//Pesquisa pelo nome
+export async function findBySalesName(nomeCliente) {
+    return await Sale.findOne({
+        where: { nome: nomeCliente },
+        attributes: ['id'] 
+    });
+}
+
 //Criar uma nova venda
 export async function createSales(dados) {
     return await Sale.create(dados,{

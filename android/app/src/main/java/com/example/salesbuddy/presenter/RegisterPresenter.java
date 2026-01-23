@@ -1,20 +1,14 @@
 package com.example.salesbuddy.presenter;
 
-import static android.content.Intent.getIntent;
-
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.contract.RegisterContract;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RegisterPresenter implements RegisterContract.Presenter {
     private final RegisterContract.View view;
@@ -31,7 +25,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     private String valueReceived;
     private String valueSales;
     private String title;
-    private String amount;
 
 
     public RegisterPresenter(RegisterContract.View view, Context context) {
@@ -45,39 +38,23 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<String> listaDeItens) {
         try {
 
+            String itens="";//mandar certo
+
+            if (name.isEmpty() || cpf.isEmpty() || email.isEmpty() || saleValue.isEmpty() || amountReceived.isEmpty()){
+                Mensage = "Preencha todos os campos";
+                view.showToastRegister(Mensage);
+                return;
+            }
+
             saleValueDouble = Double.parseDouble(saleValue);
             amountReceivedDouble = Double.parseDouble(amountReceived);
 
             change = String.valueOf(amountReceivedDouble - saleValueDouble);
 
-            String itens="";
-
-            amount = String.valueOf(itens.length());
-
-
-            String jsonString = "{"
-                    + "\"nome\": \"" + name + "\","
-                    + "\"cpf\": \"" + cpf + "\","
-                    + "\"email\": \"" + email + "\","
-                    + "\"quantidade\": " + amount + ","
-                    + "\"valor_venda\": " + saleValue + ","
-                    + "\"valor_recebido\": " + amountReceived + ","
-                    + "\"troco\": " + change + ","
-                    + "\"itens\": " + itens
-                    + "}";
-
-
-            //create e mensagem
-
-            if(isUpdate){
-                //update
-            }
-
             Intent intent = new Intent(context, ResumerActivity.class);
             intent.putExtra("nome", name);
             intent.putExtra("cpf", cpf);
             intent.putExtra("email", email);
-            intent.putExtra("quantidade", amount);
             intent.putExtra("valor_venda", saleValue);
             intent.putExtra("valor_recebido", amountReceived);
             intent.putExtra("troco", change);
@@ -104,8 +81,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     @Override
     public void testUpdate(boolean isUpdate, String name, String cpf, String email, String valueReceived, String valueSales) {
         if (isUpdate){
-            //atualizar
-
             title = "ATUALIZAR VENDA";
 
             view.update(name, cpf, email, valueReceived, valueSales, title);

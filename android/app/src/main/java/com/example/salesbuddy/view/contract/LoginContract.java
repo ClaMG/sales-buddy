@@ -4,8 +4,9 @@ public interface LoginContract {
 
     interface View{
         //Memsagem login
-        void showToastLogin(String menssage);
+        void mostrarErro(String menssage);
         void previosLogin();
+
     }
 
     interface Presenter{
