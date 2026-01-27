@@ -61,7 +61,7 @@ export async function deleteCodeTemp(id) {
 //ver codigo
 export async function findByIdCodeTemp(id) {
     return await PasswordTemp.findOne({
-        where: { user_id: id }
+        where: { userId: id }
     });
 }
 

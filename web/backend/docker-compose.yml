@@ -9,11 +9,30 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-      - ./database_data:/app/database
     environment:
-      - NODE_ENV=development
-      - JWT_SECRET= sua_chave_mestra_super_secreta_123
+      - NODE_ENV=${NODE_ENV}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
     restart: always
+    depends_on:
+      - db_postgres
+
+  db_postgres:
+    image: postgres:15
+    container_name: salesbuddy_db_container
+    restart: always
+    environment:
+      # O Postgres usa nomes de variáveis específicos
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  database_data:
+  postgres_data:

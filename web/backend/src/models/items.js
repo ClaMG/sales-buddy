@@ -12,8 +12,8 @@ export const ItemSales = sequelize.define('ItemSales', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  sales_id:{
-    type: DataTypes.STRING,
+  salesId:{
+    type: DataTypes.INTEGER,
     allowNull: false
   }
 });

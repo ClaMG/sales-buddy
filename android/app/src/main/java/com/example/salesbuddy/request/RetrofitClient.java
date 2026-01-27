@@ -11,18 +11,18 @@ public class RetrofitClient {
 
     public static Retrofit getClient() {
         if (retrofit == null) {
-            // 1. Criar o interceptor de LOG
+            //Criar o interceptor de LOG
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY); // Mostra o corpo do JSON
 
-            // 2. Adicionar o interceptor ao cliente HTTP
+            //Adicionar o interceptor ao cliente HTTP
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build();
 
-            // 3. Construir o Retrofit usando esse cliente
+            //Construir o Retrofit usando esse cliente
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:3000/")
+                    .baseUrl("http://172.19.96.1:3000/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client) // NÃO ESQUEÇA DESTA LINHA
                     .build();

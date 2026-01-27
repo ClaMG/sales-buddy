@@ -3,13 +3,11 @@ package com.example.salesbuddy.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.util.Patterns;
 
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ResumerActivity;
-import com.example.salesbuddy.view.adapter.AdpterRegister;
 import com.example.salesbuddy.view.contract.RegisterContract;
 
 import java.io.Serializable;
@@ -40,7 +38,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     //Registrar venda
     @Override
-    public void register(String isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
+    public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
         if (name == null || cpf == null || email == null || saleValue == null || amountReceived == null){
             Mensage = "Preencha todos os campos";
             view.showToastRegister(Mensage);
@@ -65,7 +63,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             return;
         }
 
-        if (isUpdate == "true"){
+        if (isUpdate){
             title = "ATUALIZAR VENDA";
 
             view.update(name, cpf, email, valueReceived, valueSales, title, itens);
@@ -91,7 +89,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             intent.putExtra("valor_recebido", amountReceived);
             intent.putExtra("troco", change);
             intent.putExtra("itens", (Serializable) itens);
-            Log.d("tag", String.valueOf(itens));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
             view.previosRegister();

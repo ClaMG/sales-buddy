@@ -254,7 +254,7 @@ export async function CreateCodetemp(dados) {
     }
 
     //Tempo
-    const quinzeMinutos = 1200 * 60 * 1000; 
+    const quinzeMinutos = 1200 * 60 * 1000; //trocar tempo
     const validadeCurta = new Date(Date.now() + quinzeMinutos);
 
     //Senha
@@ -270,7 +270,7 @@ export async function CreateCodetemp(dados) {
     }
 
     const CodeParaSalvar = {
-        user_id: usuarioExistente.id,
+        userId: usuarioExistente.id,
         code: senhaTemporaria ,
         expiresAt:validadeCurta 
       };

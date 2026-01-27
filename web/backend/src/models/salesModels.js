@@ -24,11 +24,11 @@ export const Sale = sequelize.define('Sale', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-    valor_venda: {
+    valorVenda: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
-  valor_recebido: { 
+  valorRecebido: { 
   type: DataTypes.DECIMAL(10, 2), 
   allowNull: false,
   },

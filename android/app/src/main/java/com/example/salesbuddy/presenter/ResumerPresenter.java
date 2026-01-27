@@ -32,6 +32,14 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private SalesModel venda;
     private SalesService apiService;
 
+    private String namePresenter;
+    private String cpfPresenter;
+    private String emailPresenter;
+    private String valueReceivedPresenter;
+    private String valueSalesPresenter;
+    private String changePresenter;
+    private List<ItemsModel> itensPresenter;
+
 
 
     public ResumerPresenter(ResumerContract.View view, Context context) {
@@ -47,13 +55,20 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         if (name == null || cpf == null || email == null || valueReceived == null || valueSales == null || change== null ){
             view.mostrarErro("Não Consegumos localizar a informação de todos os campos");
         }
+
+        namePresenter = name;
+        cpfPresenter = cpf;
+        emailPresenter = email;
+        valueReceivedPresenter= valueReceived;
+        valueSalesPresenter = valueSales;
+        changePresenter = change;
+        itensPresenter = itens;
+
         view.printInfo(name, cpf, email, valueReceived, valueSales, change);
 
         String vSales = (valueSales != null) ? valueSales : "0.0";
         String vReceived = (valueReceived != null) ? valueReceived : "0.0";
         String vChange = (change != null) ? change : "0.0";
-
-        Log.d("tag", cpf + "/"+ valueSales+"/" +vSales+"/" + valueReceived +"/" +change+"/"+ vChange);
 
         double saleValueDouble = Double.parseDouble(vSales.replace(",", "."));
         double amountReceivedDouble = Double.parseDouble(vReceived.replace(",", "."));
@@ -114,17 +129,32 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void altResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", "true");
+        intent.putExtra("IS_UPDATE", true);
+        intent.putExtra("nome", namePresenter);
+        intent.putExtra("cpf", cpfPresenter);
+        intent.putExtra("email", emailPresenter);
+        intent.putExtra("valor_venda", valueSalesPresenter);
+        intent.putExtra("valor_recebido", valueReceivedPresenter);
+        intent.putExtra("troco", changePresenter);
+        intent.putExtra("itens", (Serializable) itensPresenter);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();
     }
+
 
     @Override
     public void finish() {
         if (venda != null) {
             apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback());
             Intent intent = new Intent(context, ProofActivity.class);
+            intent.putExtra("nome", namePresenter);
+            intent.putExtra("cpf", cpfPresenter);
+            intent.putExtra("email", emailPresenter);
+            intent.putExtra("valor_venda", valueSalesPresenter);
+            intent.putExtra("valor_recebido", valueReceivedPresenter);
+            intent.putExtra("troco", changePresenter);
+            intent.putExtra("itens", (Serializable) itensPresenter);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
             view.previosResumer();
@@ -142,7 +172,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void backResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", "false");
+        intent.putExtra("IS_UPDATE", false);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();

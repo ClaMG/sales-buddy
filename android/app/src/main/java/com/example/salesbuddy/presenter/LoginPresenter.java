@@ -37,11 +37,15 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 
     //Verificação do login
-   /* @Override
+    @Override
     public void login(String user, String password) {
 
         try {
-            LoginModel dados = new LoginModel(user, password);
+            if (user == null || password == null){
+                view.mostrarErro("preencha todos os campos");
+            }
+            Log.d("API_CHECK", "Enviando Usuario: [" + user + "] Senha: [" + password + "]");
+            LoginModel dados = new LoginModel(user.trim(), password.trim());
             LoginService loginService = RetrofitClient.getClient().create(LoginService.class);
 
             loginService.fazerLogin(dados).enqueue(new Callback<LoginModel>() {
@@ -52,6 +56,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                         irParaHome(token);
                     } else {
                         String mensagemErro = extrairMensagemDeErro(response);
+                        Log.e("API_ERROR", "Status: " + response.code() + " | Detalhes: " + mensagemErro);
                         view.mostrarErro(mensagemErro);
                     }
 
@@ -67,6 +72,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                 @Override
                 public void onFailure(Call<LoginModel> call, Throwable t) {
+                    Log.e("API_ERROR", "Mensagem: " + t.getMessage());
                     String msg;
                     if (t instanceof ConnectException) {
                         msg = "Não foi possível conectar ao servidor. Verifique se ele está ligado.";
@@ -89,7 +95,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     private String extrairMensagemDeErro(Response<?> response) {
-        if (response.errorBody() == null) return "Erro sem corpo de resposta";
+        if (response.errorBody() == null) return "Erro desconhecido ";
 
         try {
             String errorJson = response.errorBody().string();
@@ -103,7 +109,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         } catch (Exception e) {
             return "Erro ao processar resposta do servidor";
         }
-    }*/
+    }
 
 
     private void irParaHome(String token) {
@@ -114,15 +120,16 @@ public class LoginPresenter implements LoginContract.Presenter {
         view.previosLogin();
     }
 
+
+    /*
     @Override
     public void login(String user, String password) {
         Log.d("tag", "login: "+ user + "/"+ password);
         if (user == "erick" && password=="1234"){
             String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzY5NTE0MjE0LCJleHAiOjE3Njk2MDA2MTR9.WmWvrCT3pMnrFxClKcp0BafOFyEVzOrIYW2Q0xqyUDo";
             irParaHome(token);
-        }else {
-            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzY5NTE0MjE0LCJleHAiOjE3Njk2MDA2MTR9.WmWvrCT3pMnrFxClKcp0BafOFyEVzOrIYW2Q0xqyUDo";
-            irParaHome(token);
         }
     }
+
+     */
 }

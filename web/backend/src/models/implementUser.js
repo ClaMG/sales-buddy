@@ -2,13 +2,13 @@ import {PasswordTemp} from './passawordtemp.js'
 import {User} from './userModels.js'
 
 User.hasMany(PasswordTemp, {
-  foreignKey: 'user_id',
+  foreignKey: 'userId',
   as: 'passwordTemp',
   onDelete: 'CASCADE'
 });
 
 PasswordTemp.belongsTo(User, {
-  foreignKey: 'user_id'
+  foreignKey: 'userId'
 });
 
 export { User, PasswordTemp };

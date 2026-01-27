@@ -23,9 +23,11 @@ function useDeletActive(){
             return nomesEncontrados;
 
         } catch (err) {
-            if(!err.response || !err) {
-                setError("O servidor está offline. Volte mais tarde.");
-                navigate('/')
+             if (err.code === 'ERR_NETWORK' || !err.response) {
+                setError("O servidor está offline. Verifique sua conexão ou tente mais tarde.");
+                console.error("Falha de conexão física ou servidor desligado.");
+                navigate('/');
+                return; 
             }
             if (err.response || err) {
             console.error("Erro ao buscar nomes:", err); 
@@ -53,9 +55,11 @@ function useDeletActive(){
 
             return userFromApi
         } catch (err) {
-            if(!err.response || !err) {
-                setError("O servidor está offline. Volte mais tarde.");
-                navigate('/')
+            if (err.code === 'ERR_NETWORK' || !err.response) {
+                setError("O servidor está offline. Verifique sua conexão ou tente mais tarde.");
+                console.error("Falha de conexão física ou servidor desligado.");
+                navigate('/');
+                return; // Para a execução aqui
             }
             if (err.response || err) {
             const errorMessage = err || "Erro Interno";

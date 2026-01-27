@@ -7,7 +7,7 @@ export const PasswordTemp = sequelize.define('PasswordTemp', {
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
@@ -20,7 +20,7 @@ export const PasswordTemp = sequelize.define('PasswordTemp', {
         allowNull: false
     }
 }, { 
-    tableName: 'password_temps',
+    tableName: 'passwordTemps',
     timestamps: false       // campos 'createdAt' e 'updatedAt'
 });
 

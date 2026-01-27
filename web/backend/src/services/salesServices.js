@@ -43,8 +43,8 @@ export async function createSalesService(dados){
         cpf: cpfValido,
         email: dados.email,
         quantidade: quantidadeItens,
-        valor_venda: dados.valorVenda,
-        valor_recebido: dados.valorRecebido,
+        valorVenda: dados.valorVenda,
+        valorRecebido: dados.valorRecebido,
         troco: dados.troco,
         itens: dados.itens || []
     };

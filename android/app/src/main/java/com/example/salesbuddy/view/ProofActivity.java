@@ -61,6 +61,25 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         String change = getIntent().getStringExtra("troco");
         List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
 
+        Log.d("DEBUG_SALE", "--- Dados da Venda ---");
+        Log.d("DEBUG_SALE", "Nome: " + nome);
+        Log.d("DEBUG_SALE", "CPF: " + cpf);
+        Log.d("DEBUG_SALE", "Email: " + email);
+        Log.d("DEBUG_SALE", "Valor Venda: " + saleValue);
+        Log.d("DEBUG_SALE", "Valor Recebido: " + amountReceived);
+
+// Log da Lista de Itens
+        if (item != null) {
+            Log.d("DEBUG_SALE", "Quantidade de itens: " + item.size());
+            for (int i = 0; i < item.size(); i++) {
+                // Supondo que ItemsModel tenha um método getDescricao()
+                Log.d("DEBUG_SALE", "Item " + i + ": " + item.get(i).getDescricao());
+            }
+        } else {
+            Log.e("DEBUG_SALE", "A lista de itens veio NULA!");
+        }
+        Log.d("DEBUG_SALE", "-----------------------");
+
         Log.d("TAG", "onCreateProof: "+ email);
 
         //Eventos

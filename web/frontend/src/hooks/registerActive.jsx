@@ -1,10 +1,9 @@
 import api from '../services/api.jsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 function useRegisterActivite(){
     const [error, setError] = useState(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSave = async (usuario, nome, empresa, cnpj, email) => {
         try {
@@ -19,9 +18,11 @@ function useRegisterActivite(){
 
         return userFromApi
         } catch (err) {
-            if(!err.response || !err){
-                setError("O servidor está offline. Volte mais tarde.");
+             if (err.code === 'ERR_NETWORK' || !err.response) {
+                setError("O servidor está offline. Verifique sua conexão ou tente mais tarde.");
+                console.error("Falha de conexão física ou servidor desligado.");
                 navigate('/');
+                return; 
             }
             if (err.response || err) {
             const errorMessage = err || "Erro Interno";

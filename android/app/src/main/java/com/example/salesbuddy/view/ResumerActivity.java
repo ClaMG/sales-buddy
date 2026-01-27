@@ -124,7 +124,11 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
 
     @Override
     public void mostrarSucesso() {
-        //dialog
+        new AlertDialog.Builder(this)
+                .setTitle("Ops! Algo deu errado")
+                .setMessage("msg")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     @Override

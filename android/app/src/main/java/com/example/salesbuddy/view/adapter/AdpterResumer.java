@@ -20,7 +20,6 @@ public class AdpterResumer extends RecyclerView.Adapter<AdpterResumer.ViewHolder
 
     public AdpterResumer(List<ItemsModel> items) {
         this.items = items;
-        Log.d("tag", "Adapter recebido com: " + (items != null ? items.size() : 0) + " itens");
     }
 
     @NonNull
@@ -36,7 +35,6 @@ public class AdpterResumer extends RecyclerView.Adapter<AdpterResumer.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull AdpterResumer.ViewHolderResumer holder, int position) {
         ItemsModel item = items.get(position);
-        Log.d("tag", "Posição: " + position + " | Descrição: " + item.getDescricao());
 
         int numList = position + 1;
             holder.tvNum.setText(String.valueOf(numList));
