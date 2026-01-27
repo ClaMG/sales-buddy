@@ -52,22 +52,14 @@ public class LoginPresenter implements LoginContract.Presenter {
                 @Override
                 public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
+
                         String token = response.body().getToken();
                         irParaHome(token);
                     } else {
                         String mensagemErro = extrairMensagemDeErro(response);
-                        Log.e("API_ERROR", "Status: " + response.code() + " | Detalhes: " + mensagemErro);
+                        Log.e("API_ERROR", "Erro do servidor: " + mensagemErro);
                         view.mostrarErro(mensagemErro);
                     }
-
-                    String errorResponse = null;
-                    try {
-                        errorResponse = response.errorBody().string();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Log.e("API_ERROR", "Detalhes do erro 400: " + errorResponse);
-                        Log.d("tag", String.valueOf(response));
                 }
 
                 @Override
