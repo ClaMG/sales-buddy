@@ -1,19 +1,20 @@
 import api from '../services/api.jsx';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 
 function usePasswordTempActive(){
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     const handcreateCodeTemp = async (username) =>{
+        setError(null)
         try {
-            const userFromApi = await api.post('/codigotemp', { username });
+            const userFromApi = await api.post('user/codigotemp', { 
+                usuario: username 
+            });
             return userFromApi;
         } catch (err) {
             if(!err.response || !err){
                 setError("O servidor está offline. Volte mais tarde.");
-                navigate('/');
             }
             if (err.response || err) {
             const errorMessage = err || "Erro Interno";
@@ -24,9 +25,10 @@ function usePasswordTempActive(){
     }
 
     const handUpdateCodeTemp = async ( code, senha, repetirSenha) =>{
+        setError(null)
         const username = localStorage.getItem('usernameTemp');
             try {
-                const userFromApi = await api.put('/codigotemp', { 
+                const userFromApi = await api.put('user/updatePasswordCodeTemp', { 
                     usuario: username, 
                     code: code, 
                     senha: senha, 
@@ -35,7 +37,6 @@ function usePasswordTempActive(){
             } catch (err) {
                 if(!err.response || !err){
                 setError("O servidor está offline. Volte mais tarde.");
-                navigate('/');
             }
             if (err.response || err) {
                 const errorMessage = err || "Erro Interno";

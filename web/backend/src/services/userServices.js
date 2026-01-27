@@ -308,11 +308,11 @@ export async function UpdateSenhaCodeTemp(dados) {
             throw new Error("Codigo não existe");
         }
 
-    if(codeExistente.code !=  dados.code){
-        throw new Error("Codigo Invalido");
+    if(String(codeExistente.code) !== String(dados.code)){
+        throw new Error("Código Inválido");
     }
 
-    if(codeExistente.expiresAt < new Date()){
+    if (new Date(codeExistente.expiresAt).getTime() < Date.now()) {
         throw new Error("Codigo expirado");
     }
 
@@ -334,7 +334,7 @@ export async function UpdateSenhaCodeTemp(dados) {
         throw new Error("Erro ao atualizar.");
     }
 
-    return atualizar;
+    return {sucesso: true};
 
 }
 
