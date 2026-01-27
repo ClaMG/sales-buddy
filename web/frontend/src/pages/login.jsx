@@ -15,6 +15,10 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    async function passwordForget() {
+        navigate('/password')
+    }
+
 
     async function handleSubmit(event) {
         event.preventDefault()
@@ -45,7 +49,7 @@ function Login() {
                 </div>
                 <div className='button-group-login'>
                     <button className="login-button" type='submit'>LOGIN</button>
-                    <button className="forgot-password-button" type='button'>Esqueci a senha</button>
+                    <button className="forgot-password-button" type='button' onClick={passwordForget}>Esqueci a senha</button>
                 </div>
             </form>
         </div>

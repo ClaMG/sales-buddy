@@ -1,14 +1,25 @@
 package com.example.salesbuddy.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class SalesModel {
+
+    public Integer id;
+    @SerializedName("nomeCliente")
     public String nomeCliente;
+    @SerializedName("cpf")
     public String cpf;
+    @SerializedName("email")
     public String email;
+    @SerializedName("itens")
     public List<ItemsModel> itens;
+    @SerializedName("valorRecebido")
     public double valorRecebido;
+    @SerializedName("valorVenda")
     public double valorVenda;
+    @SerializedName("troco")
     public double troco;
 
     public SalesModel() {
@@ -24,9 +35,6 @@ public class SalesModel {
         this.itens = itens;
     }
 
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
 
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
@@ -78,5 +86,13 @@ public class SalesModel {
 
     public void setItens(List<ItemsModel> itens) {
         this.itens = itens;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

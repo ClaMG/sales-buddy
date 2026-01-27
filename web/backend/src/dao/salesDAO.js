@@ -24,6 +24,16 @@ export async function findBySalesName(nomeCliente) {
     });
 }
 
+//Pesquisa pelo email
+export async function findSaleIdByMatch(dados) {
+    const sale = await Sale.findOne({
+        where: dados, 
+        attributes: ['id']
+    });
+
+    return sale ? sale.id : null;
+}
+
 //Criar uma nova venda
 export async function createSales(dados) {
     return await Sale.create(dados,{

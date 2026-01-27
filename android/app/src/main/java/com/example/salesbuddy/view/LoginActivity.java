@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.presenter.LoginPresenter;
 import com.example.salesbuddy.view.contract.LoginContract;
+import com.google.gson.annotations.SerializedName;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 

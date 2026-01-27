@@ -57,8 +57,6 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         //Presenter
         presenter = new ResumerPresenter(this, getApplicationContext());
 
-
-
         String nome = getIntent().getStringExtra("nome");
         String cpf = getIntent().getStringExtra("cpf");
         String email = getIntent().getStringExtra("email");
@@ -66,15 +64,12 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         String amountReceived = getIntent().getStringExtra("valor_recebido");
         String change = getIntent().getStringExtra("troco");
         List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
-        Log.d("TAG", item.toString());
 
         recyclerViewResumer.setNestedScrollingEnabled(false);
         recyclerViewResumer.setLayoutManager(new LinearLayoutManager(this));
 
-
         AdpterResumer adapter = new AdpterResumer(item);
         recyclerViewResumer.setAdapter(adapter);
-        Log.d("tag", item.toString());
 
         //Eventos
         presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, item);

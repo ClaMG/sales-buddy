@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.dialog.DialogActivity">
+    tools:context=".view.dialog.DialogFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/tvDialog1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
@@ -30,7 +30,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/tvDialog2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
@@ -41,7 +41,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/tvDialog3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"

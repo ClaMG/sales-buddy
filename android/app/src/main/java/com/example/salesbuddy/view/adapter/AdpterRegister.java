@@ -49,7 +49,7 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
         public void onBindViewHolder(@NonNull ViewHolderRegister holder, int position) {
             ItemsModel item = items.get(position);
 
-            // Limpa o listener anterior para não dar conflito ao reciclar a view
+            // Limpa o listener anterior
             holder.txItemAdd.removeTextChangedListener(holder.currentWatcher);
 
             holder.txItemAdd.setText(item.getDescricao()); // Ajuste para o método do seu ItemsModel
@@ -58,7 +58,7 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
             holder.currentWatcher = new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // Atualiza o objeto diretamente (mais seguro que usar o índice da lista)
+                    // Atualiza o objeto diretamente
                     item.setDescricao(s.toString());
                 }
                 @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -67,23 +67,24 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
 
             holder.txItemAdd.addTextChangedListener(holder.currentWatcher);
 
-            // LÓGICA DINÂMICA DO BOTÃO
-            // Se for a última posição, mostra o "+" (Adicionar)
+            //Adicionar
             if (position == items.size() - 1) {
-                holder.btnSume.setImageResource(R.drawable.icon_sume); // Ícone padrão +
+                holder.btnSume.setImageResource(R.drawable.icon_sume);
+                holder.btnSume.setBackgroundResource(R.drawable.btn_register_sume);
 
-
+                //Atualiza btn
                 holder.btnSume.setOnClickListener(v -> {
                     int pos = holder.getBindingAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         items.add(new ItemsModel(""));
                         notifyItemInserted(items.size() - 1);
-                        notifyItemChanged(pos); // Atualiza o botão do item anterior para virar "remover"
+                        notifyItemChanged(pos);
                     }
                 });
             } else {
-                // Se não for o último, vira o "-" (Remover)
-                holder.btnSume.setImageResource(R.drawable.icon_subtract); // Ícone padrão lixeira ou -
+                //Remover
+                holder.btnSume.setImageResource(R.drawable.icon_subtract);
+                holder.btnSume.setBackgroundResource(R.drawable.btn_register_sub);
 
                 holder.btnSume.setOnClickListener(v -> {
                     int pos = holder.getBindingAdapterPosition();
@@ -98,7 +99,7 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items != null ? items.size() : 0;
     }
 
     public List<ItemsModel> getItems() {

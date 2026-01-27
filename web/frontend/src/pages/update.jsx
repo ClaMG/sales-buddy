@@ -81,7 +81,7 @@ function Update(){
             }
         }
 
-        const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (!token) {
         navigate('/login');
         return null; 

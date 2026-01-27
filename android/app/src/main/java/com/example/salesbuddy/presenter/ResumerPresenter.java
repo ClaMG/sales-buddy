@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -42,11 +43,21 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void getInfo(String name, String cpf, String email, String valueReceived,
                         String valueSales, String change, List<ItemsModel> itens) {
+
+        if (name == null || cpf == null || email == null || valueReceived == null || valueSales == null || change== null ){
+            view.mostrarErro("Não Consegumos localizar a informação de todos os campos");
+        }
         view.printInfo(name, cpf, email, valueReceived, valueSales, change);
 
-        double saleValueDouble = Double.parseDouble(valueSales.replace(",", "."));
-        double amountReceivedDouble = Double.parseDouble(valueReceived.replace(",", "."));
-        double chageDouble = Double.parseDouble(change.replace(",", "."));
+        String vSales = (valueSales != null) ? valueSales : "0.0";
+        String vReceived = (valueReceived != null) ? valueReceived : "0.0";
+        String vChange = (change != null) ? change : "0.0";
+
+        Log.d("tag", cpf + "/"+ valueSales+"/" +vSales+"/" + valueReceived +"/" +change+"/"+ vChange);
+
+        double saleValueDouble = Double.parseDouble(vSales.replace(",", "."));
+        double amountReceivedDouble = Double.parseDouble(vReceived.replace(",", "."));
+        double chageDouble = Double.parseDouble(vChange.replace(",", "."));
 
         venda = new SalesModel(name, cpf, email, saleValueDouble, amountReceivedDouble, chageDouble, itens);
     }
@@ -103,7 +114,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void altResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", true);
+        intent.putExtra("IS_UPDATE", "true");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();
@@ -113,6 +124,10 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     public void finish() {
         if (venda != null) {
             apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback());
+            Intent intent = new Intent(context, ProofActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(intent);
+            view.previosResumer();
         } else {
             view.mostrarErro("Dados da venda não carregados. Tente novamente.");
         }
@@ -127,7 +142,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void backResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", false);
+        intent.putExtra("IS_UPDATE", "false");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();

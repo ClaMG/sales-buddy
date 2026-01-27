@@ -26,7 +26,7 @@
             android:name=".view.adapter.AdpterResumer"
             android:exported="false" />
         <activity
-            android:name=".view.dialog.DialogActivity"
+            android:name=".view.dialog.DialogFragment"
             android:exported="false" />
         <activity
             android:name=".view.ReprocessingActivity"

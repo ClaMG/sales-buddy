@@ -1,6 +1,7 @@
 package com.example.salesbuddy.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -54,18 +55,19 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         presenter = new RegisterPresenter(this,getApplicationContext());
 
         //Eventos
-        boolean isUpdate = getIntent().getBooleanExtra("IS_UPDATE", false);
-        String nome = getIntent().getStringExtra("nome");
-        String cpf = getIntent().getStringExtra("cpf");
-        String email = getIntent().getStringExtra("email");
-        String saleValue = getIntent().getStringExtra("valor_venda");
-        String amountReceived = getIntent().getStringExtra("valor_recebido");
-        presenter.testUpdate(isUpdate, nome,cpf,email, saleValue, amountReceived);
-
+        String isUpdate = getIntent().getStringExtra("IS_UPDATE");
+        if ("true" == isUpdate) {
+            String nome = getIntent().getStringExtra("nome");
+            String cpf = getIntent().getStringExtra("cpf");
+            String email = getIntent().getStringExtra("email");
+            String saleValue = getIntent().getStringExtra("valor_venda");
+            String amountReceived = getIntent().getStringExtra("valor_recebido");
+            List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
+            presenter.register(isUpdate, nome, cpf, email, saleValue, amountReceived, item);
+        }
+        Log.d("TAG", "onCreate: "+ isUpdate);
         recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this));
         List<ItemsModel> listaDeItens = new ArrayList<>();
-
-        // Agora passa a lista com 1 item para o Adapter
         AdpterRegister adapter = new AdpterRegister(listaDeItens);
         recyclerViewRegister.setAdapter(adapter);
 
@@ -109,7 +111,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     }
 
     @Override
-    public void update(String nome, String cpf, String email, String valor_venda, String valor_recebido, String title) {
+    public void showMenuDialog() {
+        MenuFragment menu = new MenuFragment();
+        menu.show(getSupportFragmentManager(), "menu_dialog");
+    }
+
+    @Override
+    public void update(String nome, String cpf, String email, String valor_venda, String valor_recebido, String title, List<ItemsModel> itens) {
         txName.setText(nome);
         txCpf.setText(cpf);
         txEmail.setText(email);
@@ -117,10 +125,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         txSaleValue.setText(valor_venda);
         tvTitleRegister.setText(title);
 
-    }
-    @Override
-    public void showMenuDialog() {
-        MenuFragment menu = new MenuFragment();
-        menu.show(getSupportFragmentManager(), "menu_dialog");
+        AdpterRegister adapter = new AdpterRegister(itens);
+        recyclerViewRegister.setAdapter(adapter);
     }
 }

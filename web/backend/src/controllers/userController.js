@@ -1,4 +1,4 @@
-import {Create, Login, Delet, Update, CreateCodetemp, UpdateSenha} from '../services/userServices.js'
+import {Create, Login, Delet, Update, CreateCodetemp, UpdateSenha, UpdateSenhaCodeTemp} from '../services/userServices.js'
 import {findAllUsers } from '../dao/userDAO.js'
 
 export async function insertUsersControler(req, res) {
@@ -103,8 +103,10 @@ export async function insertCodeTempControler(req, res) {
 
 export async function updateCodeTempControler(req, res) {
     const dados= {
-    usuario: req.body.usuario,
-	code: req.body.codigo
+        usuario: req.body.usuario,
+        code: req.body.code,
+        senha: req.body.senha,
+        repetirSenha: req.body.repetirSenha
       };
     try {
         const resultado = await UpdateSenhaCodeTemp(dados);

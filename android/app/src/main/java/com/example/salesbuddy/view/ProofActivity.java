@@ -1,7 +1,7 @@
 package com.example.salesbuddy.view;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
-import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.presenter.ProofPresenter;
 import com.example.salesbuddy.view.adapter.AdpterProof;
 import com.example.salesbuddy.view.contract.ProofContract;
+import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.example.salesbuddy.view.dialog.MenuFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProofActivity extends AppCompatActivity implements ProofContract.View {
@@ -60,10 +59,12 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         String saleValue = getIntent().getStringExtra("valor_venda");
         String amountReceived = getIntent().getStringExtra("valor_recebido");
         String change = getIntent().getStringExtra("troco");
-        List<ItemsModel> itens = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
+        List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
+
+        Log.d("TAG", "onCreateProof: "+ email);
 
         //Eventos
-        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, itens);
+        presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, item);
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +94,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
 
     //Mostra na tela
     @Override
-    public void printInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change, String idNum) {
+    public void printInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change, String idNum, List<ItemsModel> itens) {
         tvNameProof.setText(name);
         tvCpfProof.setText(cpf);
         tvEmailProof.setText(email);
@@ -102,7 +103,6 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         tvChangeProof.setText("R$"+change);
         tvSaleId.setText("Venda nº" + idNum);
 
-        List<ItemsModel> itens = new ArrayList<>();
         AdpterProof adapter = new AdpterProof(itens);
         recyclerViewProof.setAdapter(adapter);
 
@@ -122,10 +122,8 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
 
     @Override
     public void mostrarSucesso() {
-        new AlertDialog.Builder(this)
-                .setTitle("Venda registrada com sucesso")
-                .setPositiveButton("OK", null)
-                .show();
+        DialogFragment dialog = new DialogFragment();
+        dialog.show(getSupportFragmentManager(), "dialog_string");
     }
 
 
@@ -136,11 +134,6 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
                 .setMessage(mensagem)
                 .setPositiveButton("OK", null)
                 .show();
-    }
-
-    @Override
-    public void mostrarSucessoEmail() {
-        //mostrar o dialog
     }
 
 }

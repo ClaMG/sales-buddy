@@ -1,4 +1,4 @@
-import {findByIdSales, createSales, findBySalesName} from '../dao/salesDAO.js'
+import {findByIdSales, createSales, findBySalesName, findSaleIdByMatch} from '../dao/salesDAO.js'
 import { validarEmail, enviarEmailComprovante, validarCPF} from '../utils/authUtils.js'
 
 export async function saleById(id){
@@ -101,3 +101,26 @@ export async function enviarComprovantePagamento(comprovante) {
     return emailEnviado;
 }
 
+export async function enviarComprovanteMobile(dados) {
+    if (!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido) {
+        throw new Error("Preencha todos os campos.");
+    }
+    const emailValido = validarEmail(dados.email);
+
+    if (!emailValido) {
+        throw new Error("Email com o formato errado, deve conter o @ e .com");
+    }
+
+    const cpfValido = validarCPF(dados.cpf);
+    if (!cpfValido) {
+        throw new Error("CPF inválido.");
+    }
+
+    const dadosEnviados = await findSaleIdByMatch(dados);
+
+    if (!dadosEnviados) {
+        throw new Error("Nenhuma venda encontrada com os dados fornecidos.");
+    }
+
+    return dadosEnviados;
+}

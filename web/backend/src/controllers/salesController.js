@@ -1,5 +1,5 @@
 import {findAllSales} from '../dao/salesDAO.js'
-import {saleById, createSalesService, enviarComprovantePagamento} from '../services/salesServices.js'
+import {saleById, createSalesService, enviarComprovantePagamento, enviarComprovanteMobile} from '../services/salesServices.js'
 
 
 export async function findAllSaleController(req, res) {
@@ -56,4 +56,25 @@ export async function EnviarComprovanteController(req, res) {
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }   
+}
+
+export async function enviarComprovanteMobileController(req, res) {
+    const dados ={
+        nomeCliente: req.body.nomeCliente,
+        cpf: req.body.cpf,
+        email: req.body.email,
+        itens: req.body.itens || [],
+        valorRecebido: parseFloat(req.body.valorRecebido) || 0,
+        valorVenda: parseFloat(req.body.valorVenda) || 0,
+        troco: parseFloat(req.body.troco) || 0
+    }
+    try {
+        const resultado =await enviarComprovanteMobile(dados);
+        return res.status(200).json({
+            resultado: resultado,
+            message: "Comprovante enviado com sucesso."});
+    } catch (error) {
+        throw new Error(error.message);
+    }
+    
 }

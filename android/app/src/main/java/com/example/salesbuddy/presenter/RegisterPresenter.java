@@ -40,14 +40,14 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     //Registrar venda
     @Override
-    public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
-        if (name.isEmpty() || cpf.isEmpty() || email.isEmpty() || saleValue.isEmpty() || amountReceived.isEmpty() || itens.isEmpty()){
+    public void register(String isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
+        if (name == null || cpf == null || email == null || saleValue == null || amountReceived == null){
             Mensage = "Preencha todos os campos";
             view.showToastRegister(Mensage);
             return;
         }
 
-        if (itens == null || itens.isEmpty() || itens.get(0).getDescricao().trim().isEmpty()) {
+        if (itens == null) {
             view.showToastRegister("Adicione pelo menos um item à venda");
             return;
         }
@@ -58,18 +58,18 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             return;
         }
 
-        String cpfLimpo = cpf.replaceAll("\\D", ""); // Remove tudo que não for número
-        if (cpfLimpo.length() != 11) {
-            view.showToastRegister("O CPF deve conter 11 números");
+        validarCPF(cpf);
+
+        if (!validarCPF(cpf)) {
+            view.showToastRegister("CPF inválido");
             return;
         }
 
-        // 4. Formatação Visual (Adiciona pontos e traço)
-        String cpfFormatado = String.format("%s.%s.%s-%s",
-                cpfLimpo.substring(0, 3),
-                cpfLimpo.substring(3, 6),
-                cpfLimpo.substring(6, 9),
-                cpfLimpo.substring(9, 11));
+        if (isUpdate == "true"){
+            title = "ATUALIZAR VENDA";
+
+            view.update(name, cpf, email, valueReceived, valueSales, title, itens);
+        }
 
         saleValueDouble = Double.parseDouble(saleValue.replace(",", "."));
         amountReceivedDouble = Double.parseDouble(amountReceived.replace(",", "."));
@@ -85,13 +85,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
             Intent intent = new Intent(context, ResumerActivity.class);
             intent.putExtra("nome", name);
-            intent.putExtra("cpf", cpfFormatado);
+            intent.putExtra("cpf", cpf);
             intent.putExtra("email", email);
             intent.putExtra("valor_venda", saleValue);
             intent.putExtra("valor_recebido", amountReceived);
             intent.putExtra("troco", change);
             intent.putExtra("itens", (Serializable) itens);
-            Log.d("RegisterPresenter", String.valueOf(itens));
+            Log.d("tag", String.valueOf(itens));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
             view.previosRegister();
@@ -102,27 +102,32 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         view.showToastRegister(Mensage);
     }
 
-    private boolean isCPFValido(String cpf) {
-        //Limpa e verifica tamanho
-        cpf = cpf.replaceAll("\\D", "");
-        if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) return false;
+    private boolean validarCPF(String cpf) {
+        String limpo = cpf.replaceAll("\\D", ""); // Remove máscara
+
+        // Verifica se tem 11 dígitos ou se são todos iguais (ex: 111.111.111-11)
+        if (limpo.length() != 11 || limpo.matches("(\\d)\\1{10}")) return false;
 
         try {
-            // Cálculo do 1º Dígito
+            // Primeiro Dígito
             int soma = 0;
-            for (int i = 0; i < 9; i++) soma += (cpf.charAt(i) - '0') * (10 - i);
-            int digito1 = 11 - (soma % 11);
-            if (digito1 > 9) digito1 = 0;
+            for (int i = 1; i <= 9; i++) {
+                soma += Integer.parseInt(limpo.substring(i - 1, i)) * (11 - i);
+            }
+            int resto = (soma * 10) % 11;
+            if (resto == 10 || resto == 11) resto = 0;
+            if (resto != Integer.parseInt(limpo.substring(9, 10))) return false;
 
-            // Cálculo do 2º Dígito
+            // Segundo Dígito
             soma = 0;
-            for (int i = 0; i < 10; i++) soma += (cpf.charAt(i) - '0') * (11 - i);
-            int digito2 = 11 - (soma % 11);
-            if (digito2 > 9) digito2 = 0;
+            for (int i = 1; i <= 10; i++) {
+                soma += Integer.parseInt(limpo.substring(i - 1, i)) * (12 - i);
+            }
+            resto = (soma * 10) % 11;
+            if (resto == 10 || resto == 11) resto = 0;
+            if (resto != Integer.parseInt(limpo.substring(10, 11))) return false;
 
-            // Verifica se os dígitos calculados batem com os digitados
-            return (cpf.charAt(9) - '0') == digito1 && (cpf.charAt(10) - '0') == digito2;
-
+            return true;
         } catch (Exception e) {
             return false;
         }
@@ -134,16 +139,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosRegister();
-    }
-
-
-    @Override
-    public void testUpdate(boolean isUpdate, String name, String cpf, String email, String valueReceived, String valueSales) {
-        if (isUpdate){
-            title = "ATUALIZAR VENDA";
-
-            view.update(name, cpf, email, valueReceived, valueSales, title);
-        }
     }
 
     @Override

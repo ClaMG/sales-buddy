@@ -25,7 +25,7 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void goSales() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", false);
+        intent.putExtra("IS_UPDATE", "false");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosHome();

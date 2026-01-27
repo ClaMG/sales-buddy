@@ -52,9 +52,9 @@ export async function insertCodeTemp(dados) {
 }
 
 //deletar codigo
-export async function deleteCodeTemp(idUser) {
+export async function deleteCodeTemp(id) {
     return await PasswordTemp.destroy({
-        where: { user_id: idUser}
+        where: { user_id: id}
     });
 }
 

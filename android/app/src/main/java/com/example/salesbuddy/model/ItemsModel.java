@@ -1,9 +1,13 @@
 package com.example.salesbuddy.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class ItemsModel implements Serializable {
 
+    @SerializedName("descricao")
     private String descricao;
 
     public ItemsModel(String s) {
@@ -23,4 +27,5 @@ public class ItemsModel implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
 }

@@ -1,0 +1,38 @@
+package com.example.salesbuddy.presenter;
+
+import android.content.Context;
+
+import com.example.salesbuddy.view.contract.DialogContract;
+
+public class DialogPresenter implements DialogContract.Presente {
+    private final DialogContract.View view;
+    private Context context;
+
+    private String tv1;
+    private String tv2;
+    private String tv3;
+    public DialogPresenter(DialogContract.View view, Context context) {
+        this.view = view;
+        this.context = context;
+    }
+
+
+    @Override
+    public void alter(String tela,String email) {
+        if (tela == "email"){
+            tv1 = "COMPROVANTE ENVIADO";
+            tv2 = "COM SUCESSO PARA O E-MAIL:";
+            tv3 = email;
+        }
+        if (tela == "reprocessingSucess"){
+            tv1 = "REPROCESSAMENTO";
+            tv2 = "EFETUADO COM SUCESSO";
+            tv3 = "";
+        }else {
+            tv1 = "PROBLEMAS ENCONTRADOS";
+            tv2 = "AO REPROCESSAR ALGUMAS";
+            tv3 = "VENDAS, TENTE NOVAMENTE";
+        }
+        view.altText(tv1,tv2,tv3);
+    }
+}

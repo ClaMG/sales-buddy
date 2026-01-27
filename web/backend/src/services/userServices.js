@@ -1,4 +1,4 @@
-import {insertUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername, findById, deleteCodeTemp } from '../dao/userDAO.js'
+import {insertUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername,findByIdCodeTemp, findById, deleteCodeTemp, insertCodeTemp } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
 import {hashPassword, comparePassword, validarEmail, validarCNPJ, formatarCNPJ, gerarSenhaAleatoria, enviarEmailSenha} from '../utils/authUtils.js'
 
@@ -146,7 +146,7 @@ export async function Delet(ids, idUser) {
 //Atualizar dados
 export async function Update(dados) {
     if(!dados || !dados.id || !dados.usuario || !dados.email || !dados.nome || !dados.empresa || !dados.cnpj){
-        throw new Error("Preencha todos os campo.");
+        throw new Error("Preencha todos os campos.");
     }
 
     const usuarioAtual = await findAllUsers(dados.id);
@@ -253,38 +253,36 @@ export async function CreateCodetemp(dados) {
         throw new Error("Usuário não existe");
     }
 
-    const quinzeMinutos = 15 * 60 * 1000; 
+    //Tempo
+    const quinzeMinutos = 1200 * 60 * 1000; 
     const validadeCurta = new Date(Date.now() + quinzeMinutos);
 
-    
+    //Senha
     const senhaTemporaria = gerarSenhaAleatoria(4);
 
-    console.log(`usuarioExistente:${usuarioExistente}`)
+    const codigoExiste = await findByIdCodeTemp( usuarioExistente.id )
+
+    if(codigoExiste ){
+        const delet = await deleteCodeTemp(usuarioExistente.id )
+        if(!delet){
+            throw new Error("Erro ao deletar código antigo");
+        }
+    }
 
     const CodeParaSalvar = {
         user_id: usuarioExistente.id,
         code: senhaTemporaria ,
         expiresAt:validadeCurta 
       };
-	
-    const delet = await deleteCodeTemp(usuarioExistente.id )
-
-    console.log(`teste delet:${delet}`)
-
-    if(!delet){
-        throw new Error("Erro ao deletar código antigo");
-    }
-
-    console.log(`teste codeparasalvar:${CodeParaSalvar}`)
 
     const criarCodeTemp= await insertCodeTemp(CodeParaSalvar )
 
     if (criarCodeTemp) { 
-    try {
-        await enviarEmailSenha(usuarioExistente.email, usuarioExistente.nome, senhaTemporaria ); 
-    } catch (mailError) { 
-        throw new Error("Código criado, mas erro ao enviar e-mail:", mailError); 
-    } 
+        try {
+            await enviarEmailSenha(usuarioExistente.email, usuarioExistente.nome, senhaTemporaria ); 
+        } catch (mailError) { 
+            throw new Error("Código criado, mas erro ao enviar e-mail:", mailError); 
+        } 
     }else{
         throw new Error("Erro ao criar um código temporário")
     }
@@ -294,7 +292,7 @@ export async function CreateCodetemp(dados) {
 }
 
 export async function UpdateSenhaCodeTemp(dados) {
-    if(!dados || dados.usuario || dados.code){
+    if(!dados || !dados.usuario || !dados.code || !dados.senha || !dados.repetirSenha){
         throw new Error("Informações não encontradas");
     }
 
@@ -314,34 +312,29 @@ export async function UpdateSenhaCodeTemp(dados) {
         throw new Error("Codigo Invalido");
     }
 
-    const senhaGerada = gerarSenhaAleatoria(10);
+    if(codeExistente.expiresAt < new Date()){
+        throw new Error("Codigo expirado");
+    }
 
-    const senhaCriptografada = await hashPassword(senhaGerada );
+    if(dados.senha != dados.repetirSenha){
+        throw new Error("As senhas não coincidem");
+    }
+
+    const novaSenha = dados.senha;
+
+    const senhaCriptografada = await hashPassword(novaSenha);
     
     const senhaParaSalvar = {
         senha: senhaCriptografada
     };
-
-    const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
     
-    if(!emailEnviado){
-        throw new Error("Erro ao enviar e-mail com a senha"); 
-    }
-
-
-    const atualizar = await updateUser(id, senhaParaSalvar )
+    const atualizar = await updateUser(usuarioExistente.id, senhaParaSalvar )
 
     if(!atualizar){
         throw new Error("Erro ao atualizar.");
     }
 
-    return {
-        usuario:atualizar , 
-        email: emailEnviado};
+    return atualizar;
 
-
-    
 }
-
-
 

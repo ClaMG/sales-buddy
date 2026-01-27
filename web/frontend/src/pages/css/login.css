@@ -29,7 +29,7 @@
     color: var(--unnamed-color-a32c65);
 }
 
-.input-group-logininput::placeholder{
+.input-group-login input::placeholder{
     color: var(--unnamed-color-074a82);
 }
 

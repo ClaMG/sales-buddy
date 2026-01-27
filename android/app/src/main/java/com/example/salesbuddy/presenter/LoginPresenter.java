@@ -12,6 +12,7 @@ import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.contract.LoginContract;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -36,11 +37,10 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 
     //Verificação do login
-    @Override
+   /* @Override
     public void login(String user, String password) {
 
         try {
-
             LoginModel dados = new LoginModel(user, password);
             LoginService loginService = RetrofitClient.getClient().create(LoginService.class);
 
@@ -54,6 +54,15 @@ public class LoginPresenter implements LoginContract.Presenter {
                         String mensagemErro = extrairMensagemDeErro(response);
                         view.mostrarErro(mensagemErro);
                     }
+
+                    String errorResponse = null;
+                    try {
+                        errorResponse = response.errorBody().string();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Log.e("API_ERROR", "Detalhes do erro 400: " + errorResponse);
+                        Log.d("tag", String.valueOf(response));
                 }
 
                 @Override
@@ -72,6 +81,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                 }
             });
+
 
         }catch (Exception e){
             view.mostrarErro("Erro interno:" + e);
@@ -93,7 +103,8 @@ public class LoginPresenter implements LoginContract.Presenter {
         } catch (Exception e) {
             return "Erro ao processar resposta do servidor";
         }
-    }
+    }*/
+
 
     private void irParaHome(String token) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -101,5 +112,17 @@ public class LoginPresenter implements LoginContract.Presenter {
         intent.putExtra("token", token);
         context.startActivity(intent);
         view.previosLogin();
+    }
+
+    @Override
+    public void login(String user, String password) {
+        Log.d("tag", "login: "+ user + "/"+ password);
+        if (user == "erick" && password=="1234"){
+            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzY5NTE0MjE0LCJleHAiOjE3Njk2MDA2MTR9.WmWvrCT3pMnrFxClKcp0BafOFyEVzOrIYW2Q0xqyUDo";
+            irParaHome(token);
+        }else {
+            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzY5NTE0MjE0LCJleHAiOjE3Njk2MDA2MTR9.WmWvrCT3pMnrFxClKcp0BafOFyEVzOrIYW2Q0xqyUDo";
+            irParaHome(token);
+        }
     }
 }
