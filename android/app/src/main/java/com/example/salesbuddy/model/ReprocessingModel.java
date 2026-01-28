@@ -1,0 +1,106 @@
+package com.example.salesbuddy.model;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class ReprocessingModel {
+
+    public Integer id;
+    @SerializedName("nomeCliente")
+    public String nomeCliente;
+    @SerializedName("cpf")
+    public String cpf;
+    @SerializedName("email")
+    public String email;
+    @SerializedName("itens")
+    public List<ItemsModel> itens;
+    @SerializedName("valorVenda")
+    public double valorVenda;
+    @SerializedName("valorRecebido")
+    public double valorRecebido;
+
+    @SerializedName("troco")
+    public double troco;
+
+    public ReprocessingModel(){
+
+    }
+
+
+    public ReprocessingModel(Integer id, String nomeCliente, String cpf, String email, List<ItemsModel> itens, double valorVenda, double valorRecebido, double troco) {
+        this.id = id;
+        this.nomeCliente = nomeCliente;
+        this.cpf = cpf;
+        this.email = email;
+        this.itens = itens;
+        this.valorVenda = valorVenda;
+        this.valorRecebido = valorRecebido;
+        this.troco = troco;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<ItemsModel> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemsModel> itens) {
+        this.itens = itens;
+    }
+
+    public double getValorVenda() {
+        return valorVenda;
+    }
+
+    public void setValorVenda(double valorVenda) {
+        this.valorVenda = valorVenda;
+    }
+
+    public double getValorRecebido() {
+        return valorRecebido;
+    }
+
+    public void setValorRecebido(double valorRecebido) {
+        this.valorRecebido = valorRecebido;
+    }
+
+    public double getTroco() {
+        return troco;
+    }
+
+    public void setTroco(double troco) {
+        this.troco = troco;
+    }
+}
