@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -31,6 +32,14 @@ public class ProofPresenter implements ProofContract.Presenter {
     private SalesModel venda;
 
     private String tela= "email";
+
+    private String namePresenter;
+    private String cpfPresenter;
+    private String emailPresenter;
+    private String valueReceivedPresenter;
+    private String valueSalesPresenter;
+    private String changePresenter;
+    private List<ItemsModel> itensPresenter;
 
     public ProofPresenter(ProofContract.View view, Context context) {
         this.view = view;
@@ -52,25 +61,44 @@ public class ProofPresenter implements ProofContract.Presenter {
         String vReceived = (valueReceived != null) ? valueReceived : "0.0";
         String vChange = (change != null) ? change : "0.0";
 
-        Log.d("tag", cpf + "/"+ valueSales+"/" +vSales+"/" + valueReceived +"/" +change+"/"+ vChange);
+        Log.d("tag", cpf + "/"+ valueSales+"/" +vSales+"/" + valueReceived +"/" +change+"/"+ vChange+ "/"+ itens);
 
         double saleValueDouble = Double.parseDouble(vSales.replace(",", "."));
         double amountReceivedDouble = Double.parseDouble(vReceived.replace(",", "."));
         double chageDouble = Double.parseDouble(vChange.replace(",", "."));
 
+        namePresenter = name;
+        cpfPresenter = cpf;
+        emailPresenter = email;
+        valueReceivedPresenter= valueReceived;
+        valueSalesPresenter = valueSales;
+        changePresenter = change;
+        itensPresenter = itens;
 
-        venda = new SalesModel(name, cpf, email, amountReceivedDouble, saleValueDouble,
+        venda = new SalesModel(name, cpf, email, amountReceivedDouble,saleValueDouble,
                 chageDouble, itens);
 
         apiService.getSales(venda).enqueue(new Callback<SalesModel>() {
             @Override
             public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    view.printInfo(name, cpf, email, valueReceived, valueSales,
-                            change, String.valueOf(venda.getId()), itens);
+                    SalesModel vendaRecebida = response.body();
+                    Integer idGerado = vendaRecebida.getId();
+
+                    Log.d("API_SUCCESS", "Venda salva com ID: " + idGerado);
+
+                    String idString = String.valueOf(idGerado);
+
+                    view.printInfo(name, cpf, email,valueSales, valueReceived,
+                            change, idString, itens);
+
+                    venda = new SalesModel(idGerado, name, cpf, email, amountReceivedDouble,saleValueDouble,
+                            chageDouble, itens);
+
                 } else {
                     view.mostrarErro("Venda não encontrada no servidor.");
-                    view.printInfo(name, cpf, email, valueReceived, valueSales,
+
+                    view.printInfo(name, cpf, email, valueSales, valueReceived,
                             change, null, itens);
                 }
             }
@@ -115,17 +143,26 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     @Override
     public void no() {
-        finalizar();
+        Intent intent = new Intent(context, RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+        view.previosProof();
     }
 
     @Override
     public void yes() {
         if (venda != null) {
 
+            Log.d("TAG", "yes: "+ venda);
+
             apiService.emailSales(venda).enqueue(new Callback<SalesModel>() {
                 @Override
                 public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
                     if (response.isSuccessful()) {
+                        Intent intent = new Intent(context, RegisterActivity.class);
+                        intent.putExtra("tela", tela);
+                        intent.putExtra("email", venda.email);
+                        context.startActivity(intent);
                         view.mostrarSucesso();
                         finalizar();
                     } else {
@@ -146,8 +183,6 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     private void finalizar() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("tela", tela);
-        intent.putExtra("email", venda.email);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosProof();
@@ -157,6 +192,13 @@ public class ProofPresenter implements ProofContract.Presenter {
     public void backProof() {
         Intent intent = new Intent(context, ResumerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("nome", namePresenter);
+        intent.putExtra("cpf", cpfPresenter);
+        intent.putExtra("email", emailPresenter);
+        intent.putExtra("valor_venda", valueSalesPresenter);
+        intent.putExtra("valor_recebido", valueReceivedPresenter);
+        intent.putExtra("troco", changePresenter);
+        intent.putExtra("itens", (Serializable) itensPresenter);
         context.startActivity(intent);
         view.previosProof();
     }

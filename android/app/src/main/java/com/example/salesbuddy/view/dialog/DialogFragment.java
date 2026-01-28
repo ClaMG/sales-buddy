@@ -1,6 +1,9 @@
 package com.example.salesbuddy.view.dialog;
 
+import static android.content.Intent.getIntent;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +30,18 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_strings, container, false);
 
+        //Componetes
         tvDialog1 = view.findViewById(R.id.tvDialog1);
         tvDialog2 = view.findViewById(R.id.tvDialog2);
         tvDialog3 = view.findViewById(R.id.tvDialog3);
 
+        //Presenter
         presenter = new DialogPresenter(this, getContext());
-        String tela= "";
-        String email = "";
 
+        //Eventos
+        String tela= getActivity().getIntent().getStringExtra("tela");
+        String email = getActivity().getIntent().getStringExtra("email");
+        Log.d("dialog", "tela: "+ tela + " email: " +email);
         presenter.alter(tela, email);
         return view;
     }

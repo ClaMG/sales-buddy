@@ -18,17 +18,22 @@ public class DialogPresenter implements DialogContract.Presente {
 
 
     @Override
-    public void alter(String tela,String email) {
+    public void alter(String tela, String email) {
         if (tela == "email"){
             tv1 = "COMPROVANTE ENVIADO";
             tv2 = "COM SUCESSO PARA O E-MAIL:";
             tv3 = email;
         }
+        if (tela == "Resumer"){
+            tv1 = "VENDA";
+            tv2 = "EFETUADA COM SUCESSO";
+            tv3 = null;
+        }
         if (tela == "reprocessingSucess"){
             tv1 = "REPROCESSAMENTO";
             tv2 = "EFETUADO COM SUCESSO";
-            tv3 = "";
-        }else {
+            tv3 = null;
+        } if (tela == "reprocessingError"){
             tv1 = "PROBLEMAS ENCONTRADOS";
             tv2 = "AO REPROCESSAR ALGUMAS";
             tv3 = "VENDAS, TENTE NOVAMENTE";

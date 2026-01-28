@@ -40,6 +40,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private String changePresenter;
     private List<ItemsModel> itensPresenter;
 
+    private String tela = "Resumer";
+
 
 
     public ResumerPresenter(ResumerContract.View view, Context context) {
@@ -49,8 +51,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     }
 
     @Override
-    public void getInfo(String name, String cpf, String email, String valueReceived,
-                        String valueSales, String change, List<ItemsModel> itens) {
+    public void getInfo(String name, String cpf, String email, String valueSales,
+                        String valueReceived, String change, List<ItemsModel> itens) {
 
         if (name == null || cpf == null || email == null || valueReceived == null || valueSales == null || change== null ){
             view.mostrarErro("Não Consegumos localizar a informação de todos os campos");
@@ -64,7 +66,9 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         changePresenter = change;
         itensPresenter = itens;
 
-        view.printInfo(name, cpf, email, valueReceived, valueSales, change);
+        Log.d("descobrir", "venda "+ valueSales + " recebido "+ valueReceived);
+
+        view.printInfo(name, cpf, email,valueSales, valueReceived, change);
 
         String vSales = (valueSales != null) ? valueSales : "0.0";
         String vReceived = (valueReceived != null) ? valueReceived : "0.0";
@@ -80,9 +84,20 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private class DefaultCallback implements Callback<SalesModel> {
         @Override
         public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
-            if (response.isSuccessful()) {
+            if (response.isSuccessful() && response.body() != null) {
+                SalesModel vendaSalva = response.body();
+                Intent intent = new Intent(context, RegisterActivity.class);
+                intent.putExtra("tela", tela);
+
                 view.mostrarSucesso();
-                irParaProof();
+
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        irParaProof(vendaSalva);
+                    }
+                }, 2000);
             } else {
                 String mensagemErro = extrairMensagemDeErro(response);
                 view.mostrarErro(mensagemErro);
@@ -147,24 +162,21 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     public void finish() {
         if (venda != null) {
             apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback());
-            Intent intent = new Intent(context, ProofActivity.class);
-            intent.putExtra("nome", namePresenter);
-            intent.putExtra("cpf", cpfPresenter);
-            intent.putExtra("email", emailPresenter);
-            intent.putExtra("valor_venda", valueSalesPresenter);
-            intent.putExtra("valor_recebido", valueReceivedPresenter);
-            intent.putExtra("troco", changePresenter);
-            intent.putExtra("itens", (Serializable) itensPresenter);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            context.startActivity(intent);
-            view.previosResumer();
         } else {
             view.mostrarErro("Dados da venda não carregados. Tente novamente.");
         }
     }
 
-    private void irParaProof() {
+    private void irParaProof(SalesModel vendaFinal) {
         Intent intent = new Intent(context, ProofActivity.class);
+        intent.putExtra("nome", namePresenter);
+        intent.putExtra("cpf", cpfPresenter);
+        intent.putExtra("email", emailPresenter);
+        intent.putExtra("valor_venda", valueSalesPresenter);
+        intent.putExtra("valor_recebido", valueReceivedPresenter);
+        intent.putExtra("troco", changePresenter);
+        intent.putExtra("itens", (Serializable) itensPresenter);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();

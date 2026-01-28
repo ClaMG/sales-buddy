@@ -10,12 +10,14 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.ProofPresenter;
 import com.example.salesbuddy.view.adapter.AdpterProof;
+import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ProofContract;
 import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.example.salesbuddy.view.dialog.MenuFragment;
@@ -51,8 +53,6 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         //Presenter
         presenter = new ProofPresenter(this, getApplicationContext());
 
-        recyclerViewProof.setNestedScrollingEnabled(false);
-
         String nome = getIntent().getStringExtra("nome");
         String cpf = getIntent().getStringExtra("cpf");
         String email = getIntent().getStringExtra("email");
@@ -61,26 +61,12 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         String change = getIntent().getStringExtra("troco");
         List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
 
-        Log.d("DEBUG_SALE", "--- Dados da Venda ---");
-        Log.d("DEBUG_SALE", "Nome: " + nome);
-        Log.d("DEBUG_SALE", "CPF: " + cpf);
-        Log.d("DEBUG_SALE", "Email: " + email);
-        Log.d("DEBUG_SALE", "Valor Venda: " + saleValue);
-        Log.d("DEBUG_SALE", "Valor Recebido: " + amountReceived);
+        recyclerViewProof.setNestedScrollingEnabled(false);
+        recyclerViewProof.setLayoutManager(new LinearLayoutManager(this));
 
-// Log da Lista de Itens
-        if (item != null) {
-            Log.d("DEBUG_SALE", "Quantidade de itens: " + item.size());
-            for (int i = 0; i < item.size(); i++) {
-                // Supondo que ItemsModel tenha um método getDescricao()
-                Log.d("DEBUG_SALE", "Item " + i + ": " + item.get(i).getDescricao());
-            }
-        } else {
-            Log.e("DEBUG_SALE", "A lista de itens veio NULA!");
-        }
-        Log.d("DEBUG_SALE", "-----------------------");
+        AdpterResumer adapter = new AdpterResumer(item);
+        recyclerViewProof.setAdapter(adapter);
 
-        Log.d("TAG", "onCreateProof: "+ email);
 
         //Eventos
         presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, item);

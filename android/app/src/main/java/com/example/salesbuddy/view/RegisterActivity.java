@@ -57,16 +57,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         //Eventos
         boolean isUpdate = Boolean.parseBoolean(getIntent().getStringExtra("IS_UPDATE"));
         Log.d("TAG", "onCreateUpdatecima: "+ isUpdate);
-        if (isUpdate) {
-            Log.d("TAG", "onCreateUpdatedentro: "+ isUpdate);
-            String nome = getIntent().getStringExtra("nome");
-            String cpf = getIntent().getStringExtra("cpf");
-            String email = getIntent().getStringExtra("email");
-            String saleValue = getIntent().getStringExtra("valor_venda");
-            String amountReceived = getIntent().getStringExtra("valor_recebido");
-            List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
+
+        Log.d("TAG", "onCreateUpdatedentro: "+ isUpdate);
+        String name = getIntent().getStringExtra("nome");
+        String cpf = getIntent().getStringExtra("cpf");
+        String email = getIntent().getStringExtra("email");
+        String saleValue = getIntent().getStringExtra("valor_venda");
+        String amountReceived = getIntent().getStringExtra("valor_recebido");
+        List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
+        if (item == null) item = new ArrayList<>();
+
+        presenter.updateconfirm(isUpdate,  name,  cpf,  email,  saleValue,  amountReceived, item);
+
+            //debug
             Log.d("DEBUG_SALE", "--- Dados da Venda ---");
-            Log.d("DEBUG_SALE", "Nome: " + nome);
+            Log.d("DEBUG_SALE", "Nome: " + name);
             Log.d("DEBUG_SALE", "CPF: " + cpf);
             Log.d("DEBUG_SALE", "Email: " + email);
             Log.d("DEBUG_SALE", "Valor Venda: " + saleValue);
@@ -83,9 +88,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
                 Log.e("DEBUG_SALE", "A lista de itens veio NULA!");
             }
             Log.d("DEBUG_SALE", "-----------------------");
-            //presenter.register(isUpdate, nome, cpf, email, saleValue, amountReceived, item);
-        }
+
+
         Log.d("TAG", "onCreateUpdate: "+ isUpdate);
+
         recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this));
         List<ItemsModel> listaDeItens = new ArrayList<>();
         AdpterRegister adapter = new AdpterRegister(listaDeItens);
@@ -101,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
                 String saleValue = txSaleValue.getText().toString().trim();
                 String amountReceived = txAmountReceived.getText().toString().trim();
                 List<ItemsModel> itens = adapter.getItems();
-                presenter.register(isUpdate,name, cpf, email, saleValue, amountReceived, itens);
+                presenter.register(name, cpf, email, saleValue, amountReceived, itens);
             }
         });
         btnBackRegister.setOnClickListener(new View.OnClickListener() {

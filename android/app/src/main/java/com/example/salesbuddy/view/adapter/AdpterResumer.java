@@ -49,7 +49,7 @@ public class AdpterResumer extends RecyclerView.Adapter<AdpterResumer.ViewHolder
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return (items != null) ? items.size() : 0;
     }
 
     public static class ViewHolderResumer extends RecyclerView.ViewHolder {

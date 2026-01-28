@@ -38,12 +38,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     //Registrar venda
     @Override
-    public void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
+    public void register( String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
         if (name == null || cpf == null || email == null || saleValue == null || amountReceived == null){
             Mensage = "Preencha todos os campos";
             view.showToastRegister(Mensage);
             return;
         }
+        Log.d("descobrir", "venda "+ saleValue + " recebido "+ amountReceived);
 
         if (itens == null) {
             view.showToastRegister("Adicione pelo menos um item à venda");
@@ -63,12 +64,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             return;
         }
 
-        if (isUpdate){
-            title = "ATUALIZAR VENDA";
-
-            view.update(name, cpf, email, valueReceived, valueSales, title, itens);
-        }
-
         saleValueDouble = Double.parseDouble(saleValue.replace(",", "."));
         amountReceivedDouble = Double.parseDouble(amountReceived.replace(",", "."));
 
@@ -79,22 +74,18 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
         String change = String.format("%.2f", (amountReceivedDouble - saleValueDouble));
 
-        try {
 
-            Intent intent = new Intent(context, ResumerActivity.class);
-            intent.putExtra("nome", name);
-            intent.putExtra("cpf", cpf);
-            intent.putExtra("email", email);
-            intent.putExtra("valor_venda", saleValue);
-            intent.putExtra("valor_recebido", amountReceived);
-            intent.putExtra("troco", change);
-            intent.putExtra("itens", (Serializable) itens);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            context.startActivity(intent);
-            view.previosRegister();
-        } catch (Exception e) {
-            Mensage = "Erro interno"+ e;
-        }
+        Intent intent = new Intent(context, ResumerActivity.class);
+        intent.putExtra("nome", name);
+        intent.putExtra("cpf", cpf);
+        intent.putExtra("email", email);
+        intent.putExtra("valor_venda", saleValue);
+        intent.putExtra("valor_recebido", amountReceived);
+        intent.putExtra("troco", change);
+        intent.putExtra("itens", (Serializable) itens);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+        view.previosRegister();
 
         view.showToastRegister(Mensage);
     }
@@ -141,5 +132,15 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     @Override
     public void onMenuButtonClicked() {
         view.showMenuDialog();
+    }
+
+    @Override
+    public void updateconfirm(boolean isUpdate,String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens ) {
+        if (isUpdate){
+            title = "ATUALIZAR VENDA";
+
+            view.update(name, cpf, email, valueSales, valueReceived, title, itens);
+
+        }
     }
 }

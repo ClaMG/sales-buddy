@@ -24,14 +24,22 @@ export async function findBySalesName(nomeCliente) {
     });
 }
 
-//Pesquisa pelo email
 export async function findSaleIdByMatch(dados) {
-    const sale = await Sale.findOne({
-        where: dados, 
-        attributes: ['id']
+    const sales = await Sale.findAll({
+        where: {
+            nome: dados.nome,
+            cpf: dados.cpf,
+            email: dados.email,
+            quantidade: dados.quantidade,
+            valorVenda: dados.valorVenda,
+            valorRecebido: dados.valorRecebido,
+            troco: dados.troco
+        },
+        attributes: ['id'],
+        order: [['id', 'DESC']] 
     });
 
-    return sale ? sale.id : null;
+    return sales; 
 }
 
 //Criar uma nova venda

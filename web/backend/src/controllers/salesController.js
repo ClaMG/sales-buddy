@@ -69,12 +69,18 @@ export async function enviarComprovanteMobileController(req, res) {
         troco: parseFloat(req.body.troco) || 0
     }
     try {
-        const resultado =await enviarComprovanteMobile(dados);
+        const resultado = await enviarComprovanteMobile(dados);
+        
         return res.status(200).json({
-            resultado: resultado,
-            message: "Comprovante enviado com sucesso."});
+            id: resultado, 
+            message: "Comprovante processado com sucesso."
+        });
     } catch (error) {
-        throw new Error(error.message);
+        console.error("Erro no Controller Mobile:", error.message);
+        
+        return res.status(400).json({
+            message: error.message || "Erro ao processar comprovante."
+        });
     }
     
 }

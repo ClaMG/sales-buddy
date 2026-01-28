@@ -15,10 +15,11 @@ public class SalesModel {
     public String email;
     @SerializedName("itens")
     public List<ItemsModel> itens;
-    @SerializedName("valorRecebido")
-    public double valorRecebido;
     @SerializedName("valorVenda")
     public double valorVenda;
+    @SerializedName("valorRecebido")
+    public double valorRecebido;
+
     @SerializedName("troco")
     public double troco;
 
@@ -26,6 +27,17 @@ public class SalesModel {
 
     }
     public SalesModel(String nomeCliente, String cpf, String email, double valorVenda, double valorRecebido, double troco, List<ItemsModel> itens) {
+        this.nomeCliente = nomeCliente;
+        this.cpf = cpf;
+        this.email = email;
+        this.valorVenda = valorVenda;
+        this.valorRecebido = valorRecebido;
+        this.troco = troco;
+        this.itens = itens;
+    }
+
+    public SalesModel(Integer id, String nomeCliente, String cpf, String email, double valorVenda, double valorRecebido, double troco, List<ItemsModel> itens) {
+        this.id = id;
         this.nomeCliente = nomeCliente;
         this.cpf = cpf;
         this.email = email;

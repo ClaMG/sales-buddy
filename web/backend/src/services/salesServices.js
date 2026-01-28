@@ -32,15 +32,15 @@ export async function createSalesService(dados){
         throw new Error("CPF inválido.");
     }
 
-    if(dados.valorVenda> dados.valorRecebido){
-	    throw new Error("Valor de venda não foi pago.");
+    if (Number(dados.valorVenda) > Number(dados.valorRecebido)) {
+    throw new Error("Valor de venda não foi pago.");
     }
 
     const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
     const dadosParaSalvar = {
         nome: dados.nomeCliente,
-        cpf: cpfValido,
+        cpf: dados.cpf,
         email: dados.email,
         quantidade: quantidadeItens,
         valorVenda: dados.valorVenda,
@@ -54,8 +54,6 @@ export async function createSalesService(dados){
         throw new Error("Erro ao criar a venda.");
     }
 
-
-
 return vendaCriada;
 
 }
@@ -67,10 +65,13 @@ export async function enviarComprovantePagamento(comprovante) {
 
     const destinatario = comprovante.email;
 
-    const saleExists = await findBySalesName(comprovante.nomeCliente);
-    if (!saleExists) {
-        throw new Error("Venda não encontrada para o cliente fornecido.");
+    const pesquisarVenda = await findSaleIdByMatch(dadosParaSalvar);
+
+    if (!pesquisarVenda ||pesquisarVenda.length === 0) {
+        throw new Error("Nenhuma venda correspondente encontrada.");
     }
+
+    const idVenda = pesquisarVenda[pesquisarVenda.length - 1].id;
 
     const fomatoEmail = validarEmail(destinatario);
     if (!fomatoEmail) {
@@ -84,13 +85,13 @@ export async function enviarComprovantePagamento(comprovante) {
 
     const comprovanteCompleto = {
         nomeCliente: comprovante.nomeCliente,
-        cpf: cpfValido,
+        cpf: comprovante.cpf,
         email: destinatario,
         itens: comprovante.itens || [],
         valorRecebido: comprovante.valorRecebido || 0,
         valorVenda: comprovante.valorVenda || 0,
         troco: comprovante.troco || 0,
-        idVenda: saleExists.id
+        idVenda: idVenda
     };
 
 
@@ -102,7 +103,7 @@ export async function enviarComprovantePagamento(comprovante) {
 }
 
 export async function enviarComprovanteMobile(dados) {
-    if (!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido) {
+    if (!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido || !dados.itens || !dados.troco) {
         throw new Error("Preencha todos os campos.");
     }
     const emailValido = validarEmail(dados.email);
@@ -116,11 +117,27 @@ export async function enviarComprovanteMobile(dados) {
         throw new Error("CPF inválido.");
     }
 
-    const dadosEnviados = await findSaleIdByMatch(dados);
+   const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
-    if (!dadosEnviados) {
-        throw new Error("Nenhuma venda encontrada com os dados fornecidos.");
+    const dadosParaSalvar = {
+        nome: dados.nomeCliente,
+        cpf: dados.cpf,
+        email: dados.email,
+        quantidade: quantidadeItens,
+        valorVenda: dados.valorVenda,
+        valorRecebido: dados.valorRecebido,
+        troco: dados.troco,
+        itens: dados.itens || []
+    };
+
+    const pesquisarVenda = await findSaleIdByMatch(dadosParaSalvar);
+
+    if (!pesquisarVenda ||pesquisarVenda.length === 0) {
+        throw new Error("Nenhuma venda correspondente encontrada.");
     }
 
-    return dadosEnviados;
+    // Pega o ID da última venda correspondente
+    const idFinal = pesquisarVenda.length > 0 ? pesquisarVenda[pesquisarVenda.length - 1].id : null;
+
+    return idFinal;
 }

@@ -17,11 +17,13 @@ public interface RegisterContract {
     }
     interface Presenter{
         //Registar venda
-        void register(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens);
+        void register(String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens);
         //voltar para pagina anterio
         void backRegister();
 
         void onMenuButtonClicked();
+
+        void updateconfirm(boolean isUpdate, String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens);
 
     }
 }

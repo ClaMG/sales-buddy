@@ -6,15 +6,22 @@ export const ItemSales = sequelize.define('ItemSales', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false,
+    allowNull: true,
   },
   descricao: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true 
   },
-  salesId:{
+  salesId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true, 
+    references: {
+        model: 'Sale',
+        key: 'id'
+    }
   }
+}, {
+  tableName: 'ItemSales', 
+  timestamps: false
 });
 

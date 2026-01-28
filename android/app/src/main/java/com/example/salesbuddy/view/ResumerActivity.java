@@ -19,6 +19,7 @@ import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.presenter.ResumerPresenter;
 import com.example.salesbuddy.view.adapter.AdpterResumer;
 import com.example.salesbuddy.view.contract.ResumerContract;
+import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.example.salesbuddy.view.dialog.MenuFragment;
 
 import java.util.ArrayList;
@@ -46,8 +47,8 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         tvNameResume = findViewById(R.id.tvNameResume);
         tvCpfResume = findViewById(R.id.tvCpfResume);
         tvEmailResume = findViewById(R.id.tvEmailResume);
-        tvValueReceived = findViewById(R.id.tvValueReceived);
         tvValueSales = findViewById(R.id.tvValueSales);
+        tvValueReceived = findViewById(R.id.tvValueReceived);
         tvChange = findViewById(R.id.tvChange);
         btnResumerAlter = findViewById(R.id.btnResumerAlter);
         btnEnd = findViewById(R.id.btnEnd);
@@ -101,7 +102,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
 
     //Inserir os dados
     @Override
-    public void printInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change) {
+    public void printInfo(String name, String cpf, String email, String valueSales, String valueReceived, String change) {
         tvNameResume.setText(name);
         tvCpfResume.setText(cpf);
         tvEmailResume.setText(email);
@@ -124,11 +125,8 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
 
     @Override
     public void mostrarSucesso() {
-        new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
-                .setMessage("msg")
-                .setPositiveButton("OK", null)
-                .show();
+        DialogFragment dialog = new DialogFragment();
+        dialog.show(getSupportFragmentManager(), "dialog_string");
     }
 
     @Override
