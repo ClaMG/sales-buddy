@@ -12,7 +12,7 @@ async function startServer() {
     await sequelize.authenticate();
     console.log('Conexão com o banco de dados estabelecida.');
     
-    //Sincroniza as tabelas (sem apagar os dados existentes)
+    //Sincroniza as tabelas 
     await sequelize.sync({ force: false }); 
     console.log('Modelos sincronizados.');
 

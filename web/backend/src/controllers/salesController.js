@@ -113,11 +113,22 @@ export async function findAllReprocessingController(req, res) {
 }
 
 export async function ReprocessingByIdController(req, res) {
-    const dados = req.body.id;
-    try{
+    const dados = { id: req.body.id };
+   try {
         const resultado = await reprocessingService(dados);
         return res.status(200).json(resultado);
-    }catch(error){
+    } catch (error) {
+        // Verifica se é um erro de validação do Sequelize
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            // Mapeia todas as mensagens de erro detalhadas
+            const mensagensDetalhadas = error.errors.map(err => err.message).join(", ");
+            return res.status(400).json({ 
+                message: `Erro de Validação: ${mensagensDetalhadas}`,
+                errorType: error.name 
+            });
+        }
+
+        // Erro genérico ou do Service
         return res.status(400).json({ message: error.message });
-    } 
+    }
 }

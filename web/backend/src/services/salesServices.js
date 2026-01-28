@@ -201,15 +201,17 @@ export async function reprocessingService(dados){
     if(!dados || !dados.id){
         throw new Error("ID do reprocessamento é obrigatório.");
     }
-    const reprocessamento = await findByIdReprocessing(dados.id);
-    if(!reprocessamento){
-        throw new Error("Reprocessamento não encontrado.");
+    const id = dados.id;
+
+    const reprocessamento = await findByIdReprocessing(id);
+    if (!reprocessamento) {
+        throw new Error("Registro de reprocessamento não encontrado.");
     }
 
     const quantidadeItens = reprocessamento.itens ? reprocessamento.itens.length : 0;
 
     const dadosParaSalvar = {
-        nome: reprocessamento.nomeCliente,
+        nome: reprocessamento.nome,
         cpf: reprocessamento.cpf,
         email: reprocessamento.email,
         quantidade: quantidadeItens,
@@ -233,5 +235,5 @@ export async function reprocessingService(dados){
     }
 
 
-    return reprocessamento;
+    return criarVenda;
 }

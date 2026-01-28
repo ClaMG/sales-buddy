@@ -93,8 +93,13 @@ public class ResumerPresenter implements ResumerContract.Presenter {
                 SalesModel vendaSalva = response.body();
                 view.mostrarSucesso();
 
-                // Delay de 2 segundos para o usuário ver o feedback visual
-                new android.os.Handler().postDelayed(() -> irParaProof(vendaSalva), 2000);
+                new android.os.Handler().postDelayed(() -> {
+                    if (!isReprocessingAttempt) {
+                        irParaProof(vendaSalva);
+                    } else {
+                        irHome();
+                    }
+                }, 2000);
 
             } else {
                 // Extrai a mensagem de erro vinda do servidor (Node.js)
@@ -178,7 +183,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
 
     @Override
     public void finish() {
-        boolean pagamento = true;
+        boolean pagamento = false;
         if (venda != null && pagamento == true) {
             apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback(false));
         } else {
@@ -209,6 +214,16 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         context.startActivity(intent);
         view.previosResumer();
     }
+
+    private void irHome(){
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+        view.previosResumer();
+    }
+
+
+
     @Override
     public void backResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);

@@ -25,7 +25,6 @@ public interface SalesService {
     @POST("sales/reprocessing")
     Call<SalesModel> reprocessing(@Body SalesModel id);
 
-
     @GET("sales/reprocessings")
     Call<List<SalesModel>> buscarTodosReprocessamentos();
 

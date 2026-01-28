@@ -2,14 +2,14 @@ import {Reprocessing} from './reprocessingModel.js';
 import {ItemReprocessing} from './itemsReprocessing.js';
 
 Reprocessing.hasMany(ItemReprocessing, {
-  foreignKey: 'salesId',
+  foreignKey: 'reprocessingId',
   as: 'itens',
   onDelete: 'CASCADE'
 });
 
 
 ItemReprocessing.belongsTo(Reprocessing, {
-  foreignKey: 'salesId'
+  foreignKey: 'reprocessingId'
 });
 
 export { Reprocessing, ItemReprocessing };
