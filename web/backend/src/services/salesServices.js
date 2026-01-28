@@ -1,5 +1,5 @@
-import { FLOAT } from 'sequelize';
-import {findByIdSales, createSales, findBySalesName, findSaleIdByMatch} from '../dao/salesDAO.js'
+import e from 'express';
+import {findByIdSales, createSales, createReprocessing, findSaleIdByMatch, deleteReprocessing, findByIdReprocessing} from '../dao/salesDAO.js'
 import { validarEmail, enviarEmailComprovante, validarCPF} from '../utils/authUtils.js'
 
 export async function saleById(id){
@@ -68,7 +68,7 @@ export async function enviarComprovantePagamento(comprovante) {
 
     const destinatario = comprovante.email;
 
-    const vendaDados = {
+    const dados = {
         nomeCliente: comprovante.nomeCliente,
         cpf: comprovante.cpf,
         email: comprovante.email,
@@ -78,7 +78,7 @@ export async function enviarComprovantePagamento(comprovante) {
         troco: comprovante.troco
     };
 
-    const pesquisarVenda = await findSaleIdByMatch(vendaDados);
+    const pesquisarVenda = await findSaleIdByMatch(dados);
 
     if (!pesquisarVenda ||pesquisarVenda.length === 0) {
         throw new Error("Nenhuma venda correspondente encontrada.");
@@ -95,8 +95,6 @@ export async function enviarComprovantePagamento(comprovante) {
     if (!cpfValido) {
         throw new Error("CPF inválido.");
     }
-
-    const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
     const comprovanteCompleto = {
         nomeCliente: comprovante.nomeCliente,
@@ -135,7 +133,7 @@ export async function enviarComprovanteMobile(dados) {
    const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
     const dadosParaSalvar = {
-        nome: dados.nomeCliente,
+        nomeCliente: dados.nomeCliente,
         cpf: dados.cpf,
         email: dados.email,
         quantidade: quantidadeItens,
@@ -155,4 +153,85 @@ export async function enviarComprovanteMobile(dados) {
     const idFinal = pesquisarVenda.length > 0 ? pesquisarVenda[pesquisarVenda.length - 1].id : null;
 
     return idFinal;
+}
+
+export async function createReprocessingService(dados){
+    if(!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido ){
+    throw new Error("Preencha todos os campo.");
+    }
+    const fomatoEmail = validarEmail(dados.email)
+
+    if(!fomatoEmail){
+        throw new Error("Email com o fomato errado, deve conter o @ e .com")
+    }
+
+    const cpfValido = validarCPF(dados.cpf);
+    if (!cpfValido) {
+        throw new Error("CPF inválido.");
+    }
+
+
+    if (dados.valorVenda > dados.valorRecebido) {
+    throw new Error("Valor de venda não foi pago.");
+    }
+
+    const quantidadeItens = dados.itens ? dados.itens.length : 0;
+
+    const dadosParaSalvar = {
+        nome: dados.nomeCliente,
+        cpf: dados.cpf,
+        email: dados.email,
+        quantidade: quantidadeItens,
+        valorVenda: dados.valorVenda,
+        valorRecebido: dados.valorRecebido,
+        troco: dados.troco,
+        itens: dados.itens || []
+    };
+
+    const reprocessamentoCriado = await createReprocessing( dadosParaSalvar );
+    if(!reprocessamentoCriado){
+        throw new Error("Erro ao criar o reprocessamento.");
+    }
+
+    return reprocessamentoCriado;
+
+}
+
+export async function reprocessingService(dados){
+    if(!dados || !dados.id){
+        throw new Error("ID do reprocessamento é obrigatório.");
+    }
+    const reprocessamento = await findByIdReprocessing(dados.id);
+    if(!reprocessamento){
+        throw new Error("Reprocessamento não encontrado.");
+    }
+
+    const quantidadeItens = reprocessamento.itens ? reprocessamento.itens.length : 0;
+
+    const dadosParaSalvar = {
+        nome: reprocessamento.nomeCliente,
+        cpf: reprocessamento.cpf,
+        email: reprocessamento.email,
+        quantidade: quantidadeItens,
+        itens: reprocessamento.itens || [],
+        valorRecebido: reprocessamento.valorRecebido || 0,
+        valorVenda: reprocessamento.valorVenda || 0,
+        troco: reprocessamento.troco || 0
+    };
+
+    const criarVenda = await createSales(dadosParaSalvar);
+
+    if(!criarVenda){
+        throw new Error("Erro ao criar a venda a partir do reprocessamento.");
+    }
+
+    //deletar o reprocessamento após criar a venda
+    const deletarReprocessamento = await deleteReprocessing(dados.id);
+
+    if(!deletarReprocessamento){
+        throw new Error("Erro ao deletar o reprocessamento após criar a venda.");
+    }
+
+
+    return reprocessamento;
 }

@@ -46,9 +46,10 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         }
         Log.d("descobrir", "venda "+ saleValue + " recebido "+ amountReceived);
 
-        if (itens == null) {
-            view.showToastRegister("Adicione pelo menos um item à venda");
+        if (itens == null || itens.isEmpty()) {
+            view.showToastRegister("Atenção: Adicione pelo menos 1 item para continuar!");
             return;
+            // O 'return' impede que o código abaixo (Intent) seja executado
         }
 
         //Verificação de Email
@@ -139,7 +140,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         if (isUpdate){
             title = "ATUALIZAR VENDA";
 
-            view.update(name, cpf, email, valueSales, valueReceived, title, itens);
+            view.update(name, cpf, email, saleValue, amountReceived, title, itens);
 
         }
     }

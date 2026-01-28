@@ -66,8 +66,6 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         changePresenter = change;
         itensPresenter = itens;
 
-        Log.d("descobrir", "venda "+ valueSales + " recebido "+ valueReceived);
-
         view.printInfo(name, cpf, email,valueSales, valueReceived, change);
 
         String vSales = (valueSales != null) ? valueSales : "0.0";
@@ -82,32 +80,51 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     }
 
     private class DefaultCallback implements Callback<SalesModel> {
+        private final boolean isReprocessingAttempt;
+
+        // Construtor que define se esta chamada já é a de recuperação
+        public DefaultCallback(boolean isReprocessing) {
+            this.isReprocessingAttempt = isReprocessing;
+        }
+
         @Override
         public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
             if (response.isSuccessful() && response.body() != null) {
                 SalesModel vendaSalva = response.body();
-                Intent intent = new Intent(context, RegisterActivity.class);
-                intent.putExtra("tela", tela);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(intent);
                 view.mostrarSucesso();
 
+                // Delay de 2 segundos para o usuário ver o feedback visual
+                new android.os.Handler().postDelayed(() -> irParaProof(vendaSalva), 2000);
 
-                new android.os.Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        irParaProof(vendaSalva);
-                    }
-                }, 2000);
             } else {
+                // Extrai a mensagem de erro vinda do servidor (Node.js)
                 String mensagemErro = extrairMensagemDeErro(response);
-                view.mostrarErro(mensagemErro);
+
+                if (!isReprocessingAttempt) {
+                    // Se falhou na primeira vez, tentamos o reprocessamento
+                    reprocessing();
+                } else {
+                    // Se falhou até no reprocessamento, desistimos e avisamos o usuário
+                    view.mostrarErro("Erro persistente: " + mensagemErro);
+                }
             }
         }
 
         @Override
         public void onFailure(Call<SalesModel> call, Throwable t) {
-            tratarErroConexao(t);
+            if (!isReprocessingAttempt) {
+                Log.e("API_RETRY", "Erro de conexão. Tentando reprocessar...");
+                reprocessing();
+            } else {
+                // Falha total de conexão após reprocessar
+                tratarErroConexao(t);
+            }
+        }
+    }
+
+    public void reprocessing(){
+        if (venda != null){
+            apiService.enviarReprocessing(venda).enqueue(new ResumerPresenter.DefaultCallback(true));
         }
     }
 
@@ -145,7 +162,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void altResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", true);
+        intent.putExtra("IS_UPDATE", "true");
         intent.putExtra("nome", namePresenter);
         intent.putExtra("cpf", cpfPresenter);
         intent.putExtra("email", emailPresenter);
@@ -161,10 +178,20 @@ public class ResumerPresenter implements ResumerContract.Presenter {
 
     @Override
     public void finish() {
-        if (venda != null) {
-            apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback());
+        boolean pagamento = true;
+        if (venda != null && pagamento == true) {
+            apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback(false));
         } else {
-            view.mostrarErro("Dados da venda não carregados. Tente novamente.");
+            String vSales = (valueSalesPresenter != null) ? valueSalesPresenter : "0.0";
+            String vReceived = (valueReceivedPresenter != null) ? valueReceivedPresenter : "0.0";
+            String vChange = (changePresenter != null) ? changePresenter : "0.0";
+
+            double saleValueDouble = Double.parseDouble(vSales.replace(",", "."));
+            double amountReceivedDouble = Double.parseDouble(vReceived.replace(",", "."));
+            double chageDouble = Double.parseDouble(vChange.replace(",", "."));
+
+            venda = new SalesModel(namePresenter, cpfPresenter, emailPresenter, saleValueDouble, amountReceivedDouble, chageDouble, itensPresenter);
+            reprocessing();
         }
     }
 
@@ -185,7 +212,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void backResumer() {
         Intent intent = new Intent(context, RegisterActivity.class);
-        intent.putExtra("IS_UPDATE", false);
+        intent.putExtra("IS_UPDATE", "false");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         view.previosResumer();

@@ -31,7 +31,7 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     private SalesModel venda;
 
-    private String tela= "email";
+    private String tela;
 
     private String namePresenter;
     private String cpfPresenter;
@@ -155,6 +155,7 @@ public class ProofPresenter implements ProofContract.Presenter {
         if (venda != null) {
 
             Log.d("TAG", "yes: "+ venda);
+            tela= "email";
 
             apiService.emailSales(venda).enqueue(new Callback<SalesModel>() {
                 @Override

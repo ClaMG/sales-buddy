@@ -44,7 +44,6 @@ public class LoginPresenter implements LoginContract.Presenter {
             if (user == null || password == null){
                 view.mostrarErro("preencha todos os campos");
             }
-            Log.d("API_CHECK", "Enviando Usuario: [" + user + "] Senha: [" + password + "]");
             LoginModel dados = new LoginModel(user.trim(), password.trim());
             LoginService loginService = RetrofitClient.getClient().create(LoginService.class);
 
@@ -111,17 +110,4 @@ public class LoginPresenter implements LoginContract.Presenter {
         context.startActivity(intent);
         view.previosLogin();
     }
-
-
-    /*
-    @Override
-    public void login(String user, String password) {
-        Log.d("tag", "login: "+ user + "/"+ password);
-        if (user == "erick" && password=="1234"){
-            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzY5NTE0MjE0LCJleHAiOjE3Njk2MDA2MTR9.WmWvrCT3pMnrFxClKcp0BafOFyEVzOrIYW2Q0xqyUDo";
-            irParaHome(token);
-        }
-    }
-
-     */
 }

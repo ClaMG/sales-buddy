@@ -53,12 +53,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         btnMenuCreate = findViewById(R.id.btnMenuCreate);
         //Presenter
         presenter = new RegisterPresenter(this,getApplicationContext());
+        recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this));
 
         //Eventos
         boolean isUpdate = Boolean.parseBoolean(getIntent().getStringExtra("IS_UPDATE"));
-        Log.d("TAG", "onCreateUpdatecima: "+ isUpdate);
-
-        Log.d("TAG", "onCreateUpdatedentro: "+ isUpdate);
         String name = getIntent().getStringExtra("nome");
         String cpf = getIntent().getStringExtra("cpf");
         String email = getIntent().getStringExtra("email");
@@ -67,35 +65,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         List<ItemsModel> item = (List<ItemsModel>) getIntent().getSerializableExtra("itens");
         if (item == null) item = new ArrayList<>();
 
-        presenter.updateconfirm(isUpdate,  name,  cpf,  email,  saleValue,  amountReceived, item);
-
-            //debug
-            Log.d("DEBUG_SALE", "--- Dados da Venda ---");
-            Log.d("DEBUG_SALE", "Nome: " + name);
-            Log.d("DEBUG_SALE", "CPF: " + cpf);
-            Log.d("DEBUG_SALE", "Email: " + email);
-            Log.d("DEBUG_SALE", "Valor Venda: " + saleValue);
-            Log.d("DEBUG_SALE", "Valor Recebido: " + amountReceived);
-
-            // Log da Lista de Itens
-            if (item != null) {
-                Log.d("DEBUG_SALE", "Quantidade de itens: " + item.size());
-                for (int i = 0; i < item.size(); i++) {
-                    // Supondo que ItemsModel tenha um método getDescricao()
-                    Log.d("DEBUG_SALE", "Item " + i + ": " + item.get(i).getDescricao());
-                }
-            } else {
-                Log.e("DEBUG_SALE", "A lista de itens veio NULA!");
-            }
-            Log.d("DEBUG_SALE", "-----------------------");
 
 
-        Log.d("TAG", "onCreateUpdate: "+ isUpdate);
+        AdpterRegister adapter;
+        if (isUpdate) {
 
-        recyclerViewRegister.setLayoutManager(new LinearLayoutManager(this));
-        List<ItemsModel> listaDeItens = new ArrayList<>();
-        AdpterRegister adapter = new AdpterRegister(listaDeItens);
+            adapter = new AdpterRegister(item);
+        } else {
+
+            adapter = new AdpterRegister(new ArrayList<>());
+        }
+
+
         recyclerViewRegister.setAdapter(adapter);
+
+        presenter.updateconfirm(isUpdate, name, cpf, email, saleValue, amountReceived, item);
 
 
         btnResumer.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +117,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     //Aparecer a mensagem no toast
     @Override
     public void showToastRegister(String menssage) {
-        Toast.makeText(this, menssage, Toast.LENGTH_SHORT).show();
+        if (menssage != null){
+            Toast.makeText(this, menssage, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

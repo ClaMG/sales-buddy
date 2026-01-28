@@ -1,5 +1,5 @@
-import {findAllSales} from '../dao/salesDAO.js'
-import {saleById, createSalesService, enviarComprovantePagamento, enviarComprovanteMobile} from '../services/salesServices.js'
+import {findAllSales, findAllReprocessing} from '../dao/salesDAO.js'
+import {saleById, createSalesService, enviarComprovantePagamento, enviarComprovanteMobile, createReprocessingService, reprocessingService} from '../services/salesServices.js'
 
 
 export async function findAllSaleController(req, res) {
@@ -83,4 +83,41 @@ export async function enviarComprovanteMobileController(req, res) {
         });
     }
     
+}
+
+export async function CreateReprocessingController(req, res) {
+   const novoReprocessamento = {
+            nomeCliente: req.body.nomeCliente,
+            cpf: req.body.cpf,
+            email: req.body.email,
+            itens: req.body.itens || [] ,
+            valorRecebido: parseFloat(req.body.valorRecebido) || 0,
+            valorVenda: parseFloat(req.body.valorVenda) || 0,
+            troco: parseFloat(req.body.troco) || 0
+        };
+    try {
+        const resultado = await createReprocessingService(novoReprocessamento);
+        return res.status(201).json(resultado);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+export async function findAllReprocessingController(req, res) {
+    try {
+        const resultado = await findAllReprocessing();
+        return res.status(201).json(resultado);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+
+export async function ReprocessingByIdController(req, res) {
+    const dados = req.body.id;
+    try{
+        const resultado = await reprocessingService(dados);
+        return res.status(200).json(resultado);
+    }catch(error){
+        return res.status(400).json({ message: error.message });
+    } 
 }

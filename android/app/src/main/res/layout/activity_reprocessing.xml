@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/img_background" />
 
     <Button
-        android:id="@+id/btnResumer2"
+        android:id="@+id/btnReprocessing"
         android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginStart="80dp"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tvTitleRegister"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton9" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBackReprocessing" />
 
     <View
         android:id="@+id/view12"
@@ -73,10 +73,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvTitleRegister"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton8" />
+        app:layout_constraintTop_toBottomOf="@+id/btnMenuViewReprocessing" />
 
     <ImageButton
-        android:id="@+id/imageButton8"
+        android:id="@+id/btnMenuViewReprocessing"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -88,7 +88,7 @@
         app:srcCompat="@drawable/icon_menu" />
 
     <ImageButton
-        android:id="@+id/imageButton9"
+        android:id="@+id/btnBackReprocessing"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="15dp"
@@ -103,8 +103,8 @@
         android:layout_width="238dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton8"
-        app:layout_constraintStart_toEndOf="@+id/imageButton9"
+        app:layout_constraintEnd_toStartOf="@+id/btnMenuViewReprocessing"
+        app:layout_constraintStart_toEndOf="@+id/btnBackReprocessing"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/img_logo_top" />
 
@@ -116,7 +116,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnResumer2"
+        app:layout_constraintBottom_toTopOf="@+id/btnReprocessing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleRegister5" />

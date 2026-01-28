@@ -1,13 +1,13 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-export const Sale = sequelize.define('Sale', {
-  id: {
+export const Reprocessing = sequelize.define('Reprocessing', {
+    id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
-  },
+    },
     nome: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -37,7 +37,7 @@ export const Sale = sequelize.define('Sale', {
   },
   
 }, {
-    tableName: 'Sale',  
+    tableName: 'Reprocessing',  
     freezeTableName: true, // Impede o Sequelize de tentar pluralizar o nome
     timestamps: false       // campos 'createdAt' e 'updatedAt'
 });
