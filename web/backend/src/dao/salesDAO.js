@@ -27,7 +27,7 @@ export async function findBySalesName(nomeCliente) {
 export async function findSaleIdByMatch(dados) {
     const sales = await Sale.findAll({
         where: {
-            nome: dados.nome,
+            nome: dados.nomeCliente,
             cpf: dados.cpf,
             email: dados.email,
             quantidade: dados.quantidade,

@@ -1,3 +1,4 @@
+import { FLOAT } from 'sequelize';
 import {findByIdSales, createSales, findBySalesName, findSaleIdByMatch} from '../dao/salesDAO.js'
 import { validarEmail, enviarEmailComprovante, validarCPF} from '../utils/authUtils.js'
 
@@ -32,7 +33,8 @@ export async function createSalesService(dados){
         throw new Error("CPF inválido.");
     }
 
-    if (Number(dados.valorVenda) > Number(dados.valorRecebido)) {
+
+    if (dados.valorVenda > dados.valorRecebido) {
     throw new Error("Valor de venda não foi pago.");
     }
 
@@ -59,13 +61,24 @@ return vendaCriada;
 }
 
 export async function enviarComprovantePagamento(comprovante) {
-    if (!comprovante || !comprovante.nomeCliente || !comprovante.cpf || !comprovante.email || !comprovante.valorVenda || !comprovante.valorRecebido) {
+    if (!comprovante || !comprovante.nomeCliente || !comprovante.cpf || !comprovante.email || !comprovante.valorVenda || !comprovante.valorRecebido 
+        || !comprovante.itens || !comprovante.troco) {
         throw new Error("Preencha todos os campos.");
     }
 
     const destinatario = comprovante.email;
 
-    const pesquisarVenda = await findSaleIdByMatch(dadosParaSalvar);
+    const vendaDados = {
+        nomeCliente: comprovante.nomeCliente,
+        cpf: comprovante.cpf,
+        email: comprovante.email,
+        quantidade: comprovante.itens.length,
+        valorVenda: comprovante.valorVenda,
+        valorRecebido: comprovante.valorRecebido,
+        troco: comprovante.troco
+    };
+
+    const pesquisarVenda = await findSaleIdByMatch(vendaDados);
 
     if (!pesquisarVenda ||pesquisarVenda.length === 0) {
         throw new Error("Nenhuma venda correspondente encontrada.");
@@ -82,6 +95,8 @@ export async function enviarComprovantePagamento(comprovante) {
     if (!cpfValido) {
         throw new Error("CPF inválido.");
     }
+
+    const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
     const comprovanteCompleto = {
         nomeCliente: comprovante.nomeCliente,

@@ -92,6 +92,7 @@ public class ProofPresenter implements ProofContract.Presenter {
                     view.printInfo(name, cpf, email,valueSales, valueReceived,
                             change, idString, itens);
 
+
                     venda = new SalesModel(idGerado, name, cpf, email, amountReceivedDouble,saleValueDouble,
                             chageDouble, itens);
 
@@ -162,7 +163,7 @@ public class ProofPresenter implements ProofContract.Presenter {
                         Intent intent = new Intent(context, RegisterActivity.class);
                         intent.putExtra("tela", tela);
                         intent.putExtra("email", venda.email);
-                        context.startActivity(intent);
+
                         view.mostrarSucesso();
                         finalizar();
                     } else {

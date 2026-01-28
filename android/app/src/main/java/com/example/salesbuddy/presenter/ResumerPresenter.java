@@ -88,7 +88,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
                 SalesModel vendaSalva = response.body();
                 Intent intent = new Intent(context, RegisterActivity.class);
                 intent.putExtra("tela", tela);
-
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
                 view.mostrarSucesso();
 
 
