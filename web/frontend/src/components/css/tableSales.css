@@ -2,12 +2,13 @@
     width: 85%;
 }
 
-.sales-field{
+.sales-field, .user-field{
     font: var(--unnamed-font-style-normal) normal bold var(--unnamed-font-size-15)/var(--unnamed-line-spacing-19) var(--unnamed-font-family-montserrat);
 }
 
-.sales-center{
+.sales-center, .user-field{
     text-align: center;
     justify-content: center;
 }
-
+th:nth-child(1), td:nth-child(1) { width:10%; }
+th:nth-child(n+2):nth-child(-n+5), td:nth-child(n+2):nth-child(-n+5) { width: 15%; padding-right: 15px; }

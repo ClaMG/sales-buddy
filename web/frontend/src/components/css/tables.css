@@ -1,13 +1,9 @@
 .table-base{
-    width: 0%;
     padding: 20px;
 }
 
 .thead tr th,.tbody tr td{
     font: var(--unnamed-font-style-normal) normal medium var(--unnamed-font-size-15)/var(--unnamed-line-spacing-19) var(--unnamed-font-family-montserrat);
-    letter-spacing: var(--unnamed-character-spacing-0);
-    flex: 1;
-    text-align: left;
     font-size: 12px;
 }
 
