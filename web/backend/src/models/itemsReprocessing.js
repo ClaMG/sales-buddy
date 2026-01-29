@@ -12,7 +12,7 @@ export const ItemReprocessing = sequelize.define('ItemReprocessing', {
     type: DataTypes.STRING,
     allowNull: true 
   },
-  salesId: {
+  reprocessingId: {
     type: DataTypes.INTEGER,
     allowNull: true, 
     references: {

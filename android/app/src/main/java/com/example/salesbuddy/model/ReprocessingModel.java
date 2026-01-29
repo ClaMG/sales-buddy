@@ -6,8 +6,14 @@ import java.util.List;
 
 public class ReprocessingModel {
 
-    public Integer id;
-    @SerializedName("nomeCliente")
+    @SerializedName("id")
+    private Integer id;
+    @SerializedName("concluido")
+    private List<Integer> concluido;
+
+    @SerializedName("pendentes")
+    private List<Integer> pendentes;
+    @SerializedName("nome")
     public String nomeCliente;
     @SerializedName("cpf")
     public String cpf;
@@ -23,13 +29,18 @@ public class ReprocessingModel {
     @SerializedName("troco")
     public double troco;
 
+    @SerializedName("reprocessado")
+    public boolean status;
+
     public ReprocessingModel(){
 
     }
 
 
-    public ReprocessingModel(Integer id, String nomeCliente, String cpf, String email, List<ItemsModel> itens, double valorVenda, double valorRecebido, double troco) {
+    public ReprocessingModel(Integer id, List<Integer> concluido, List<Integer> pendentes, String nomeCliente, String cpf, String email, List<ItemsModel> itens, double valorVenda, double valorRecebido, double troco, boolean status) {
         this.id = id;
+        this.concluido = concluido;
+        this.pendentes = pendentes;
         this.nomeCliente = nomeCliente;
         this.cpf = cpf;
         this.email = email;
@@ -37,8 +48,8 @@ public class ReprocessingModel {
         this.valorVenda = valorVenda;
         this.valorRecebido = valorRecebido;
         this.troco = troco;
+        this.status = status;
     }
-
 
     public Integer getId() {
         return id;
@@ -102,5 +113,29 @@ public class ReprocessingModel {
 
     public void setTroco(double troco) {
         this.troco = troco;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public List<Integer> getConcluido() {
+        return concluido;
+    }
+
+    public void setConcluido(List<Integer> concluido) {
+        this.concluido = concluido;
+    }
+
+    public List<Integer> getPendentes() {
+        return pendentes;
+    }
+
+    public void setPendentes(List<Integer> pendentes) {
+        this.pendentes = pendentes;
     }
 }

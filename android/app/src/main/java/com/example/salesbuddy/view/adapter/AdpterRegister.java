@@ -95,6 +95,7 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
                     }
                 });
             }
+
         }
 
     @Override

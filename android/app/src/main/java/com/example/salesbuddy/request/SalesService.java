@@ -1,4 +1,5 @@
 package com.example.salesbuddy.request;
+import com.example.salesbuddy.model.ReprocessingModel;
 import com.example.salesbuddy.model.SalesModel;
 
 import java.util.List;
@@ -23,9 +24,9 @@ public interface SalesService {
     Call<SalesModel> enviarReprocessing(@Body SalesModel venda);
 
     @POST("sales/reprocessing")
-    Call<SalesModel> reprocessing(@Body SalesModel id);
+    Call<ReprocessingModel> reprocessing(@Body ReprocessingModel request);
 
     @GET("sales/reprocessings")
-    Call<List<SalesModel>> buscarTodosReprocessamentos();
+    Call<List<ReprocessingModel>> buscarTodosReprocessamentos();
 
 }

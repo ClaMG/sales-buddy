@@ -69,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
 
         AdpterRegister adapter;
         if (isUpdate) {
-
             adapter = new AdpterRegister(item);
         } else {
 

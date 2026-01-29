@@ -73,6 +73,13 @@ export async function createSales(dados) {
     });
 }
 
+//update reprocessamento parte do status
+export async function updateReprocessing(id, reprocessado) {
+    return await Reprocessing.update({ reprocessado }, {
+        where: { id: id }
+    });
+}
+
 //Deletar um reprocessamento pelo ID
 export async function deleteReprocessing(id) {
     return await Reprocessing.destroy({

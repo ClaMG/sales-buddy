@@ -1,14 +1,9 @@
 import {Create, Login, Delet, Update, CreateCodetemp, UpdateSenha, UpdateSenhaCodeTemp} from '../services/userServices.js'
 import {findAllUsers } from '../dao/userDAO.js'
+import { userInsertDTO, userLoginDTO, userDeletDTO, userUpdateDTO, userUpSenhaDTO,userInsertCodetempDTO, userUpCodeSenhaDTO } from '../DTO/userDTO.js'
 
 export async function insertUsersControler(req, res) {
-    const novoCadastro = {
-    usuario: req.body.usuario,
-    nome: req.body.nome,
-    empresa: req.body.empresa,
-    cnpj: req.body.cnpj,
-    email: req.body.email
-    };
+    const novoCadastro = userInsertDTO(req.body);
     try {
         const resultado = await Create(novoCadastro);
         return res.status(201).json(resultado);
@@ -18,11 +13,11 @@ export async function insertUsersControler(req, res) {
 }
 
 export async function loginUsersControler(req, res) {
-    const { usuario, senha } = req.body;
+    const loginDados = userLoginDTO(req.body);
+    
     try {
 
-        const resultado = await Login(usuario, senha);
-
+        const resultado = await Login(loginDados.usuario, loginDados.senha);
         return res.status(200).json({
             message: "Usuário logado com sucesso",
             user: resultado.usuario,
@@ -34,10 +29,10 @@ export async function loginUsersControler(req, res) {
 }
 
 export async function deletUsersControler(req, res) {
-    const { ids, idUser } = req.body; 
+    const deletDados = userDeletDTO(req.body);
 
     try {
-        const resultado = await Delet(ids, idUser);
+        const resultado = await Delet(deletDados.ids, deletDados.idUser);
         return res.status(201).json({
             message: "Usuário deletado com sucesso",
             resposta: resultado});
@@ -47,14 +42,7 @@ export async function deletUsersControler(req, res) {
 }
 
 export async function updateUsersControler(req, res) {
-    const novoupdateUser = {
-    id: req.body.id,
-    usuario: req.body.usuario,
-    nome: req.body.nome,
-    empresa: req.body.empresa,
-    cnpj: req.body.cnpj,
-    email: req.body.email   
-    };
+    const novoupdateUser = userUpdateDTO(req.body);
     try {
         const resultado = await Update(novoupdateUser);
         return res.status(201).json({
@@ -66,9 +54,7 @@ export async function updateUsersControler(req, res) {
 }
 
 export async function updateSenhaControler(req, res) {
-    const dados = {
-        id: req.body.id
-    };
+    const dados = userUpSenhaDTO(req.body);
 
     try {
         const resultado = await UpdateSenha(dados);
@@ -90,9 +76,7 @@ export async function findAllUsersControler(req, res) {
 }
 
 export async function insertCodeTempControler(req, res) {
-    const codigo= {
-    usuario: req.body.usuario
-      };
+    const codigo= userInsertCodetempDTO(req.body)
     try {
         const resultado = await CreateCodetemp(codigo);
         return res.status(201).json(resultado);
@@ -102,12 +86,7 @@ export async function insertCodeTempControler(req, res) {
 }
 
 export async function updateCodeTempControler(req, res) {
-    const dados= {
-        usuario: req.body.usuario,
-        code: req.body.code,
-        senha: req.body.senha,
-        repetirSenha: req.body.repetirSenha
-      };
+    const dados= userUpCodeSenhaDTO(req.body);
     try {
         const resultado = await UpdateSenhaCodeTemp(dados);
         return res.status(201).json(resultado);

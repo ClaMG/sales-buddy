@@ -44,20 +44,6 @@ export async function Create(dados) {
         throw new Error("Usuário já cadastrado");
     }
 
-     const formatoCnpj = validarCNPJ(dados.cnpj)
-
-    if(!formatoCnpj){
-        throw new Error("o cnpj precisa dos 14 números")
-    }
-
-    const cnpjFormatado = formatarCNPJ(dados.cnpj)
-
-    const fomatoEmail = validarEmail(dados.email)
-
-    if(!fomatoEmail){
-        throw new Error("Email com o fomato errado, deve conter o @ e .com")
-    }
-
     const emailExistente = await findByEmail(dados.email)
     
     if(emailExistente){
@@ -71,7 +57,7 @@ export async function Create(dados) {
         usuario: dados.usuario,
         nome: dados.nome,
         empresa: dados.empresa,
-        cnpj: cnpjFormatado,
+        cnpj: dados.cnpj,
         email: dados.email,
         senha: senhaCriptografada 
     };
@@ -162,20 +148,6 @@ export async function Update(dados) {
         }
     }
 
-     const formatoCnpj = validarCNPJ(dados.cnpj)
-
-    if(!formatoCnpj){
-        throw new Error("o cnpj precisa dos 14 números")
-    }
-
-    const cnpjFormatado = formatarCNPJ(dados.cnpj)
-
-    const fomatoEmail = validarEmail(dados.email)
-
-    if(!fomatoEmail){
-        throw new Error("Email com o fomato errado, deve conter o @ e .com")
-    }
-
     //Email pertence a outro id
     if (dados.email && dados.email != usuarioAtual.email) {
         const jaExisteEmail = await findByEmail(dados.email);
@@ -188,7 +160,7 @@ export async function Update(dados) {
         usuario: dados.usuario,
         nome: dados.nome,
         empresa: dados.empresa,
-        cnpj: cnpjFormatado,
+        cnpj: dados.cnpj,
         email: dados.email 
     };
 

@@ -34,7 +34,10 @@ export const Reprocessing = sequelize.define('Reprocessing', {
   },
    troco: {
     type: DataTypes.FLOAT
-  },
+  }, 
+  reprocessado: {
+    type: DataTypes.BOOLEAN
+  }
   
 }, {
     tableName: 'Reprocessing',  
