@@ -35,7 +35,7 @@ export function userLoginDTO(user) {
 
 export function userDeletDTO(user) {
     return {
-        ids: user.ids,
+        ids: Array.isArray(user.ids) ? user.ids : [],
         idUser: user.idUser
     };
 }

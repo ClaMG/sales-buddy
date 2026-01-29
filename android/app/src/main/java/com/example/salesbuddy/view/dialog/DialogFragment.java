@@ -39,8 +39,8 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
         presenter = new DialogPresenter(this, getContext());
 
         //Eventos
-        String tela= getActivity().getIntent().getStringExtra("tela");
-        String email = getActivity().getIntent().getStringExtra("email");
+        String tela = getArguments().getString("tela");
+        String email = getArguments().getString("email");
         Log.d("dialog", "tela: "+ tela + " email: " +email);
         presenter.alter(tela, email);
         return view;

@@ -59,7 +59,7 @@ function useDeletActive(){
                 setError("O servidor está offline. Verifique sua conexão ou tente mais tarde.");
                 console.error("Falha de conexão física ou servidor desligado.");
                 navigate('/');
-                return; // Para a execução aqui
+                return; 
             }
             if (err.response || err) {
             const errorMessage = err || "Erro Interno";

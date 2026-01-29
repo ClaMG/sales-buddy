@@ -10,7 +10,7 @@ public interface ReprocessingContract {
         void previosReprocessing();
 
         void mostrarErro(String msg);
-        void success();
+        void success(String tela);
 
         void info(List<ReprocessingModel> info);
 

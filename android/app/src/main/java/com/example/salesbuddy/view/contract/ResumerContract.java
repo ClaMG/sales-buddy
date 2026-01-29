@@ -11,7 +11,7 @@ public interface ResumerContract {
         void printInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change);
         void previosResumer();
         void showMenuDialog();
-        void mostrarSucesso();
+        void mostrarSucesso(String tela);
         void mostrarErro(String msg);
     }
     interface Presenter{

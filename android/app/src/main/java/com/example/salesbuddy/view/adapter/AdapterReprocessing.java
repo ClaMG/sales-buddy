@@ -51,10 +51,8 @@ public class AdapterReprocessing extends RecyclerView.Adapter<AdapterReprocessin
 
         // Lógica de mudança de cor
         if (reprocessing.isStatus()) {
-            // Cor reprocessado
             holder.viewReprocessing.setBackgroundResource(R.drawable.view_reprocessing_true);
         } else {
-            // Cor pendentes
             holder.viewReprocessing.setBackgroundResource(R.drawable.view_reprocessing);
         }
     }

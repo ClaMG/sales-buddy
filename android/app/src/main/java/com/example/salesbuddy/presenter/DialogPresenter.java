@@ -38,6 +38,11 @@ public class DialogPresenter implements DialogContract.Presente {
             tv2 = "AO REPROCESSAR ALGUMAS";
             tv3 = "VENDAS, TENTE NOVAMENTE";
         }
+        if (tela == "ReprocessamentoResumer"){
+            tv1 = "PROBLEMAS ENCONTRADOS";
+            tv2 = "AO EFETUAR VENDA";
+            tv3 = "VERIFIQUE O REPROCESSAMENTO";
+        }
         view.altText(tv1,tv2,tv3);
     }
 }

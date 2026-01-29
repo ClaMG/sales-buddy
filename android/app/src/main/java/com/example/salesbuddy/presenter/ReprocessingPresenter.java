@@ -3,10 +3,12 @@ package com.example.salesbuddy.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.salesbuddy.model.ReprocessingIDsModel;
 import com.example.salesbuddy.model.ReprocessingModel;
 import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.request.SalesService;
 import com.example.salesbuddy.view.HomeActivity;
+import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.contract.ReprocessingContract;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -27,6 +29,8 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
 
     private Context context;
 
+    private String tela = "reprocessingSucess";
+    private String telaR = "reprocessingError";
     public ReprocessingPresenter(ReprocessingContract.View view, Context context) {
         this.view = view;
         this.context = context;
@@ -62,6 +66,8 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
     @Override
     public void reprocessing(List<ReprocessingModel> listaLocal) {
         List<Integer> idsNumericos = new ArrayList<>();
+
+        //Criar um aray de ids
         for (ReprocessingModel item : listaLocal) {
             if (item.getId() != null) {
                 idsNumericos.add(item.getId());
@@ -69,32 +75,41 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
         }
 
         if (idsNumericos.isEmpty()) {
-            view.mostrarErro("Nenhum item para reprocessar.");
+            view.mostrarErro("Nenhum item válido selecionado.");
             return;
         }
 
-        // Esse objeto, ao ser convertido para JSON, vira {"id": [1,2,3]}
-        ReprocessingModel envelope = new ReprocessingModel();
+        //Gerar json
+        ReprocessingIDsModel payload = new ReprocessingIDsModel();
+        payload.setIds(idsNumericos);
 
 
-        apiService.reprocessing(envelope).enqueue(new Callback<ReprocessingModel>() {
+
+        apiService.reprocessing(payload).enqueue(new Callback<ReprocessingIDsModel>() {
             @Override
-            public void onResponse(Call<ReprocessingModel> call, Response<ReprocessingModel> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<ReprocessingIDsModel> call, Response<ReprocessingIDsModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ReprocessingIDsModel relatorio = response.body();
+
+                    int totalSucesso = (relatorio.getConcluido() != null) ? relatorio.getConcluido().size() : 0;
                     getInfo();
-                    view.success();
-                }else {
+                    if (totalSucesso > 0) {
+                        view.success(tela);
+                    } else {
+                        view.mostrarErro("Nenhum item foi processado pelo servidor.");
+                    }
+                } else {
                     extrairMensagemDeErro(response);
                 }
             }
+
             @Override
-            public void onFailure(Call<ReprocessingModel> call, Throwable t) {
+            public void onFailure(Call<ReprocessingIDsModel> call, Throwable t) {
                 tratarErroConexao(t);
             }
         });
 
-
-        }
+    }
 
     private void tratarErroConexao(Throwable t) {
         String msg;

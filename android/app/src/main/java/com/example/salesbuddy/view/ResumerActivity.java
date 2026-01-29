@@ -124,8 +124,12 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
     }
 
     @Override
-    public void mostrarSucesso() {
+    public void mostrarSucesso(String tela) {
         DialogFragment dialog = new DialogFragment();
+        Bundle args = new Bundle();
+        args.putString("tela", tela);
+
+        dialog.setArguments(args);
         dialog.show(getSupportFragmentManager(), "dialog_string");
     }
 

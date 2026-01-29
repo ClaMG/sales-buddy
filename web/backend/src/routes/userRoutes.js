@@ -5,7 +5,7 @@ import {authMiddleware} from '../middlewares/authMiddlewares.js'
 const router = Router();
 
 router.post('/login', loginUsersControler)
-router.get('/users', findAllUsersControler) //
+router.get('/users', authMiddleware, findAllUsersControler) 
 router.post('/cadastro', insertUsersControler) //
 router.post('/codigotemp', insertCodeTempControler) 
 router.delete('/delet', authMiddleware, deletUsersControler)

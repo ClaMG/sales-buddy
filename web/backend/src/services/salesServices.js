@@ -1,13 +1,13 @@
 import e from 'express';
 import {findByIdSales, createSales,updateReprocessing, createReprocessing, findSaleIdByMatch, deleteReprocessing, findByIdReprocessing} from '../dao/salesDAO.js'
-import { validarEmail, enviarEmailComprovante, validarCPF} from '../utils/authUtils.js'
+import { enviarEmailComprovante, } from '../utils/authUtils.js'
 
 export async function saleById(id){
     if(!id){
         throw new Error("Nenhum id encontrado.");
     }
 
-    const vendaExistente= await findByIdSales(id)
+    const vendaExistente= await findByIdSales(id.id)
 
     if(!vendaExistente){
              throw new Error(`Venda não encontrado.`);
@@ -37,7 +37,7 @@ export async function createSalesService(dados){
         valorVenda: dados.valorVenda,
         valorRecebido: dados.valorRecebido,
         troco: dados.troco,
-        itens: dados.itens || []
+        itens: dados.itens
     };
 
     const vendaCriada = await createSales( dadosParaSalvar );

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.salesbuddy.model.ItemsModel;
+import com.example.salesbuddy.model.ReprocessingModel;
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.request.SalesService;
@@ -12,6 +13,7 @@ import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ProofActivity;
 import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.contract.ResumerContract;
+import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -41,6 +43,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private List<ItemsModel> itensPresenter;
 
     private String tela = "Resumer";
+    private String telaR = "ReprocessamentoResumer";
+    private ReprocessingModel vendaR;
 
 
 
@@ -76,60 +80,53 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         double amountReceivedDouble = Double.parseDouble(vReceived.replace(",", "."));
         double chageDouble = Double.parseDouble(vChange.replace(",", "."));
 
+
+
         venda = new SalesModel(name, cpf, email, saleValueDouble, amountReceivedDouble, chageDouble, itens);
+        vendaR = new ReprocessingModel(name, cpf, email, saleValueDouble, amountReceivedDouble, chageDouble, itens);
     }
 
-    private class DefaultCallback implements Callback<SalesModel> {
-        private final boolean isReprocessingAttempt;
-
-        // Construtor que define se esta chamada já é a de recuperação
-        public DefaultCallback(boolean isReprocessing) {
-            this.isReprocessingAttempt = isReprocessing;
-        }
-
+    private class SalesCallback implements Callback<SalesModel> {
         @Override
         public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
             if (response.isSuccessful() && response.body() != null) {
-                SalesModel vendaSalva = response.body();
-                view.mostrarSucesso();
-
-                new android.os.Handler().postDelayed(() -> {
-                    if (!isReprocessingAttempt) {
-                        irParaProof(vendaSalva);
-                    } else {
-                        irHome();
-                    }
-                }, 2000);
-
+                view.mostrarSucesso(tela);
+                new android.os.Handler().postDelayed(() -> irParaProof(response.body()), 1500);
             } else {
-                // Extrai a mensagem de erro vinda do servidor (Node.js)
-                String mensagemErro = extrairMensagemDeErro(response);
-
-                if (!isReprocessingAttempt) {
-                    // Se falhou na primeira vez, tentamos o reprocessamento
-                    reprocessing();
-                } else {
-                    // Se falhou até no reprocessamento, desistimos e avisamos o usuário
-                    view.mostrarErro("Erro persistente: " + mensagemErro);
-                }
+                // Se o servidor deu erro (ex: 400), tentamos salvar como reprocessamento
+                Log.w("API_ERROR", "Erro no registro. Tentando reprocessamento...");
+                reprocessing();
             }
         }
 
         @Override
         public void onFailure(Call<SalesModel> call, Throwable t) {
-            if (!isReprocessingAttempt) {
-                Log.e("API_RETRY", "Erro de conexão. Tentando reprocessar...");
-                reprocessing();
+            Log.e("API_FAILURE", "Falha de conexão. Enviando para reprocessamento...");
+            reprocessing();
+        }
+    }
+
+    private class ReprocessingCallback implements Callback<ReprocessingModel> {
+        @Override
+        public void onResponse(Call<ReprocessingModel> call, Response<ReprocessingModel> response) {
+            if (response.isSuccessful()) {
+                view.mostrarSucesso(telaR);
+                new android.os.Handler().postDelayed(ResumerPresenter.this::irHome, 1500);
             } else {
-                // Falha total de conexão após reprocessar
-                tratarErroConexao(t);
+                String msg = extrairMensagemDeErro(response);
+                view.mostrarErro("Falha no reprocessamento: " + msg);
             }
+        }
+
+        @Override
+        public void onFailure(Call<ReprocessingModel> call, Throwable t) {
+            tratarErroConexao(t);
         }
     }
 
     public void reprocessing(){
-        if (venda != null){
-            apiService.enviarReprocessing(venda).enqueue(new ResumerPresenter.DefaultCallback(true));
+        if (vendaR != null){
+            apiService.enviarReprocessing(vendaR).enqueue(new ReprocessingCallback());
         }
     }
 
@@ -183,9 +180,9 @@ public class ResumerPresenter implements ResumerContract.Presenter {
 
     @Override
     public void finish() {
-        boolean pagamento = false;
+        boolean pagamento = true;
         if (venda != null && pagamento == true) {
-            apiService.registrarSales(venda).enqueue(new ResumerPresenter.DefaultCallback(false));
+            apiService.registrarSales(venda).enqueue(new SalesCallback());
         } else {
             String vSales = (valueSalesPresenter != null) ? valueSalesPresenter : "0.0";
             String vReceived = (valueReceivedPresenter != null) ? valueReceivedPresenter : "0.0";

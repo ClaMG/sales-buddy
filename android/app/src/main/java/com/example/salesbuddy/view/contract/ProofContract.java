@@ -10,7 +10,7 @@ public interface ProofContract {
         void printInfo(String name, String cpf, String email, String valueReceived, String valueSales, String change, String idNum, List<ItemsModel> itens);
         void previosProof();
         void showMenuDialog();
-        void mostrarSucesso();
+        void mostrarSucesso(String email, String tela);
         void mostrarErro(String mensagem);
 
     }

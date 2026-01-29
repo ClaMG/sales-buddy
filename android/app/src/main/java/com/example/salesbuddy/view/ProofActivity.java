@@ -126,8 +126,13 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
     }
 
     @Override
-    public void mostrarSucesso() {
+    public void mostrarSucesso(String email, String tela) {
         DialogFragment dialog = new DialogFragment();
+        Bundle args = new Bundle();
+        args.putString("email", email);
+        args.putString("tela", tela);
+
+        dialog.setArguments(args);
         dialog.show(getSupportFragmentManager(), "dialog_string");
     }
 

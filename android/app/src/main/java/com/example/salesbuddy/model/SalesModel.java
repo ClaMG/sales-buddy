@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class SalesModel {
-
+    @SerializedName("id")
     public Integer id;
     @SerializedName("nomeCliente")
     public String nomeCliente;

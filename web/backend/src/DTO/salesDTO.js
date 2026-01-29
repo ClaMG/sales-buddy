@@ -18,16 +18,14 @@ export function saleCreateDTO(venda) {
         throw new Error("CPF inválido.");
     }
     return {
-        nomeCliente: venda.nomeCliente,
+        nomeCliente: venda.nomeCliente || venda.nome,
         cpf: venda.cpf,
         email: venda.email,
         valorRecebido: parseFloat(venda.valorRecebido) || 0,
         valorVenda: parseFloat(venda.valorVenda) || 0,
         troco: parseFloat(venda.troco) || 0,
         itens: venda.itens ? venda.itens.map(item => ({
-            id: item.id,
-            produto: item.nome,
-            preco: item.preco
+            descricao: item.descricao 
         })) : []
     };
 }
@@ -49,9 +47,7 @@ export function saleEnviarComprovanteDTO(venda) {
         valorVenda: parseFloat(venda.valorVenda) || 0,
         troco: parseFloat(venda.troco) || 0,
         itens: venda.itens ? venda.itens.map(item => ({
-            id: item.id,
-            produto: item.nome,
-            preco: item.preco
+            descricao: item.descricao
         })) : []
     };
 }
@@ -73,9 +69,7 @@ export function saleEnviarComprovanteMobileDTO(venda) {
         valorVenda: parseFloat(venda.valorVenda) || 0,
         troco: parseFloat(venda.troco) || 0,
         itens: venda.itens ? venda.itens.map(item => ({
-            id: item.id,
-            produto: item.nome,
-            preco: item.preco
+            descricao: item.descricao
         })) : []
     };
 }
@@ -97,14 +91,12 @@ export function saleCreateReprocessingDTO(venda) {
         valorVenda: parseFloat(venda.valorVenda) || 0,
         troco: parseFloat(venda.troco) || 0,
         itens: venda.itens ? venda.itens.map(item => ({
-            id: item.id,
-            produto: item.nome,
-            preco: item.preco
+            descricao: item.descricao
         })) : []
     };
 }
 export function saleReprocessingByIdDTO(venda) {
     return {
-        id: venda.id || []
+        id: Array.isArray(venda.id) ? venda.id : []
     };
 }

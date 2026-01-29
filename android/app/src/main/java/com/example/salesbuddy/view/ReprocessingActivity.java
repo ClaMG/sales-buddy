@@ -20,6 +20,7 @@ import com.example.salesbuddy.model.ReprocessingModel;
 import com.example.salesbuddy.presenter.ReprocessingPresenter;
 import com.example.salesbuddy.view.adapter.AdapterReprocessing;
 import com.example.salesbuddy.view.contract.ReprocessingContract;
+import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.example.salesbuddy.view.dialog.MenuFragment;
 
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
 
     private RecyclerView RecyclerViewReprocessing;
     private AdapterReprocessing adapter;
-    private List<ReprocessingModel> listaLocal = new ArrayList<>(); // Lista que será usada pelo botão
-
+    private List<ReprocessingModel> listaLocal = new ArrayList<>();
     private ReprocessingPresenter presenter;
 
     @Override
@@ -74,6 +74,7 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
             @Override
             public void onClick(View v) {
                 presenter.reprocessing(listaLocal);
+
             }
         });
     }
@@ -99,12 +100,14 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
     }
 
     @Override
-    public void success() {
-        new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
-                .setMessage("msg")
-                .setPositiveButton("OK", null)
-                .show();
+    public void success(String tela) {
+
+        DialogFragment dialog = new DialogFragment();
+        Bundle args = new Bundle();
+        args.putString("tela", tela);
+
+        dialog.setArguments(args);
+        dialog.show(getSupportFragmentManager(), "dialog_string");
     }
 
     @Override
@@ -113,6 +116,8 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
         this.listaLocal.clear();
         this.listaLocal.addAll(info);
 
-        adapter.notifyDataSetChanged();
+        RecyclerViewReprocessing.post(() -> {
+            adapter.notifyDataSetChanged();
+        });
     }
 }

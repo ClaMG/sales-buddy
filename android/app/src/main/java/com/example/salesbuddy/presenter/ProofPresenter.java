@@ -11,6 +11,7 @@ import com.example.salesbuddy.request.SalesService;
 import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.contract.ProofContract;
+import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -31,7 +32,7 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     private SalesModel venda;
 
-    private String tela;
+    private String tela = "email";
 
     private String namePresenter;
     private String cpfPresenter;
@@ -153,19 +154,13 @@ public class ProofPresenter implements ProofContract.Presenter {
     @Override
     public void yes() {
         if (venda != null) {
-
-            Log.d("TAG", "yes: "+ venda);
-            tela= "email";
-
             apiService.emailSales(venda).enqueue(new Callback<SalesModel>() {
                 @Override
                 public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
                     if (response.isSuccessful()) {
-                        Intent intent = new Intent(context, RegisterActivity.class);
-                        intent.putExtra("tela", tela);
-                        intent.putExtra("email", venda.email);
 
-                        view.mostrarSucesso();
+                        view.mostrarSucesso( venda.email, tela);
+
                         finalizar();
                     } else {
                         String mensagemErro = extrairMensagemDeErro(response);
@@ -181,6 +176,7 @@ public class ProofPresenter implements ProofContract.Presenter {
         } else {
             view.mostrarErro("Dados da venda não encontrados.");
         }
+
     }
 
     private void finalizar() {
