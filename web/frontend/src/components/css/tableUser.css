@@ -2,7 +2,5 @@
     width:  70%;
 }
 
-th:nth-child(1), td:nth-child(1) { width: 0%; }
-th:nth-child(n+2):nth-child(-n+5), td:nth-child(n+2):nth-child(-n+5) { width: 15%; padding-right: 15px; }
 
 
