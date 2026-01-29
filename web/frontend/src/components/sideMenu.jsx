@@ -14,15 +14,15 @@ function SideMenu() {
             <nav className="buttons-menu">
                 <NavLink to="/user" className="nav-link">
                         <img className='icon-menu' id='user-menu' src={iconUser} alt="Icone de usuário" />
-                        <p className="p-menu">Usuários</p>
+                        <p className="p-menu">USUÁRIOS</p>
                 </NavLink>
                 <NavLink to="/sales" className="nav-link">
                         <img className='icon-menu' id='sales-menu' src={iconSales} alt="Icone de vendas" />
-                        <p className="p-menu">Vendas</p>
+                        <p className="p-menu">VENDAS</p>
                 </NavLink>
                 <NavLink to="/" className="nav-link">
                         <img className='icon-menu' src={iconLogOut} alt="Icone de log out" />
-                        <p className="p-menu">Log Out</p>
+                        <p className="p-menu">LOG OUT</p>
                 </NavLink>
             </nav>
         </div>

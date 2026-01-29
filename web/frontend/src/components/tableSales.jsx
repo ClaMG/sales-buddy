@@ -42,7 +42,7 @@ function TableSales({ onOpenProof }) {
                             <td>{sale.cpf}</td>
                             <td>{sale.email}</td>
                             <td className='sales-center'>{sale.quantidade}</td>
-                            <td className='sales-center'>{sale.valor_venda}</td>
+                            <td className='sales-center'>{sale.valorVenda}</td>
                             <td className='sales-center'>{sale.troco}</td>
                             <td className='sales-center'>
                                 <button className='btn-table' onClick={() => {
