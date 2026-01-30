@@ -4,7 +4,8 @@ import { Reprocessing, ItemReprocessing } from "../models/implementReprocessing.
 //Buscar todas as vendas
 export async function findAllSales() {
     return await Sale.findAll({
-         include: [{ model: ItemSales, as: 'itens' }]
+        include: [{ model: ItemSales, as: 'itens' }],
+        order: [['id', 'ASC']] 
     });
 }
 

@@ -27,6 +27,10 @@ export async function createSalesService(dados){
     throw new Error("Valor de venda não foi pago.");
     }
 
+    if(dados.valorVenda <= 0 ){
+        throw new Error("Valor de venda não pode ser igual ou menor a 0.");
+    }
+
     const quantidadeCalculada = dados.itens ? dados.itens.length : 0;
 
     const dadosParaSalvar = {

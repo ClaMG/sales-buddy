@@ -66,11 +66,16 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
         saleValueDouble = Double.parseDouble(saleValue.replace(",", "."));
         amountReceivedDouble = Double.parseDouble(amountReceived.replace(",", "."));
+        if(amountReceivedDouble == 0.0 || amountReceivedDouble<0.0){
+            view.showToastRegister("Valor de venda não pode ser igual ou menor a 0");
+            return;
+        }
 
         if (amountReceivedDouble < saleValueDouble) {
             view.showToastRegister("Valor recebido insuficiente");
             return;
         }
+
 
         String change = String.format("%.2f", (amountReceivedDouble - saleValueDouble));
 

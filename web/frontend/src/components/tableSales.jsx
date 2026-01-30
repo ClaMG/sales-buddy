@@ -42,8 +42,8 @@ function TableSales({ onOpenProof }) {
                             <td>{sale.cpf}</td>
                             <td>{sale.email}</td>
                             <td className='sales-center'>{sale.quantidade}</td>
-                            <td className='sales-center'>{sale.valorVenda}</td>
-                            <td className='sales-center'>{sale.troco}</td>
+                            <td className='sales-center'>R${sale.valorVenda}</td>
+                            <td className='sales-center'>R${sale.troco}</td>
                             <td className='sales-center'>
                                 <button className='btn-table' onClick={() => {
                                     console.log("Botão clicado para ID:", sale.id);

@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -58,7 +59,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     //Aparecer a mensagem no toast
     @Override
     public void mostrarErro(String menssage) {
-        Toast.makeText(this, menssage, Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(this)
+                .setTitle("Ops! Algo deu errado")
+                .setMessage(menssage)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     //Fechar pagina

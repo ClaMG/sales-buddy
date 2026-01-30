@@ -41,7 +41,7 @@ function DeletDialog({isOpen, onClose}){
             onClose()
             setTimeout(() => {
                 window.location.reload();
-            }, 5000);
+            }, 4000);
             
         }else{
             onClose()

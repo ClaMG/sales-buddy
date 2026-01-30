@@ -25,6 +25,7 @@ function useProofActive(){
         }
     }
 
+
     return {getProof, sale, error} 
 }
 

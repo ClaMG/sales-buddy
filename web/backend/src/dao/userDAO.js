@@ -1,7 +1,9 @@
 import { User, PasswordTemp} from '../models/implementUser.js'
 // Buscar todos os usuários
 export async function findAllUsers() {
-    return await User.findAll();
+    return await User.findAll({
+        order: [['id', 'ASC']]
+    });
 }
 
 // Inserir um novo usuário com seus itens (Passar um objeto)
@@ -22,8 +24,6 @@ export async function updateUser(id, dados) {
         where: { id: id }
     });
 }
-
-
 
 //pesquisar por nome 
 export async function findByUsername(usuario) {

@@ -65,9 +65,12 @@ function ProofDialog({isOpen, onClose, saleId }){
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {sale.itens && sale.itens.map((item) => ( 
-                                                <tr key={item.id}> 
-                                                    <td className='connoteudo-camp-proof'>{item.id}</td> 
+                                            {sale.itens && sale.itens.map((item, index) => ( 
+                                                <tr key={item.id || index}> 
+                                                    {/* Exibe o índice da lista formatado com dois dígitos, ex: 01, 02... */}
+                                                    <td className='connoteudo-camp-proof'>
+                                                        {String(index + 1).padStart(2, '0')}
+                                                    </td> 
                                                     <td className='connoteudo-camp-proof'>{item.descricao}</td> 
                                                 </tr> 
                                             ))}

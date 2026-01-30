@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -116,9 +117,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     //Aparecer a mensagem no toast
     @Override
     public void showToastRegister(String menssage) {
-        if (menssage != null){
-            Toast.makeText(this, menssage, Toast.LENGTH_SHORT).show();
-        }
+        new AlertDialog.Builder(this)
+                .setTitle("Ops! Algo deu errado")
+                .setMessage(menssage)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     @Override
