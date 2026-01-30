@@ -1,5 +1,5 @@
 import e from 'express';
-import {findByIdSales, createSales,updateReprocessing, createReprocessing, findSaleIdByMatch, deleteReprocessing, findByIdReprocessing} from '../dao/salesDAO.js'
+import {findByIdSales, createSales,updateReprocessing, createReprocessing, findSaleIdByMatch, findByIdReprocessing} from '../dao/salesDAO.js'
 import { enviarEmailComprovante, } from '../utils/authUtils.js'
 
 export async function saleById(id){
@@ -27,16 +27,16 @@ export async function createSalesService(dados){
     throw new Error("Valor de venda não foi pago.");
     }
 
-    const quantidadeItens = dados.itens ? dados.itens.length : 0;
+
 
     const dadosParaSalvar = {
-        nome: dados.nomeCliente,
-        cpf: dados.cpf,
-        email: dados.email,
-        quantidade: quantidadeItens,
-        valorVenda: dados.valorVenda,
-        valorRecebido: dados.valorRecebido,
-        troco: dados.troco,
+        nome: reprocessamento.nome,          
+        cpf: reprocessamento.cpf,            
+        email: reprocessamento.email,        
+        quantidade: reprocessamento.quantidade, 
+        valorVenda: reprocessamento.valorVenda,
+        valorRecebido: reprocessamento.valorRecebido,
+        troco: reprocessamento.troco || 0,
         itens: dados.itens
     };
 
@@ -56,12 +56,13 @@ export async function enviarComprovantePagamento(comprovante) {
     }
 
     const destinatario = comprovante.email;
+    const quantidadeItens = comprovante.itens ? comprovante.itens.length : 0;
 
     const dados = {
         nomeCliente: comprovante.nomeCliente,
         cpf: comprovante.cpf,
-        email: comprovante.email,
-        quantidade: comprovante.itens.length,
+        email: destinatario,
+        quantidade: quantidadeItens,
         valorVenda: comprovante.valorVenda,
         valorRecebido: comprovante.valorRecebido,
         troco: comprovante.troco
@@ -77,7 +78,7 @@ export async function enviarComprovantePagamento(comprovante) {
 
 
     const comprovanteCompleto = {
-        nomeCliente: comprovante.nomeCliente,
+        nome: comprovante.nomeCliente,
         cpf: comprovante.cpf,
         email: destinatario,
         itens: comprovante.itens || [],
@@ -181,15 +182,21 @@ export async function reprocessingService(dados){
                 continue;
             }
 
+            const quantidadeItens = reprocessamento.itens ? reprocessamento.itens.length : 0;
+
+           
             const dadosParaSalvar = {
                 nome: reprocessamento.nome,
                 cpf: reprocessamento.cpf,
                 email: reprocessamento.email,
-                quantidade: reprocessamento.itens ? reprocessamento.itens.length : 0,
-                itens: reprocessamento.itens || [],
-                valorRecebido: reprocessamento.valorRecebido || 0,
-                valorVenda: reprocessamento.valorVenda || 0,
-                troco: reprocessamento.troco || 0
+                quantidade: quantidadeItens,
+                valorRecebido: reprocessamento.valorRecebido ,
+                valorVenda: reprocessamento.valorVenda ,
+                troco: reprocessamento.troco,
+                itens: reprocessamento.itens ? reprocessamento.itens.map(item => ({
+                    descricao: item.descricao 
+        
+                    })) : []
             };
 
             const novaVenda = await createSales(dadosParaSalvar);

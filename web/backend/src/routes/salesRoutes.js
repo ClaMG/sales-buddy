@@ -10,5 +10,5 @@ router.post('/create', CreateController)
 router.post('/enviar_comprovante', EnviarComprovanteController)
 router.post('/create_reprocessing', CreateReprocessingController)
 router.get('/reprocessings', findAllReprocessingController)
-router.post('/reprocessing', ReprocessingByIdController)
+router.post('/reprocessing', ReprocessingByIdController)//
 export default router;

@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
 
+
 function ProofDialog({isOpen, onClose, saleId }){
     console.log("DIALOG: Fui renderizado! isOpen:", isOpen, "saleId:", saleId);
     const{getProof, sale, error} = useProofActive ()
@@ -65,10 +66,12 @@ function ProofDialog({isOpen, onClose, saleId }){
                                         </thead>
                                         <tbody>
                                             {sale.itens && sale.itens.map((item) => ( 
-                                            <tr key={item.id}> 
-                                                <td className='connoteudo-camp-proof'>{item.id}</td> 
-                                                <td className='connoteudo-camp-proof'>{item.descricao}</td> </tr> 
+                                                <tr key={item.id}> 
+                                                    <td className='connoteudo-camp-proof'>{item.id}</td> 
+                                                    <td className='connoteudo-camp-proof'>{item.descricao}</td> 
+                                                </tr> 
                                             ))}
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -76,11 +79,11 @@ function ProofDialog({isOpen, onClose, saleId }){
                                 <div>
                                     <div className='container-valor'>
                                         <p className='title-camp-proof-valor'>Valor recebido</p>
-                                        <p className='title-camp-proof'>{sale.valor_recebido}</p>
+                                        <p className='title-camp-proof'>{sale.valorRecebido}</p>
                                     </div>
                                     <div className='container-valor'>
                                         <p className='title-camp-proof-valor'>Valor venda</p>
-                                        <p className='title-camp-proof'>{sale.valor_venda}</p>
+                                        <p className='title-camp-proof'>{sale.valorVenda}</p>
                                     </div>
                                     <div className='container-valor'>
                                         <p className='title-camp-proof-valor'>Troco devido</p>

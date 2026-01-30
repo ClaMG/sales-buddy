@@ -165,6 +165,7 @@ export async function enviarEmailComprovante(destinatario, comprovante) {
         await transporter.sendMail(mailOptions);
         return true;
     } catch (error) {
+       console.error("ERRO NO TRANSPORTE DE EMAIL:", error); // ADICIONE ISSO
         return false;
     }
 }

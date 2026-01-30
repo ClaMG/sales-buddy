@@ -67,6 +67,16 @@
     font-size: 12px;
 }
 
+.table-proof{
+    max-height: 130px; 
+    overflow-y: auto;  
+    display: block;
+}
+
+.table-proof::-webkit-scrollbar {
+    background: #F7F8DE;                
+}
+
 .table-proof tr{
     display: flex;
     gap: 20px;

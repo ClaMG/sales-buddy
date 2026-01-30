@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/login', loginUsersControler)
 router.get('/users', authMiddleware, findAllUsersControler) 
-router.post('/cadastro', insertUsersControler) //
+router.post('/cadastro',authMiddleware, insertUsersControler) 
 router.post('/codigotemp', insertCodeTempControler) 
 router.delete('/delet', authMiddleware, deletUsersControler)
 router.put('/update', authMiddleware, updateUsersControler)

@@ -41,8 +41,19 @@ export async function EnviarComprovanteController(req, res) {
         await enviarComprovantePagamento(comprovante);
         return res.status(200).json({ message: "E-mail enviado com sucesso." });
     } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }   
+    if (error.code === 'EAUTH') {
+        console.error("Erro de Autenticação de E-mail: Verifique usuário e senha.");
+    } else if (error.code === 'ESOCKET') {
+        console.error("Erro de Conexão: Verifique se o host do e-mail está correto.");
+    }
+    
+    return res.status(500).json({ 
+        message: "Erro interno no servidor",
+        debug_message: error.message,  // O erro real (ex: "Authentication failed")
+        debug_stack: error.stack,      // A linha exata do código onde quebrou
+        debug_details: error           // O objeto completo
+    });
+}  
 }
 
 export async function enviarComprovanteMobileController(req, res) {

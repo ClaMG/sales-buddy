@@ -52,6 +52,7 @@ function Password() {
         const toastId = toast.loading("Alterando senha...");
 
         const success = await handUpdateCodeTemp(code, senha, repetirSenha);
+
         if(success){
             toast.update(toastId, { 
             render: "Senha alterada com sucesso!", 

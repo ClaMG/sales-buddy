@@ -259,7 +259,9 @@ export async function CreateCodetemp(dados) {
         throw new Error("Erro ao criar um código temporário")
     }
 
-    return criarCodeTemp;
+    return {userId: criarCodeTemp.userId,
+        expiresAt: criarCodeTemp.expiresAt
+    };
 
 }
 

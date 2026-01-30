@@ -31,6 +31,7 @@ function usePasswordTempActive(){
     const handUpdateCodeTemp = async ( code, senha, repetirSenha) =>{
         setError(null)
         const username = localStorage.getItem('usernameTemp');
+        console.log(`username: ${username} code :${code}  senah: ${senha} repetir senha: ${repetirSenha}`)
             try {
                 const userFromApi = await api.put('user/updatePasswordCodeTemp', { 
                     usuario: username, 
@@ -39,7 +40,7 @@ function usePasswordTempActive(){
                     repetirSenha: repetirSenha });
                 return userFromApi;
             } catch (err) {
-                if (err.code === 'ERR_NETWORK' || !err.response) {
+                if (err.code === 'ERR_NETWORK') {
                 setError("O servidor está offline. Verifique sua conexão ou tente mais tarde.");
                 console.error("Falha de conexão física ou servidor desligado.");
                 navigate('/');
