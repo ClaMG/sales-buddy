@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -22,6 +23,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private EditText txUser, txPassword;
     private Button btnLogin;
 
+    private ProgressBar progressBarLogin;
+
     private LoginPresenter presenter;
 
 
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         txPassword = findViewById(R.id.txPassword);
         txUser = findViewById(R.id.txUser);
         btnLogin = findViewById(R.id.btnLogin);
+        progressBarLogin = findViewById(R.id.progressBarLogin);
 
         //Presenter
         presenter = new LoginPresenter(this, getApplicationContext());
@@ -61,5 +65,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void previosLogin() {
         finish();
+    }
+
+    @Override
+    public void mostrarLoading(boolean exibir) {
+        if (exibir) {
+            progressBarLogin.setVisibility(View.VISIBLE);
+        } else {
+            progressBarLogin.setVisibility(View.GONE);
+        }
     }
 }

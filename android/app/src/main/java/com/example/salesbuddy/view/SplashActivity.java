@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     //Printar a versão
     @Override
     public void printVersion(String numVersion) {
-        tvVersion.setText("Versão " + numVersion);
+        tvVersion.setText(numVersion);
     }
 
     //Fechar pagina

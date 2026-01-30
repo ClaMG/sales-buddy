@@ -13,6 +13,7 @@ public interface ResumerContract {
         void showMenuDialog();
         void mostrarSucesso(String tela);
         void mostrarErro(String msg);
+        void mostrarLoading(boolean exibir);
     }
     interface Presenter{
         void getInfo(String name, String cpf, String email, String valueReceived, String valueSales,

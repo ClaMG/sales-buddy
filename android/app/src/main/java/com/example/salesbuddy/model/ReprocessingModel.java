@@ -8,7 +8,7 @@ public class ReprocessingModel {
 
     @SerializedName("id")
     public Integer id;
-    @SerializedName("nome")
+    @SerializedName("nomeCliente")
     public String nomeCliente;
     @SerializedName("cpf")
     public String cpf;

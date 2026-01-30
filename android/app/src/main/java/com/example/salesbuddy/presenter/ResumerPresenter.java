@@ -89,6 +89,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private class SalesCallback implements Callback<SalesModel> {
         @Override
         public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
+            view.mostrarLoading(false);
             if (response.isSuccessful() && response.body() != null) {
                 view.mostrarSucesso(tela);
                 new android.os.Handler().postDelayed(() -> irParaProof(response.body()), 1500);
@@ -109,6 +110,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private class ReprocessingCallback implements Callback<ReprocessingModel> {
         @Override
         public void onResponse(Call<ReprocessingModel> call, Response<ReprocessingModel> response) {
+            view.mostrarLoading(false);
             if (response.isSuccessful()) {
                 view.mostrarSucesso(telaR);
                 new android.os.Handler().postDelayed(ResumerPresenter.this::irHome, 1500);
@@ -180,7 +182,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
 
     @Override
     public void finish() {
-        boolean pagamento = true;
+        view.mostrarLoading(true);
+        boolean pagamento = true;//Trocar para o a resposta do pagamento cielo
         if (venda != null && pagamento == true) {
             apiService.registrarSales(venda).enqueue(new SalesCallback());
         } else {

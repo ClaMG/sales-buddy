@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +35,7 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
     private RecyclerView RecyclerViewReprocessing;
     private AdapterReprocessing adapter;
     private List<ReprocessingModel> listaLocal = new ArrayList<>();
+    private ProgressBar progressBarReprocessing;
     private ReprocessingPresenter presenter;
 
     @Override
@@ -47,6 +49,7 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
         btnBackReprocessing = findViewById(R.id.btnBackReprocessing);
         btnReprocessing = findViewById(R.id.btnReprocessing);
         RecyclerViewReprocessing = findViewById(R.id.RecyclerViewReprocessing);
+        progressBarReprocessing = findViewById(R.id.progressBarReprocessing);
 
         //Presenter
         presenter = new ReprocessingPresenter(this, getApplicationContext());
@@ -108,6 +111,7 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
 
         dialog.setArguments(args);
         dialog.show(getSupportFragmentManager(), "dialog_string");
+        new android.os.Handler().postDelayed(dialog::dismiss, 3000);
     }
 
     @Override
@@ -119,5 +123,14 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
         RecyclerViewReprocessing.post(() -> {
             adapter.notifyDataSetChanged();
         });
+    }
+
+    @Override
+    public void mostrarLoading(boolean exibir) {
+        if (exibir) {
+            progressBarReprocessing.setVisibility(View.VISIBLE);
+        } else {
+            progressBarReprocessing.setVisibility(View.GONE);
+        }
     }
 }

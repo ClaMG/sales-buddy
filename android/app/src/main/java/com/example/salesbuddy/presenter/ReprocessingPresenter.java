@@ -44,9 +44,11 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
 
     @Override
     public void getInfo() {
+        view.mostrarLoading(true);
         apiService.buscarTodosReprocessamentos().enqueue(new Callback<List<ReprocessingModel>>() {
             @Override
             public void onResponse(Call<List<ReprocessingModel>> call, Response<List<ReprocessingModel>> response) {
+                view.mostrarLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     // Envia a lista para a View abastecer o Adapter
                     List<ReprocessingModel> Info = response.body();
@@ -65,6 +67,7 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
 
     @Override
     public void reprocessing(List<ReprocessingModel> listaLocal) {
+        view.mostrarLoading(true);
         List<Integer> idsNumericos = new ArrayList<>();
 
         //Criar um aray de ids
@@ -88,6 +91,7 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
         apiService.reprocessing(payload).enqueue(new Callback<ReprocessingIDsModel>() {
             @Override
             public void onResponse(Call<ReprocessingIDsModel> call, Response<ReprocessingIDsModel> response) {
+                view.mostrarLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     ReprocessingIDsModel relatorio = response.body();
 

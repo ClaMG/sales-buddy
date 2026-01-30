@@ -46,10 +46,9 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         }
         Log.d("descobrir", "venda "+ saleValue + " recebido "+ amountReceived);
 
-        if (itens == null || itens.isEmpty()) {
+        if (itens == null || itens.size() == 0) {
             view.showToastRegister("Atenção: Adicione pelo menos 1 item para continuar!");
             return;
-            // O 'return' impede que o código abaixo (Intent) seja executado
         }
 
         //Verificação de Email

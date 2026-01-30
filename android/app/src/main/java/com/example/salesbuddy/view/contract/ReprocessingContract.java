@@ -11,6 +11,7 @@ public interface ReprocessingContract {
 
         void mostrarErro(String msg);
         void success(String tela);
+        void mostrarLoading(boolean exibir);
 
         void info(List<ReprocessingModel> info);
 

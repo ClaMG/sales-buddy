@@ -39,6 +39,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     //Verificação do login
     @Override
     public void login(String user, String password) {
+        view.mostrarLoading(true);
 
         try {
             if (user == null || password == null){
@@ -50,6 +51,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             loginService.fazerLogin(dados).enqueue(new Callback<LoginModel>() {
                 @Override
                 public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+                    view.mostrarLoading(false);
                     if (response.isSuccessful() && response.body() != null) {
 
                         String token = response.body().getToken();
@@ -63,6 +65,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                 @Override
                 public void onFailure(Call<LoginModel> call, Throwable t) {
+                    view.mostrarLoading(false);
                     Log.e("API_ERROR", "Mensagem: " + t.getMessage());
                     String msg;
                     if (t instanceof ConnectException) {

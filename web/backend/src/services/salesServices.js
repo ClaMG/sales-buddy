@@ -27,16 +27,16 @@ export async function createSalesService(dados){
     throw new Error("Valor de venda não foi pago.");
     }
 
-
+    const quantidadeCalculada = dados.itens ? dados.itens.length : 0;
 
     const dadosParaSalvar = {
-        nome: reprocessamento.nome,          
-        cpf: reprocessamento.cpf,            
-        email: reprocessamento.email,        
-        quantidade: reprocessamento.quantidade, 
-        valorVenda: reprocessamento.valorVenda,
-        valorRecebido: reprocessamento.valorRecebido,
-        troco: reprocessamento.troco || 0,
+        nome: dados.nomeCliente,         
+        cpf: dados.cpf,
+        email: dados.email,        
+        quantidade: quantidadeCalculada, 
+        valorVenda: dados.valorVenda,
+        valorRecebido: dados.valorRecebido,
+        troco: dados.troco || 0,
         itens: dados.itens
     };
 

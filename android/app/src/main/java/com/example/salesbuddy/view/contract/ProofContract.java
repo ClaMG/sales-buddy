@@ -11,6 +11,7 @@ public interface ProofContract {
         void previosProof();
         void showMenuDialog();
         void mostrarSucesso(String email, String tela);
+        void mostrarLoading(boolean exibir);
         void mostrarErro(String mensagem);
 
     }

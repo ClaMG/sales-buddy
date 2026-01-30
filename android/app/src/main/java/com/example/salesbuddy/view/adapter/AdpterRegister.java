@@ -23,6 +23,7 @@ import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.SalesModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHolderRegister> {
@@ -76,6 +77,11 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
                 holder.btnSume.setOnClickListener(v -> {
                     int pos = holder.getBindingAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
+                        String textoAtual = items.get(pos).getDescricao();
+                        if (textoAtual == null || textoAtual.trim().isEmpty()) {
+                            holder.txItemAdd.setError("Preencha este item antes de adicionar outro");
+                            return;
+                        }
                         items.add(new ItemsModel(""));
                         notifyItemInserted(items.size() - 1);
                         notifyItemChanged(pos);
@@ -104,7 +110,16 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
     }
 
     public List<ItemsModel> getItems() {
-        return items;
+        List<ItemsModel> itensValidados = new ArrayList<>();
+
+        for (ItemsModel item : items) {
+            // .trim() remove espaços vazios. .isEmpty() checa se sobrou algo.
+            if (item.getDescricao() != null && !item.getDescricao().trim().isEmpty()) {
+                itensValidados.add(item);
+            }
+        }
+
+        return itensValidados;
     }
 
     public static class ViewHolderRegister extends RecyclerView.ViewHolder {

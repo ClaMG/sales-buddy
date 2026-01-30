@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
     private Button btnNo, btnYes;
     private ImageButton btnMenuProof,btnBackProof;
     private RecyclerView recyclerViewProof;
+    private ProgressBar progressBarProof;
     private ProofPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
         btnBackProof = findViewById(R.id.btnBackProof);
         recyclerViewProof =findViewById(R.id.recyclerViewProof);
         btnMenuProof = findViewById(R.id.btnMenuProof);
+        progressBarProof = findViewById(R.id.progressBarProof);
         //Presenter
         presenter = new ProofPresenter(this, getApplicationContext());
 
@@ -144,6 +147,15 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
                 .setMessage(mensagem)
                 .setPositiveButton("OK", null)
                 .show();
+    }
+
+    @Override
+    public void mostrarLoading(boolean exibir) {
+        if (exibir) {
+            progressBarProof.setVisibility(View.VISIBLE);
+        } else {
+            progressBarProof.setVisibility(View.GONE);
+        }
     }
 
 }

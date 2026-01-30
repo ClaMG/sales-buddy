@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/tvDialog1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/montserrat"
@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/tvDialog2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/montserrat"
@@ -42,7 +42,7 @@
 
         <TextView
             android:id="@+id/tvDialog3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"

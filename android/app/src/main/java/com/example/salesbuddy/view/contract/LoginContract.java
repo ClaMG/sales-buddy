@@ -6,6 +6,7 @@ public interface LoginContract {
         //Memsagem login
         void mostrarErro(String menssage);
         void previosLogin();
+        void mostrarLoading(boolean exibir);
 
     }
 

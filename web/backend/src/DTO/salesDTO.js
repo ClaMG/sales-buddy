@@ -42,7 +42,7 @@ export function saleEnviarComprovanteDTO(venda) {
     }
 
     return {
-        nomeCliente: venda.nomeCliente,
+        nomeCliente: venda.nomeCliente || venda.nome,
         cpf: venda.cpf,
         email: venda.email,
         valorRecebido: parseFloat(venda.valorRecebido),
@@ -64,7 +64,7 @@ export function saleEnviarComprovanteMobileDTO(venda) {
         throw new Error("CPF inválido.");
     }
     return {
-        nomeCliente: venda.nomeCliente,
+        nomeCliente: venda.nomeCliente || venda.nome,
         cpf: venda.cpf,
         email: venda.email,
         valorRecebido: parseFloat(venda.valorRecebido) || 0,
@@ -86,7 +86,7 @@ export function saleCreateReprocessingDTO(venda) {
         throw new Error("CPF inválido.");
     }
     return {
-        nomeCliente: venda.nomeCliente,
+        nomeCliente: venda.nomeCliente || venda.nome,
         cpf: venda.cpf,
         email: venda.email,
         valorRecebido: parseFloat(venda.valorRecebido) || 0,

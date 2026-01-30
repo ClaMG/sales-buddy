@@ -53,6 +53,7 @@ public class ProofPresenter implements ProofContract.Presenter {
     @Override
     public void getInfo(String name, String cpf, String email, String valueReceived,
                         String valueSales, String change, List<ItemsModel> itens) {
+        view.mostrarLoading(true);
         if (name == null || cpf == null || email == null || valueReceived == null || valueSales == null || change== null ){
             view.mostrarErro("Não Consegumos localizar a informação de todos os campos");
             return;
@@ -82,6 +83,7 @@ public class ProofPresenter implements ProofContract.Presenter {
         apiService.getSales(venda).enqueue(new Callback<SalesModel>() {
             @Override
             public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
+                view.mostrarLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     SalesModel vendaRecebida = response.body();
                     Integer idGerado = vendaRecebida.getId();
@@ -153,15 +155,17 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     @Override
     public void yes() {
+        view.mostrarLoading(true);
         if (venda != null) {
             apiService.emailSales(venda).enqueue(new Callback<SalesModel>() {
                 @Override
                 public void onResponse(Call<SalesModel> call, Response<SalesModel> response) {
+                    view.mostrarLoading(false);
                     if (response.isSuccessful()) {
 
                         view.mostrarSucesso( venda.email, tela);
 
-                        finalizar();
+                        new android.os.Handler().postDelayed(() -> {finalizar();}, 2000);
                     } else {
                         String mensagemErro = extrairMensagemDeErro(response);
                         view.mostrarErro(mensagemErro);
@@ -188,7 +192,7 @@ public class ProofPresenter implements ProofContract.Presenter {
 
     @Override
     public void backProof() {
-        Intent intent = new Intent(context, ResumerActivity.class);
+        Intent intent = new Intent(context, RegisterActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("nome", namePresenter);
         intent.putExtra("cpf", cpfPresenter);

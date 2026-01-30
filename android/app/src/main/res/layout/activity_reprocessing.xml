@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".view.ReprocessingActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBarReprocessing"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView12"
         android:layout_width="624dp"
@@ -26,7 +36,7 @@
         android:layout_height="63dp"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/btnReprossesing"
@@ -79,7 +89,7 @@
         android:id="@+id/btnMenuViewReprocessing"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp"
         android:background="@android:color/transparent"
         android:tint="@color/pink"
@@ -92,7 +102,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -102,7 +112,7 @@
         android:id="@+id/imageView13"
         android:layout_width="238dp"
         android:layout_height="35dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toStartOf="@+id/btnMenuViewReprocessing"
         app:layout_constraintStart_toEndOf="@+id/btnBackReprocessing"
         app:layout_constraintTop_toTopOf="parent"

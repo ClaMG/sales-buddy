@@ -2,6 +2,7 @@ package com.example.salesbuddy.view.dialog;
 
 import static android.content.Intent.getIntent;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.presenter.DialogPresenter;
@@ -47,9 +49,21 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
     }
 
     @Override
-    public void altText(String tv1, String tv2, String tv3) {
+    public void altText(String tv1, String tv2, String tv3, boolean negrito) {
+        if (tv3 == null){
+            tvDialog3.setVisibility(View.GONE);
+        }
+
+        if (negrito){
+            Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.montserrat_bold);
+            tvDialog3.setTypeface(typeface);
+        }else {
+            Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.montserrat);
+            tvDialog3.setTypeface(typeface);
+        }
         tvDialog1.setText(tv1);
         tvDialog2.setText(tv2);
         tvDialog3.setText(tv3);
+
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +36,8 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
     private ImageButton btnMenuResumer, btnBackResumer;
     private View btnEnd;
 
+    private ProgressBar progressBarResumer;
+
     private ResumerPresenter presenter;
 
     @Override
@@ -55,6 +58,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
         btnBackResumer = findViewById(R.id.btnBackResumer);
         recyclerViewResumer = findViewById(R.id.recyclerViewResumer);
         btnMenuResumer = findViewById(R.id.btnMenuResumer);
+        progressBarResumer = findViewById(R.id.progressBarResumer);
         //Presenter
         presenter = new ResumerPresenter(this, getApplicationContext());
 
@@ -140,5 +144,13 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
                 .setMessage(msg)
                 .setPositiveButton("OK", null)
                 .show();
+    }
+    @Override
+    public void mostrarLoading(boolean exibir) {
+        if (exibir) {
+            progressBarResumer.setVisibility(View.VISIBLE);
+        } else {
+            progressBarResumer.setVisibility(View.GONE);
+        }
     }
 }

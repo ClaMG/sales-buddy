@@ -10,7 +10,7 @@ router.post('/cadastro',authMiddleware, insertUsersControler)
 router.post('/codigotemp', insertCodeTempControler) 
 router.delete('/delet', authMiddleware, deletUsersControler)
 router.put('/update', authMiddleware, updateUsersControler)
-router.put('/updatePassword', updateSenhaControler)
+router.put('/updatePassword', authMiddleware, updateSenhaControler)
 router.put('/updatePasswordCodeTemp', updateCodeTempControler) 
 
 export default router;
