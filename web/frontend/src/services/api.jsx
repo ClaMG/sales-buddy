@@ -15,6 +15,7 @@ api.interceptors.request.use((config) => {
     return config;
 }, (error) => {
     console.error("DEBUG INTERCEPTOR REQUISIÇÃO:", error);
+    console.error("DEBUG INTERCEPTOR RESPOSTA - Status:", error.response?.status);
     return Promise.reject(error);
 });
 

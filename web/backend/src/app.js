@@ -23,4 +23,5 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Ocorreu um erro interno no servidor.' });
 });
 
+
 export default app;

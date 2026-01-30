@@ -1,6 +1,6 @@
 import {insertUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername,findByIdCodeTemp, findById, deleteCodeTemp, insertCodeTemp } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
-import {hashPassword, comparePassword, validarEmail, validarCNPJ, formatarCNPJ, gerarSenhaAleatoria, enviarEmailSenha} from '../utils/authUtils.js'
+import {hashPassword, comparePassword, gerarSenhaAleatoria, enviarEmailSenha} from '../utils/authUtils.js'
 
 //Login
 export async function Login(usuario, senha) {

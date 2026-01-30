@@ -10,16 +10,16 @@ export function authMiddleware(req, res, next) {
     }
 
     try {
-        // Validação real do token com a chave do .env
+        // Validação do token 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         
-        // Salva os dados do usuário (id, nome, etc) na requisição para uso posterior
+        // Salva os dados do usuário 
         req.user = decoded;
         
         console.log("USUÁRIO AUTENTICADO:", decoded.id || "Token Válido");
         next();
     } catch (error) {
-        // Se cair aqui, o token existe mas não é válido ou expirou
+        //o token existe mas não é válido ou expirou
         console.error("ERRO NA VALIDAÇÃO JWT:", error.message);
         
         const status = error.message === 'jwt expired' ? 401 : 403;
