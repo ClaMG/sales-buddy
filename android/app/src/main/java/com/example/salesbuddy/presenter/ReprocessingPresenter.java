@@ -53,6 +53,15 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
                     // Envia a lista para a View abastecer o Adapter
                     List<ReprocessingModel> Info = response.body();
                     view.info(Info);
+                    boolean possuiPendentes = false;
+                    for (ReprocessingModel item : Info) {
+                        if (!item.isStatus()) {
+                            possuiPendentes = true;
+                            break;
+                        }
+                    }
+
+                    view.setReprocessButtonEnabled(possuiPendentes);
                 } else {
                     view.mostrarErro("Nenhum reprocessamento pendente.");
                 }

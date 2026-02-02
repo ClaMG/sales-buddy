@@ -14,6 +14,7 @@ public interface ReprocessingContract {
         void mostrarLoading(boolean exibir);
 
         void info(List<ReprocessingModel> info);
+        void setReprocessButtonEnabled(boolean enabled);
 
     }
     interface Presenter{

@@ -40,6 +40,7 @@
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/btnReprossesing"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:cornerRadius="8dp"

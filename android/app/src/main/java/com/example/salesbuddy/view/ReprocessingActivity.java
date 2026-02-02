@@ -128,6 +128,20 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
     }
 
     @Override
+    public void setReprocessButtonEnabled(boolean enabled) {
+        btnReprocessing.setEnabled(enabled);
+
+        if (enabled) {
+            btnReprocessing.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.blue));
+            btnReprocessing.setAlpha(1.0f);
+        } else {
+            btnReprocessing.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray));
+            btnReprocessing.setAlpha(0.6f);
+        }
+
+    }
+
+    @Override
     public void mostrarLoading(boolean exibir) {
         if (exibir) {
             progressBarReprocessing.setVisibility(View.VISIBLE);
