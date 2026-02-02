@@ -76,9 +76,9 @@ export async function Create(dados) {
     
     }
 
-
     return {
-        usuario:criarUsuario, 
+        usuario:criarUsuario.usuario,
+        emailEnviado: criarUsuario.email, 
         email: emailEnviado};
 
 }
@@ -226,7 +226,7 @@ export async function CreateCodetemp(dados) {
     }
 
     //Tempo
-    const quinzeMinutos = 1200 * 60 * 1000; //trocar tempo
+    const quinzeMinutos = 600 * 60 * 1000; //trocar tempo
     const validadeCurta = new Date(Date.now() + quinzeMinutos);
 
     //Senha

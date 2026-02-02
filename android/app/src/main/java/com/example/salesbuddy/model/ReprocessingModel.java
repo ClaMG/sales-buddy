@@ -29,6 +29,8 @@ public class ReprocessingModel {
     @SerializedName("reprocessado")
     public boolean status;
 
+    public List<Object> concluidos;
+
     public ReprocessingModel(){
 
     }
@@ -120,5 +122,13 @@ public class ReprocessingModel {
 
     public void setItens(List<ItemsModel> itens) {
         this.itens = itens;
+    }
+
+    public List<Object> getConcluidos() {
+        return concluidos;
+    }
+
+    public void setConcluidos(List<Object> concluidos) {
+        this.concluidos = concluidos;
     }
 }
