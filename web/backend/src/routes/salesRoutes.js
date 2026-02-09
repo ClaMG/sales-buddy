@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import {findAllSaleController, CreateController, Comprovante,EnviarComprovanteController, enviarComprovanteMobileController, CreateReprocessingController,ReprocessingByIdController,findAllReprocessingController} from '../controllers/salesController.js'
+import {findAllSaleController, CreateController, Proof, SendProofController, SendProofMobileController, CreateReprocessingController,ReprocessingByIdController,findAllReprocessingController} from '../controllers/salesController.js'
 
 const router = Router();
 
 router.get('/sales', findAllSaleController)
-router.post('/comprovante', Comprovante)
-router.post('/comprovante_mobile', enviarComprovanteMobileController)
+router.post('/comprovante', Proof)
+router.post('/comprovante_mobile', SendProofMobileController)
 router.post('/create', CreateController)
-router.post('/enviar_comprovante', EnviarComprovanteController)
+router.post('/enviar_comprovante', SendProofController)
 router.post('/create_reprocessing', CreateReprocessingController)
 router.get('/reprocessings', findAllReprocessingController)
 router.post('/reprocessing', ReprocessingByIdController)//

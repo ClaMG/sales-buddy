@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import {User} from './userModels.js'
 
 export const PasswordTemp = sequelize.define('PasswordTemp', {
     id: {
@@ -10,6 +11,10 @@ export const PasswordTemp = sequelize.define('PasswordTemp', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: "Users", 
+            key: 'id'       
+        }
     },
     code: {
         type: DataTypes.STRING,
@@ -22,5 +27,12 @@ export const PasswordTemp = sequelize.define('PasswordTemp', {
 }, { 
     tableName: 'passwordTemps',
     timestamps: false       // campos 'createdAt' e 'updatedAt'
+});
+
+
+// PasswordTemp pertence a um User
+PasswordTemp.belongsTo(User, { 
+    foreignKey: "userId", 
+    as: "user" 
 });
 

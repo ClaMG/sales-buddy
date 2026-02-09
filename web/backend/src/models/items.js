@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import {Sale} from './salesModels.js'
 
 export const ItemSales = sequelize.define('ItemSales', {
   id: {
@@ -24,4 +25,11 @@ export const ItemSales = sequelize.define('ItemSales', {
   tableName: 'ItemSales', 
   timestamps: false
 });
+
+// ItemSales pertence a um Sale
+ItemSales.belongsTo(Sale, {
+  foreignKey: 'salesId',
+  as: 'sale'
+});
+
 

@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 
 //Gera senha aleatoria
-export const gerarSenhaAleatoria = (tamanho) => {
+export const generatePasswordRandom = (tamanho) => {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     
     // No Node, usamos crypto.randomBytes

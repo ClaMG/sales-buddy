@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import {Reprocessing} from './reprocessingModel.js'
 
 export const ItemReprocessing = sequelize.define('ItemReprocessing', {
   id: {
@@ -25,3 +26,8 @@ export const ItemReprocessing = sequelize.define('ItemReprocessing', {
   timestamps: false
 });
 
+// ItemReprocessing pertence a um Reprocessing
+ItemReprocessing.belongsTo(Reprocessing, {
+  foreignKey: 'reprocessingId',
+  as: 'reprocessing'
+});

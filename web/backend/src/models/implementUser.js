@@ -8,7 +8,8 @@ User.hasMany(PasswordTemp, {
 });
 
 PasswordTemp.belongsTo(User, {
-  foreignKey: 'userId'
+  foreignKey: 'userId',
+  as: 'parentUser'
 });
 
 export { User, PasswordTemp };

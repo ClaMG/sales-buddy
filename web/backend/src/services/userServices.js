@@ -1,8 +1,8 @@
 import {insertUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername,findByIdCodeTemp, findById, deleteCodeTemp, insertCodeTemp } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
-import { enviarEmailSenha} from '../utils/emailUtils.js'
+import { sendEmailPassword} from '../utils/emailUtils.js'
 import {hashPassword, comparePassword} from '../utils/securyPasswordUtils.js'
-import {gerarSenhaAleatoria} from '../utils/randomPasswordUtils.js'
+import {generatePasswordRandom} from '../utils/randomPasswordUtils.js'
 
 //Login
 export async function Login(usuario, senha) {
@@ -10,20 +10,20 @@ export async function Login(usuario, senha) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const userValido = await findByUsername(usuario)
+    const userValid = await findByUsername(usuario)
 
-    if(!userValido){
+    if(!userValid){
         throw new Error("Usuário não existe.");
     }
 
-    const senhaValida = await comparePassword(senha, userValido.senha);
+    const passwordValid = await comparePassword(senha, userValid.senha);
 
-    if(!senhaValida){
+    if(!passwordValid){
         throw new Error("Senha incorreta");
     }
 
     const token = jwt.sign(
-        { id: userValido.id}, 
+        { id: userValid.id}, 
         process.env.JWT_SECRET || 'chave_mestra_temporaria_123', 
         { expiresIn: '1d' }
     );
@@ -40,48 +40,48 @@ export async function Create(dados) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const usuarioExistente = await findByUsername(dados.usuario)
+    const userExisting  = await findByUsername(dados.usuario)
     
-    if(usuarioExistente){
+    if(userExisting){
         throw new Error("Usuário já cadastrado");
     }
 
-    const emailExistente = await findByEmail(dados.email)
+    const emailExisting = await findByEmail(dados.email)
     
-    if(emailExistente){
+    if(emailExisting){
         throw new Error("Email já cadastrado");
     }
-    const senhaGerada = gerarSenhaAleatoria(10);
+    const passwordGenerated = generatePasswordRandom(10);
 
-    const senhaCriptografada = await hashPassword(senhaGerada );
+    const passwordEncrypted = await hashPassword(passwordGenerated );
 
-    const usuarioParaSalvar = {
+    const userToSave = {
         usuario: dados.usuario,
         nome: dados.nome,
         empresa: dados.empresa,
         cnpj: dados.cnpj,
         email: dados.email,
-        senha: senhaCriptografada 
+        senha: passwordEncrypted 
     };
 
     
-    const emailEnviado = await enviarEmailSenha(dados.email, dados.nome, senhaGerada); 
+    const emailSent = await sendEmailPassword(dados.email, dados.nome, passwordGenerated); 
     
-    if(!emailEnviado){
+    if(!emailSent){
         throw new Error("Erro ao enviar e-mail com a senha"); 
     }
 
-    const criarUsuario = await insertUser(usuarioParaSalvar)
+    const createUser = await insertUser(userToSave)
 
-    if (!criarUsuario) { 
+    if (!createUser) { 
         throw new Error("Erro ao criar usuário")
     
     }
 
     return {
-        usuario:criarUsuario.usuario,
-        emailEnviado: criarUsuario.email, 
-        email: emailEnviado};
+        usuario:createUser.usuario,
+        emailEnviado: createUser.email, 
+        email: emailSent};
 
 }
 
@@ -95,40 +95,40 @@ export async function Delet(ids, idUser) {
         throw new Error("Não foi informado qual o seu id.");
     }
 
-    const userExiste = await findById(idUser)
+    const userExisting = await findById(idUser)
      
-    if(!userExiste){
+    if(!userExisting){
     throw new Error(`Seu usuario não existe`)
     }
 
-    const resultados = [];
+    const results = [];
 
      for (const id of ids) {
-         const userExiste = await findById(id)
+         const userExisting = await findById(id)
      
-         if(!userExiste){
+         if(!userExisting){
             throw new Error(`Usuário com o id ${id} não encontrado.`)
          }
 
          if(id == idUser){
-            throw new Error(`Usuário ${userExiste.usuario} ativo no momento, não pode ser deletado.`);
+            throw new Error(`Usuário ${userExisting.usuario} ativo no momento, não pode ser deletado.`);
          }
 
-         const deletar = await deleteUser(id)
+         const delet = await deleteUser(id)
      
-         if(!deletar){
-             throw new Error(`Erro ao deletar usuário ${userExiste.usuario}.`);
+         if(!delet){
+             throw new Error(`Erro ao deletar usuário ${userExisting.usuario}.`);
          }
 
-         const user = userExiste.id;
+         const user = userExisting.id;
 
-        resultados.push({ user, status: "deletado" });
+        results.push({ user, status: "deletado" });
 
      }
 
 
 
-    return resultados;
+    return results;
 }
 
 //Atualizar dados
@@ -137,28 +137,28 @@ export async function Update(id, dados) {
         throw new Error("Preencha todos os campos.");
     }
 
-    const usuarioAtual = await findAllUsers(id);
-    if (!usuarioAtual) {
+    const currentuser = await findAllUsers(id);
+    if (!currentuser) {
         throw new Error("Usuário não encontrado.");
     }
 
     //Usuario pertence a outro id tirando o dele atual
-    if (dados.usuario && dados.usuario != usuarioAtual.usuario) {
-        const jaExisteUsuario = await findByUsername(dados.usuario);
-        if (jaExisteUsuario && jaExisteUsuario.id != id) {
+    if (dados.usuario && dados.usuario != currentuser.usuario) {
+        const alreadyExistsUser = await findByUsername(dados.usuario);
+        if (alreadyExistsUser && alreadyExistsUser.id != id) {
             throw new Error("Usuário já cadastrado.");
         }
     }
 
     //Email pertence a outro id
-    if (dados.email && dados.email != usuarioAtual.email) {
-        const jaExisteEmail = await findByEmail(dados.email);
-        if (jaExisteEmail && jaExisteEmail.id != id) {
+    if (dados.email && dados.email != currentuser.email) {
+        const emailAlreadyExists = await findByEmail(dados.email);
+        if (emailAlreadyExists && emailAlreadyExists.id != id) {
             throw new Error("E-mail já cadastrado.");
         }
     }
 
-    const usuarioParaSalvar = {
+    const userToSave = {
         usuario: dados.usuario,
         nome: dados.nome,
         empresa: dados.empresa,
@@ -166,52 +166,52 @@ export async function Update(id, dados) {
         email: dados.email 
     };
 
-    const atualizar = await updateUser(id, usuarioParaSalvar)
+    const toUpdate = await updateUser(id, userToSave)
 
-    if(!atualizar){
+    if(!toUpdate){
         throw new Error("Erro ao atualizar.");
     }
 
-    return atualizar;
+    return toUpdate;
 
     
 }
 
 //Atualizar senha
-export async function UpdateSenha(dados) {
+export async function UpdatePassword(dados) {
     
     if(!dados.id){
         throw new Error("id para atualizar não encontrado");
     }
 
-    const usuarioAtual = await findById(dados.id); 
+    const currentuser = await findById(dados.id); 
     
-    if (!usuarioAtual) {
+    if (!currentuser) {
         throw new Error("Usuário não encontrado.");
     }
 
-    const senhaGerada = gerarSenhaAleatoria(10);
-    const senhaCriptografada = await hashPassword(senhaGerada);
+    const passwordGenerated = generatePasswordRandom(10);
+    const passwordEncrypted = await hashPassword(passwordGenerated);
     
-    const senhaParaSalvar = {
-        senha: senhaCriptografada
+    const passwordToSave = {
+        senha: passwordEncrypted
     };
 
-    const emailEnviado = await enviarEmailSenha(usuarioAtual.email, usuarioAtual.nome, senhaGerada); 
+    const emailSent = await sendEmailPassword(currentuser.email, currentuser.nome, passwordGenerated); 
     
-    if(!emailEnviado){
+    if(!emailSent){
         throw new Error("Erro ao enviar e-mail com a senha"); 
     }
 
-    const atualizar = await updateUser(dados.id, senhaParaSalvar);
+    const toUpdate = await updateUser(dados.id, passwordToSave);
 
-    if(!atualizar){
+    if(!toUpdate){
         throw new Error("Erro ao atualizar no banco.");
     }
 
     return {
-        usuario: atualizar, 
-        email: emailEnviado
+        usuario: toUpdate, 
+        email: emailSent
     };
 }
 
@@ -221,39 +221,39 @@ export async function CreateCodetemp(dados) {
         throw new Error("Preencha todos os campo.");
     }
 
-    const usuarioExistente = await findByUsername(dados.usuario)
+    const userExisting = await findByUsername(dados.usuario)
     
-    if(!usuarioExistente){
+    if(!userExisting){
         throw new Error("Usuário não existe");
     }
 
     //Tempo
-    const quinzeMinutos = 600 * 60 * 1000; //trocar tempo
-    const validadeCurta = new Date(Date.now() + quinzeMinutos);
+    const time = 600 * 60 * 1000; //trocar tempo
+    const validityShort = new Date(Date.now() + time);
 
     //Senha
-    const senhaTemporaria = gerarSenhaAleatoria(4);
+    const temporaryPassword = generatePasswordRandom(4);
 
-    const codigoExiste = await findByIdCodeTemp( usuarioExistente.id )
+    const codeExists = await findByIdCodeTemp( userExisting.id )
 
-    if(codigoExiste ){
-        const delet = await deleteCodeTemp(usuarioExistente.id )
+    if(codeExists ){
+        const delet = await deleteCodeTemp(userExisting.id )
         if(!delet){
             throw new Error("Erro ao deletar código antigo");
         }
     }
 
-    const CodeParaSalvar = {
-        userId: usuarioExistente.id,
-        code: senhaTemporaria ,
-        expiresAt:validadeCurta 
+    const CodeParaSaveCodeToSave = {
+        userId: userExisting.id,
+        code: temporaryPassword ,
+        expiresAt:validityShort 
       };
 
-    const criarCodeTemp= await insertCodeTemp(CodeParaSalvar )
+    const createCodeTemp= await insertCodeTemp(CodeParaSaveCodeToSave )
 
-    if (criarCodeTemp) { 
+    if (createCodeTemp) { 
         try {
-            await enviarEmailSenha(usuarioExistente.email, usuarioExistente.nome, senhaTemporaria ); 
+            await sendEmailPassword(userExisting.email, userExisting.nome, temporaryPassword ); 
         } catch (mailError) { 
             throw new Error("Código criado, mas erro ao enviar e-mail:", mailError); 
         } 
@@ -261,34 +261,34 @@ export async function CreateCodetemp(dados) {
         throw new Error("Erro ao criar um código temporário")
     }
 
-    return {userId: criarCodeTemp.userId,
-        expiresAt: criarCodeTemp.expiresAt
+    return {userId: createCodeTemp.userId,
+        expiresAt: createCodeTemp.expiresAt
     };
 
 }
 
-export async function UpdateSenhaCodeTemp(dados) {
+export async function UpdatePasswordCodeTemp(dados) {
     if(!dados || !dados.usuario || !dados.code || !dados.senha || !dados.repetirSenha){
         throw new Error("Informações não encontradas");
     }
 
-    const usuarioExistente = await findByUsername(dados.usuario)
+    const userExisting = await findByUsername(dados.usuario)
     
-    if(!usuarioExistente){
+    if(!userExisting){
         throw new Error("Usuário não existe");
     }
 
-    const codeExistente = await findByIdCodeTemp(usuarioExistente.id)
+    const codeExisting = await findByIdCodeTemp(userExisting.id)
 
-    if(!codeExistente ){
+    if(!codeExisting ){
             throw new Error("Codigo não existe");
         }
 
-    if(String(codeExistente.code) !== String(dados.code)){
+    if(String(codeExisting.code) !== String(dados.code)){
         throw new Error("Código Inválido");
     }
 
-    if (new Date(codeExistente.expiresAt).getTime() < Date.now()) {
+    if (new Date(codeExisting.expiresAt).getTime() < Date.now()) {
         throw new Error("Codigo expirado");
     }
 
@@ -296,17 +296,17 @@ export async function UpdateSenhaCodeTemp(dados) {
         throw new Error("As senhas não coincidem");
     }
 
-    const novaSenha = dados.senha;
+    const newPassword = dados.senha;
 
-    const senhaCriptografada = await hashPassword(novaSenha);
+    const passwordEncrypted = await hashPassword(newPassword);
     
-    const senhaParaSalvar = {
-        senha: senhaCriptografada
+    const passwordToSave = {
+        senha: passwordEncrypted
     };
     
-    const atualizar = await updateUser(usuarioExistente.id, senhaParaSalvar )
+    const toUpdate = await updateUser(userExisting.id, passwordToSave )
 
-    if(!atualizar){
+    if(!toUpdate){
         throw new Error("Erro ao atualizar.");
     }
 

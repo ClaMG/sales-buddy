@@ -1,6 +1,6 @@
 import {findAllSales, findAllReprocessing} from '../dao/salesDAO.js'
-import {saleById, createSalesService, enviarComprovantePagamento, enviarComprovanteMobile, createReprocessingService, reprocessingService} from '../services/salesServices.js'
-import {saleReprocessingByIdDTO,saleComprovanteDTO, saleCreateDTO, saleEnviarComprovanteDTO, saleEnviarComprovanteMobileDTO,saleCreateReprocessingDTO} from '../DTO/salesDTO.js'
+import {saleById, createSalesService, sendProofPayment, sendProofMobile, createReprocessingService, reprocessingService} from '../services/salesServices.js'
+import {saleReprocessingByIdDTO,saleProofDTO, saleCreateDTO, saleSendProofDTO, saleSendProofMobileDTO,saleCreateReprocessingDTO} from '../DTO/salesDTO.js'
 
 export async function findAllSaleController(req, res) {
     try {
@@ -11,9 +11,9 @@ export async function findAllSaleController(req, res) {
     }
 }
 
-export async function Comprovante(req, res) {
+export async function Proof(req, res) {
     try{
-        const id = saleComprovanteDTO(req.body); 
+        const id = saleProofDTO(req.body); 
         const resultado = await saleById(id )
         return res.status(200).json(resultado);
     }catch(error){
@@ -35,10 +35,10 @@ export async function CreateController(req, res) {
     }
 }
 
-export async function EnviarComprovanteController(req, res) {
+export async function SendProofController(req, res) {
     try {
-        const comprovante = saleEnviarComprovanteDTO(req.body);
-        await enviarComprovantePagamento(comprovante);
+        const comprovante = saleSendProofDTO(req.body);
+        await sendProofPayment(comprovante);
         return res.status(200).json({ message: "E-mail enviado com sucesso." });
     } catch (error) {
     if (error.code === 'EAUTH') {
@@ -56,10 +56,10 @@ export async function EnviarComprovanteController(req, res) {
 }  
 }
 
-export async function enviarComprovanteMobileController(req, res) {
+export async function SendProofMobileController(req, res) {
     try {
-        const dados = saleEnviarComprovanteMobileDTO(req.body)
-        const resultado = await enviarComprovanteMobile(dados);
+        const dados = saleSendProofMobileDTO(req.body)
+        const resultado = await sendProofMobile(dados);
         
         return res.status(200).json({
             id: resultado, 

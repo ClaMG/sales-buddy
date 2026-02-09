@@ -6,14 +6,14 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true, 
     auth: {
-        user: process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com",
-        pass: process.env.EMAIL_PASS || 'mtur zfov ikpk qjyx'
+        user: process.env.EMAIL_USER ,
+        pass: process.env.EMAIL_PASS 
     }
 });
 
 //Enviar email com a nova senha
-export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
-    const remetente = process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com";
+export async function sendEmailPassword(destinatario, nomeUsuario, novaSenha) {
+    const remetente = process.env.EMAIL_USER;
 
     try {
         await transporter.verify();
@@ -38,7 +38,7 @@ export async function enviarEmailSenha(destinatario, nomeUsuario, novaSenha) {
 
 
 //Enviar email com o comprovante de pagamento
-export async function enviarEmailComprovante(destinatario, comprovante) {
+export async function sendEmailProof(destinatario, comprovante) {
     const remetente = process.env.EMAIL_USER || "erick.galdino@gfxconsultoria.com";
 
     const itensHtml = comprovante.itens.map((item, index) => `

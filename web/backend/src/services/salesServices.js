@@ -1,19 +1,20 @@
 import e from 'express';
 import {findByIdSales, createSales,updateReprocessing, createReprocessing, findSaleIdByMatch, findByIdReprocessing} from '../dao/salesDAO.js'
-import { enviarEmailComprovante } from '../utils/emailUtils.js'
-import {validarCPF} from '../utils/validateUtils.js'
+import { sendEmailProof } from '../utils/emailUtils.js'
+import {validateCPF} from '../utils/validateUtils.js'
+
 export async function saleById(id){
     if(!id){
         throw new Error("Nenhum id encontrado.");
     }
 
-    const vendaExistente= await findByIdSales(id.id)
+    const saleExisting= await findByIdSales(id.id)
 
-    if(!vendaExistente){
+    if(!saleExisting){
              throw new Error(`Venda não encontrado.`);
     }
 
-    return vendaExistente
+    return saleExisting
     
 }
 
@@ -21,7 +22,7 @@ export async function createSalesService(dados){
 	if(!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido ){
 	throw new Error("Preencha todos os campo.");
 }
-    const validateCpf = validarCPF(dados.cpf)
+    const validateCpf = validateCPF(dados.cpf)
 
     if(!validateCpf){
         throw new Error("Formato de cpf invalido.")
@@ -35,36 +36,36 @@ export async function createSalesService(dados){
         throw new Error("Valor de venda não pode ser igual ou menor a 0.");
     }
 
-    const quantidadeCalculada = dados.itens ? dados.itens.length : 0;
+    const quantityCalculated = dados.itens ? dados.itens.length : 0;
 
-    const dadosParaSalvar = {
+    const dataToSave = {
         nome: dados.nomeCliente,         
         cpf: dados.cpf,
         email: dados.email,        
-        quantidade: quantidadeCalculada, 
+        quantidade: quantityCalculated, 
         valorVenda: dados.valorVenda,
         valorRecebido: dados.valorRecebido,
         troco: dados.troco || 0,
         itens: dados.itens
     };
 
-    const vendaCriada = await createSales( dadosParaSalvar );
-    if(!vendaCriada){
+    const saleCreated = await createSales( dataToSave );
+    if(!saleCreated){
         throw new Error("Erro ao criar a venda.");
     }
 
-return vendaCriada;
+return saleCreated;
 
 }
 
-export async function enviarComprovantePagamento(comprovante) {
+export async function sendProofPayment(comprovante) {
     if (!comprovante || !comprovante.nomeCliente || !comprovante.cpf || !comprovante.email ||
          !comprovante.valorVenda || !comprovante.valorRecebido 
         || !comprovante.itens || !comprovante.troco) {
         throw new Error("Preencha todos os campos.");
     }
 
-    const validateCpf = validarCPF(comprovante.cpf)
+    const validateCpf = validateCPF(comprovante.cpf)
 
     if(!validateCpf){
         throw new Error("Formato de cpf invalido.")
@@ -78,55 +79,55 @@ export async function enviarComprovantePagamento(comprovante) {
         throw new Error("Valor de venda não pode ser igual ou menor a 0.");
     }
 
-    const destinatario = comprovante.email;
-    const quantidadeItens = comprovante.itens ? comprovante.itens.length : 0;
+    const recipient = comprovante.email;
+    const quantityItems = comprovante.itens ? comprovante.itens.length : 0;
 
-    const dados = {
+    const data = {
         nomeCliente: comprovante.nomeCliente,
         cpf: comprovante.cpf,
-        email: destinatario,
-        quantidade: quantidadeItens,
+        email: recipient,
+        quantidade: quantityItems,
         valorVenda: comprovante.valorVenda,
         valorRecebido: comprovante.valorRecebido,
         troco: comprovante.troco
     };
 
-    const pesquisarVenda = await findSaleIdByMatch(dados);
+    const searchSale = await findSaleIdByMatch(data);
 
-    if (!pesquisarVenda ||pesquisarVenda.length === 0) {
+    if (!searchSale ||searchSale.length === 0) {
         throw new Error("Nenhuma venda correspondente encontrada.");
     }
 
-    const idVenda = pesquisarVenda[pesquisarVenda.length - 1].id;
+    const idSale = searchSale[searchSale.length - 1].id;
 
 
-    const comprovanteCompleto = {
+    const proofComplete = {
         nome: comprovante.nomeCliente,
         cpf: comprovante.cpf,
-        email: destinatario,
+        email: recipient,
         itens: comprovante.itens || [],
         valorRecebido: comprovante.valorRecebido || 0,
         valorVenda: comprovante.valorVenda || 0,
         troco: comprovante.troco || 0,
-        idVenda: idVenda
+        idVenda: idSale
     };
 
 
-    const emailEnviado = await enviarEmailComprovante(destinatario, comprovanteCompleto);
-    if (!emailEnviado) {
+    const emailSent = await sendEmailProof(recipient, proofComplete);
+    if (!emailSent) {
         throw new Error("Erro ao enviar e-mail com o comprovante de pagamento");
     }
-    return emailEnviado;
+    return emailSent;
 }
 
-export async function enviarComprovanteMobile(dados) {
+export async function sendProofMobile(dados) {
     if (!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido || !dados.itens || !dados.troco) {
         throw new Error("Preencha todos os campos.");
     }
 
-   const quantidadeItens = dados.itens ? dados.itens.length : 0;
+   const quantityItems = dados.itens ? dados.itens.length : 0;
 
-   const validateCpf = validarCPF(dados.cpf)
+   const validateCpf = validateCPF(dados.cpf)
 
     if(!validateCpf){
         throw new Error("Formato de cpf invalido.")
@@ -140,25 +141,25 @@ export async function enviarComprovanteMobile(dados) {
         throw new Error("Valor de venda não pode ser igual ou menor a 0.");
     }
 
-    const dadosParaSalvar = {
+    const dataToSave = {
         nomeCliente: dados.nomeCliente,
         cpf: dados.cpf,
         email: dados.email,
-        quantidade: quantidadeItens,
+        quantidade: quantityItems,
         valorVenda: dados.valorVenda,
         valorRecebido: dados.valorRecebido,
         troco: dados.troco,
         itens: dados.itens || []
     };
 
-    const pesquisarVenda = await findSaleIdByMatch(dadosParaSalvar);
+    const searchSale = await findSaleIdByMatch(dataToSave);
 
-    if (!pesquisarVenda ||pesquisarVenda.length === 0) {
+    if (!searchSale ||searchSale.length === 0) {
         throw new Error("Nenhuma venda correspondente encontrada.");
     }
 
     // Pega o ID da última venda correspondente
-    const idFinal = pesquisarVenda.length > 0 ? pesquisarVenda[pesquisarVenda.length - 1].id : null;
+    const idFinal = searchSale.length > 0 ? searchSale[searchSale.length - 1].id : null;
 
     return idFinal;
 }
@@ -172,7 +173,7 @@ export async function createReprocessingService(dados){
     throw new Error("Valor de venda não foi pago.");
     }
 
-    const validateCpf = validarCPF(dados.cpf)
+    const validateCpf = validateCPF(dados.cpf)
 
     if(!validateCpf){
         throw new Error("Formato de cpf invalido.")
@@ -182,13 +183,13 @@ export async function createReprocessingService(dados){
         throw new Error("Valor de venda não pode ser igual ou menor a 0.");
     }
 
-    const quantidadeItens = dados.itens ? dados.itens.length : 0;
+    const quantityItems = dados.itens ? dados.itens.length : 0;
 
-    const dadosParaSalvar = {
+    const dataToSave = {
         nome: dados.nomeCliente,
         cpf: dados.cpf,
         email: dados.email,
-        quantidade: quantidadeItens,
+        quantidade: quantityItems,
         valorVenda: dados.valorVenda,
         valorRecebido: dados.valorRecebido,
         troco: dados.troco,
@@ -196,14 +197,12 @@ export async function createReprocessingService(dados){
         reprocessado: false
     };
 
-    const reprocessamentoCriado = await createReprocessing( dadosParaSalvar );
-    if(!reprocessamentoCriado){
+    const reprocessingCreated = await createReprocessing( dataToSave );
+    if(!reprocessingCreated){
         throw new Error("Erro ao criar o reprocessamento.");
     }
 
-    
-
-    return reprocessamentoCriado;
+    return reprocessingCreated;
 
 }
 
@@ -212,60 +211,60 @@ export async function reprocessingService(dados){
         throw new Error("ID do reprocessamento é obrigatório.");
     }
 
-    const concluidos = []; 
-    const pendentes = [];
+    const completed = []; 
+    const pending = [];
 
     for (const id of dados.id) {
         try {
-            const reprocessamento = await findByIdReprocessing(id);
+            const reprocessing = await findByIdReprocessing(id);
             
-            if (!reprocessamento) {
+            if (!reprocessing) {
                 console.error(`ID ${id} não encontrado. Pulando...`);
                 continue; 
             }
 
-            if (reprocessamento.reprocessado) {
-                concluidos.push({ id, status: "Já estava processado" });
+            if (reprocessing.reprocessado) {
+                completed.push({ id, status: "Já estava processado" });
                 continue;
             }
 
-            const quantidadeItens = reprocessamento.itens ? reprocessamento.itens.length : 0;
+            const quantityItems = reprocessing.itens ? reprocessing.itens.length : 0;
 
            
-            const dadosParaSalvar = {
-                nome: reprocessamento.nome,
-                cpf: reprocessamento.cpf,
-                email: reprocessamento.email,
-                quantidade: quantidadeItens,
-                valorRecebido: reprocessamento.valorRecebido ,
-                valorVenda: reprocessamento.valorVenda ,
-                troco: reprocessamento.troco,
-                itens: reprocessamento.itens ? reprocessamento.itens.map(item => ({
+            const dataToSave = {
+                nome: reprocessing.nome,
+                cpf: reprocessing.cpf,
+                email: reprocessing.email,
+                quantidade: quantityItems,
+                valorRecebido: reprocessing.valorRecebido ,
+                valorVenda: reprocessing.valorVenda ,
+                troco: reprocessing.troco,
+                itens: reprocessing.itens ? reprocessing.itens.map(item => ({
                     descricao: item.descricao 
         
                     })) : []
             };
 
-            const novaVenda = await createSales(dadosParaSalvar);
+            const newSale = await createSales(dataToSave);
             
-            if (!novaVenda) {
+            if (!newSale) {
                 throw new Error(`Falha ao criar venda para o ID ${id}`);
             }
             
-            const atualizarStatus = await updateReprocessing(id, true);
-            if (!atualizarStatus) {
+            const updateStatus = await updateReprocessing(id, true);
+            if (!updateStatus) {
                 throw new Error(`Falha ao atualizar o status do reprocessamento para o ID ${id}`);
             }
 
-            concluidos.push({ id, status: "Processado com sucesso" });
+            completed.push({ id, status: "Processado com sucesso" });
 
         } catch (error) {
-            pendentes.push({ id, motivo: error.message });
+            pending.push({ id, motivo: error.message });
         }
     }
 
     return { 
-        concluido: concluidos, 
-        pendentes: pendentes }; 
+        concluido: completed , 
+        pendentes: pending }; 
 }
 

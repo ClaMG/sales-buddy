@@ -1,19 +1,19 @@
-import { validarEmail, validarCPF} from '../utils/validateUtils.js'
+import { validateEmail, validateCPF} from '../utils/validateUtils.js'
 
-export function saleComprovanteDTO(venda) {
+export function saleProofDTO(venda) {
     return {
         id: venda.id
     };
 }
 
 export function saleCreateDTO(venda) {
-    const fomatoEmail = validarEmail(venda.email)
+    const fomatoEmail = validateEmail(venda.email)
 
     if(!fomatoEmail){
         throw new Error("Email com o fomato errado, deve conter o @ e .com")
     }
 
-    const cpfValido = validarCPF(venda.cpf);
+    const cpfValido = validateCPF(venda.cpf);
     if (!cpfValido) {
         throw new Error("CPF inválido.");
     }
@@ -29,14 +29,14 @@ export function saleCreateDTO(venda) {
         })) : []
     };
 }
-export function saleEnviarComprovanteDTO(venda) {
+export function saleSendProofDTO(venda) {
 
-    const fomatoEmail = validarEmail(venda.email);
+    const fomatoEmail = validateEmail(venda.email);
     if (!fomatoEmail) {
         throw new Error("Email com o formato errado, deve conter o @ e .com");
     }
 
-    const cpfValido = validarCPF(venda.cpf);
+    const cpfValido = validateCPF(venda.cpf);
     if (!cpfValido) {
         throw new Error("CPF inválido.");
     }
@@ -53,13 +53,13 @@ export function saleEnviarComprovanteDTO(venda) {
         })) : []
     };
 }
-export function saleEnviarComprovanteMobileDTO(venda) {
-    const fomatoEmail = validarEmail(venda.email);
+export function saleSendProofMobileDTO(venda) {
+    const fomatoEmail = validateEmail(venda.email);
     if (!fomatoEmail) {
         throw new Error("Email com o formato errado, deve conter o @ e .com");
     }
 
-    const cpfValido = validarCPF(venda.cpf);
+    const cpfValido = validateCPF(venda.cpf);
     if (!cpfValido) {
         throw new Error("CPF inválido.");
     }
@@ -76,12 +76,12 @@ export function saleEnviarComprovanteMobileDTO(venda) {
     };
 }
 export function saleCreateReprocessingDTO(venda) {
-    const fomatoEmail = validarEmail(venda.email);
+    const fomatoEmail = validateEmail(venda.email);
     if (!fomatoEmail) {
         throw new Error("Email com o formato errado, deve conter o @ e .com");
     }
 
-    const cpfValido = validarCPF(venda.cpf);
+    const cpfValido = validateCPF(venda.cpf);
     if (!cpfValido) {
         throw new Error("CPF inválido.");
     }

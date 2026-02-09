@@ -8,7 +8,8 @@ Sale.hasMany(ItemSales, {
 });
 
 ItemSales.belongsTo(Sale, {
-  foreignKey: 'salesId'
+  foreignKey: 'salesId',
+  as: 'parentSale'
 });
 
-export { Sale, ItemSales };
+export {Sale, ItemSales };

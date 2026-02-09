@@ -34,24 +34,24 @@ export async function findByIdReprocessing(id) {
 }
 
 //Pesquisa pelo nome
-export async function findBySalesName(nomeCliente) {
+export async function findBySalesName(customername) {
     return await Sale.findOne({
-        where: { nome: nomeCliente },
+        where: { nome: customername },
         attributes: ['id'] 
     });
 }
 
 //Pesquisar venda por dados correspondentes
-export async function findSaleIdByMatch(dados) {
+export async function findSaleIdByMatch(data) {
     const sales = await Sale.findAll({
         where: {
-            nome: dados.nomeCliente,
-            cpf: dados.cpf,
-            email: dados.email,
-            quantidade: dados.quantidade,
-            valorVenda: dados.valorVenda,
-            valorRecebido: dados.valorRecebido,
-            troco: dados.troco
+            nome: data.nomeCliente,
+            cpf: data.cpf,
+            email: data.email,
+            quantidade: data.quantidade,
+            valorVenda: data.valorVenda,
+            valorRecebido: data.valorRecebido,
+            troco: data.troco
         },
         attributes: ['id'],
         order: [['id', 'DESC']] 
@@ -61,15 +61,15 @@ export async function findSaleIdByMatch(dados) {
 }
 
 //criar um novo reprocessamento
-export async function createReprocessing(dados) {
-    return await Reprocessing.create(dados,{
+export async function createReprocessing(data) {
+    return await Reprocessing.create(data,{
          include: [{ model: ItemReprocessing, as: 'itens' }]
     });
 }
 
 //Criar uma nova venda
-export async function createSales(dados) {
-    return await Sale.create(dados,{
+export async function createSales(data) {
+    return await Sale.create(data,{
          include: [{ model: ItemSales, as: 'itens' }]
     });
 }

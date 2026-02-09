@@ -1,16 +1,16 @@
 import e from "express";
-import { validarCNPJ, formatarCNPJ, validarEmail } from "../utils/validateUtils.js";
+import { validateCNPJ, formatCNPJ, validateEmail } from "../utils/validateUtils.js";
 
 export function userInsertDTO(user) {
-    const formatoCnpj = validarCNPJ(user.cnpj);
+    const formatoCnpj = validateCNPJ(user.cnpj);
 
     if (!formatoCnpj) {
         throw new Error("o cnpj precisa dos 14 números");
     }
 
-    const cnpjFormatado = formatarCNPJ(user.cnpj)
+    const cnpjFormatado = formatCNPJ(user.cnpj)
 
-    const fomatoEmail = validarEmail(user.email)
+    const fomatoEmail = validateEmail(user.email)
 
     if(!fomatoEmail){
         throw new Error("Email com o fomato errado, deve conter o @ e .com")
@@ -41,15 +41,15 @@ export function userDeletDTO(user) {
 }
 
 export function userUpdateDTO( user) {
-    const formatoCnpj = validarCNPJ(user.cnpj);
+    const formatoCnpj = validateCNPJ(user.cnpj);
 
     if (!formatoCnpj) {
         throw new Error("o cnpj precisa dos 14 números");
     }
 
-    const cnpjFormatado = formatarCNPJ(user.cnpj)
+    const cnpjFormatado = formatCNPJ(user.cnpj)
 
-    const fomatoEmail = validarEmail(user.email)
+    const fomatoEmail = validateEmail(user.email)
 
     if(!fomatoEmail){
         throw new Error("Email com o fomato errado, deve conter o @ e .com")
@@ -63,7 +63,7 @@ export function userUpdateDTO( user) {
     };
 }
 
-export function userUpSenhaDTO(user){
+export function userUpPasswordDTO(user){
     return {
         id: user.id
     };
@@ -74,7 +74,7 @@ export function userInsertCodetempDTO(user){
     };
 }
 
-export function userUpCodeSenhaDTO(user) {
+export function userUpCodePasswordDTO(user) {
     return {
         usuario: user.usuario,
         code: user.code,

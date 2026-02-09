@@ -1,6 +1,6 @@
-import {Create, Login, Delet, Update, CreateCodetemp, UpdateSenha, UpdateSenhaCodeTemp} from '../services/userServices.js'
+import {Create, Login, Delet, Update, CreateCodetemp, UpdatePassword, UpdatePasswordCodeTemp} from '../services/userServices.js'
 import {findAllUsers } from '../dao/userDAO.js'
-import { userInsertDTO, userLoginDTO, userDeletDTO, userUpdateDTO, userUpSenhaDTO,userInsertCodetempDTO, userUpCodeSenhaDTO } from '../DTO/userDTO.js'
+import { userInsertDTO, userLoginDTO, userDeletDTO, userUpdateDTO, userUpPasswordDTO,userInsertCodetempDTO, userUpCodePasswordDTO } from '../DTO/userDTO.js'
 
 export async function insertUsersControler(req, res) {
     try {
@@ -54,11 +54,11 @@ export async function updateUsersControler(req, res) {
     }
 }
 
-export async function updateSenhaControler(req, res) {
+export async function updatePasswordControler(req, res) {
     
     try {
-        const dados = userUpSenhaDTO(req.body);
-        const resultado = await UpdateSenha(dados);
+        const dados = userUpPasswordDTO(req.body);
+        const resultado = await UpdatePassword(dados);
         return res.status(201).json({
             message: "Senha atualizada com sucesso, verifique seu email",
             resposta: resultado}); 
@@ -88,8 +88,8 @@ export async function insertCodeTempControler(req, res) {
 
 export async function updateCodeTempControler(req, res) {
     try {
-        const dados= userUpCodeSenhaDTO(req.body);
-        const resultado = await UpdateSenhaCodeTemp(dados);
+        const dados= userUpCodePasswordDTO(req.body);
+        const resultado = await UpdatePasswordCodeTemp(dados);
         return res.status(201).json(resultado);
     } catch (error) {
         return res.status(400).json({ message: error.message });

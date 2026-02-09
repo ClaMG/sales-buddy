@@ -52,7 +52,7 @@
     <string name="dialog_repro_resume_error_tv2">AO EFETUAR VENDA</string>
     <string name="dialog_repro_resume_error_tv3">VERIFIQUE O REPROCESSAMENTO</string>
 
-    <string name="fillfields">"Preencha todos os campos"</string>
+    <string name="fillfields">Preencha todos os campos</string>
     <string name="error_connection">Não foi possível conectar ao servidor. Verifique se ele está ligado.</string>
     <string name="error_timeout">O servidor demorou muito para responder.</string>
     <string name="error_network">Falha de rede. Verifique sua conexão.</string>

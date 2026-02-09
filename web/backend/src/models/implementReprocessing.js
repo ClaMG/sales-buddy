@@ -9,7 +9,8 @@ Reprocessing.hasMany(ItemReprocessing, {
 
 
 ItemReprocessing.belongsTo(Reprocessing, {
-  foreignKey: 'reprocessingId'
+  foreignKey: 'reprocessingId',
+  as: 'parentReprocessing'
 });
 
 export { Reprocessing, ItemReprocessing };

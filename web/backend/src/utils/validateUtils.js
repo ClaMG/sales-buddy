@@ -1,17 +1,17 @@
 //Conferir formato do email
-export const validarEmail = (email) => {
+export const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };
 
 //Confere valida e aplica a mascara do cnpj
-export const validarCNPJ = (cnpj) => {
+export const validateCNPJ = (cnpj) => {
     const cnpjLimpo = cnpj.replace(/\D/g, ''); 
     return cnpjLimpo.length === 14;
 };
 
 //Formata o cnpj
-export const formatarCNPJ = (cnpj) => {
+export const formatCNPJ = (cnpj) => {
     const limpo = cnpj.replace(/\D/g, ''); // Garante que só existam números
     return limpo
         .replace(/^(\d{2})(\d)/, '$1.$2')
@@ -22,7 +22,7 @@ export const formatarCNPJ = (cnpj) => {
 };
 
 //Validar o CPF 
-export function validarCPF(cpf) {
+export function validateCPF(cpf) {
     //Valida o formato 
     const regexFormato = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     if (!regexFormato.test(cpf)) return false;
