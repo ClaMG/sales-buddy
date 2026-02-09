@@ -28,7 +28,7 @@ export async function updateUser(id, data) {
 //pesquisar por nome 
 export async function findByUsername(user) {
     return await User.findOne({
-        where: { user: user }
+        where: { usuario: user }
     });
 }
 
