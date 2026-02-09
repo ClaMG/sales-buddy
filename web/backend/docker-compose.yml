@@ -18,9 +18,9 @@ services:
       - DB_PASS=${DB_PASS}
     restart: always
     depends_on:
-      - db_postgres
+      - salesbuddy_db_container
 
-  db_postgres:
+  salesbuddy_db_container:
     image: postgres:15
     container_name: salesbuddy_db_container
     restart: always

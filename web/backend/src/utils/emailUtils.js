@@ -1,52 +1,4 @@
-import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
-import crypto from 'crypto';
-
-// Transforma a senha 
-export const hashPassword = async (password) => {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
-};
-
-// Compara a senha 
-export const comparePassword = async (password, hashedPassword) => {
-    return await bcrypt.compare(password, hashedPassword);
-};
-
-//Conferir formato do email
-export const validarEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-};
-
-//Confere valida e aplica a mascara do cnpj
-export const validarCNPJ = (cnpj) => {
-    const cnpjLimpo = cnpj.replace(/\D/g, ''); 
-    return cnpjLimpo.length === 14;
-};
-
-//Formata o cnpj
-export const formatarCNPJ = (cnpj) => {
-    const limpo = cnpj.replace(/\D/g, ''); // Garante que só existam números
-    return limpo
-        .replace(/^(\d{2})(\d)/, '$1.$2')
-        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-        .replace(/\.(\d{3})(\d)/, '.$1/$2')
-        .replace(/(\d{4})(\d)/, '$1-$2')
-        .replace(/(-\d{2})\d+?$/, '$1'); // Limita o tamanho
-};
-
-
-//Gera senha aleatoria
-export const gerarSenhaAleatoria = (tamanho) => {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    
-    // No Node, usamos crypto.randomBytes
-    return Array.from({ length: tamanho }, () => {
-        const randomIndex = crypto.randomInt(0, caracteres.length);
-        return caracteres[randomIndex];
-    }).join('');
-};
 
 //Configuração do nodemailer
 const transporter = nodemailer.createTransport({
@@ -170,22 +122,4 @@ export async function enviarEmailComprovante(destinatario, comprovante) {
     }
 }
 
-//Verificar o CPF 
-export function validarCPF(cpf) {
-    const limpo = String(cpf).replace(/\D/g, ''); // Remove máscara
-    if (limpo.length !== 11 || /^(\d)\1{10}$/.test(limpo)) return false;
 
-    let soma = 0, resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(limpo.substring(i - 1, i)) * (11 - i);
-    resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
-    if (resto !== parseInt(limpo.substring(9, 10))) return false;
-
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(limpo.substring(i - 1, i)) * (12 - i);
-    resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
-    if (resto !== parseInt(limpo.substring(10, 11))) return false;
-
-    return true;
-}

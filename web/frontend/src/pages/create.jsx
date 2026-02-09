@@ -10,29 +10,39 @@ import './css/btnGray.css'
 import titleIcon from '../assets/icons-title/add_blue.svg'
 import useRegisterActivite from '../hooks/registerActive.jsx'
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+
 import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+    usuario: Yup.string().required('Preencha o campo Usuário'),
+    nome: Yup.string().required('Preencha o campo Nome'),
+    email: Yup.string().email('E-mail inválido').required('Preencha o campo E-mail'),
+    empresa: Yup.string().required('Preencha o campo Empresa'),
+    cnpj: Yup.string().min(18, 'CNPJ incompleto').required('Preencha o campo CNPJ'),
+});
 
 function Create(){
     const {handleSave, error} = useRegisterActivite()
     const navigate = useNavigate()
-    //para puxar os dados do register
-    const [formData, setFormData] = useState({
-        usuario: '', nome: '', email: '', empresa: '', cnpj: ''
-    });
 
-    async function handleSubmit(event) {
-        event.preventDefault()
-        const idToast = toast.loading("Salvando usuário...");
+    
 
-        const usuario = formData.usuario
-        const nome = formData.nome
-        const empresa = formData.empresa
-        const email = formData.email
-        const cnpj = formData.cnpj
-
-
-        const success = await handleSave( usuario, nome, empresa, cnpj, email  );
+    const formik = useFormik({
+        initialValues: {
+            usuario: '',
+            nome: '',
+            email: '',
+            empresa: '',
+            cnpj: ''
+        },
+        validationSchema: validationSchema,
+        validateOnChange: false, // Evita poluição de toasts enquanto digita
+        validateOnBlur: false,
+        onSubmit: async (values) => {
+            const idToast = toast.loading("Carregando...");
+            const success = await handleSave( values.usuario, values.nome, values.empresa, values.cnpj, values.email  );
 
         if(success){
             toast.update(idToast, { 
@@ -43,17 +53,25 @@ function Create(){
         });
             navigate('/user')
             return;
-        }
-
-        if (error) {
-            toast.update(idToast, { 
-            render: error, 
+        }else{
+             toast.update(idToast, { 
+            render: error || "Erro ao atualizar", 
             type: "error",
             isLoading: false, 
             autoClose: 3000 
         }); 
         }
-    }
+        }
+    });
+
+    const handleValidationErrors = () => {
+        if (!formik.isValid) {
+            const firstError = Object.values(formik.errors)[0];
+            if (firstError) toast.error(firstError);
+        }
+    };
+
+    
     const token = localStorage.getItem('token');
     if (!token) {
         navigate('/login');
@@ -66,28 +84,31 @@ function Create(){
             <div className="content-container">
                 <div className='btn-container-create'>
                     <Btns
-                        classNameIcon1="btn-gray-icon"
-                        image1={refresh}
-                        onClick1={() => {}} 
-                        className1="btn-gray"
-                        text1="RESETAR SENHA"
-                        type1="button"
-                        desablit1={true}
-                        classNameIcon2="btn-blue-icon"
-                        image2={save}
-                        onClick2={handleSubmit} 
-                        className2="btn-blue"
-                        text2="SALVAR ALTERAÇÕES"
-                        type2="submit"
-                        desablit2={false}
+                        classNameIconPrimaryButton="btn-gray-icon"
+                        imageIconPrimaryButton={refresh}
+                        actionPrimaryButton={() => {}} 
+                        classNamePrimaryButton="btn-gray"
+                        textPrimaryButton="RESETAR SENHA"
+                        typePrimaryButton="button"
+                        desablitPrimaryButton={true}
+
+                        classNameIconSecondButton="btn-blue-icon"
+                        imageIconSecondButton={save}
+                        onClickSecondButton={() => {
+                            handleValidationErrors();
+                            formik.handleSubmit();
+                        }} 
+                        classNameSecondButton="btn-blue"
+                        textSecondButton="SALVAR ALTERAÇÕES"
+                        typeSecondButton="submit"
+                        desablitSecondButton={false}
                     />
                 </div>
                 <div className="table-container">
                     <Register 
                         textTitle={ "CADASTRAR NOVO USUÁRIO"}
                         icon={titleIcon}
-                        formData={formData} 
-                        setFormData={setFormData}
+                        formik={formik}
                     />
                 </div>
             </div>

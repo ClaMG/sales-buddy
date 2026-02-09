@@ -10,24 +10,27 @@ import { useNavigate } from 'react-router-dom';
 import './css/base.css'
 import './css/btnGray.css'
 import './css/btnBlue.css'
-import { toast } from 'react-toastify';
+
 
 
 function User() {
     const navigate = useNavigate();
     const [showToast, setShowToast] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
      
     async function create() {
         navigate('/create');
     }
 
+    const handleSelectionChange = (hasSelection) => {
+        setDisabled(!hasSelection); 
+    };
 
+    
     async function delet() {
         if(localStorage.getItem('arrayIds')){
-           setShowToast(true) 
-        }else{
-            toast.error("Nenhum usuário selecionado")
+            setShowToast(true) 
         }
     }
 
@@ -36,6 +39,8 @@ function User() {
         navigate('/login');
         return null; 
     }
+
+
     
 
     return (
@@ -49,24 +54,25 @@ function User() {
             <div className="content-container">
                 <div className='btn-container-user'>
                     <Btns
-                        classNameIcon1="btn-gray-icon"
-                        image1={deleteIcon}
-                        onClick1={() => {delet()}} 
-                        className1="btn-gray"
-                        text1="EXCLUIR USUÁRIO"
-                        type1= "submit"
-                        desablit1= {''}
-                        classNameIcon2="btn-blue-icon"
-                        image2={addIcon}
-                        onClick2={() => {create()}} 
-                        className2="btn-blue"
-                        text2="CADASTRAR NOVO USUÁRIO"
-                        type2= "button"
-                        desablit2= {false}
+                        classNameIconPrimaryButton={"btn-gray-icon"}
+                        imageIconPrimaryButton={deleteIcon}
+                        actionPrimaryButton={() => {delet()}} 
+                        classNamePrimaryButton={"btn-gray"}
+                        textPrimaryButton="EXCLUIR USUÁRIO"
+                        typePrimaryButton= "submit"
+                        desablitPrimaryButton= {disabled}
+
+                        classNameIconSecondButton="btn-blue-icon"
+                        imageIconSecondButton={addIcon}
+                        onClickSecondButton={() => {create()}} 
+                        classNameSecondButton="btn-blue"
+                        textSecondButton="CADASTRAR NOVO USUÁRIO"
+                        typeSecondButton= "button"
+                        desablitSecondButtondesablitSecondButton= {false}
                     />
                 </div>
                 <div className="table-container">
-                   <TableUser/>
+                   <TableUser  onSelection={handleSelectionChange}/>
                 </div>
                 
             </div>

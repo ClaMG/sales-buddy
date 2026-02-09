@@ -7,8 +7,7 @@ function useUpdateActive(){
     const handleSave = async(id, usuario, nome, empresa, cnpj, email) =>{
         try {
             setError(null)
-            const userFromApi = await api.put('user/update',{
-                id: id,
+            const userFromApi = await api.put(`user/update/${id}`,{
                 usuario: usuario,
                 nome: nome,
                 empresa: empresa,
@@ -17,12 +16,6 @@ function useUpdateActive(){
             })
             return userFromApi
         } catch (err) {
-            if (err.code === 'ERR_NETWORK' || !err.response) {
-                setError("O servidor está offline. Verifique sua conexão ou tente mais tarde.");
-                console.error("Falha de conexão física ou servidor desligado.");
-                navigate('/');
-                return; 
-            }
             if (err.response || err) {
             const errorMessage = err || "Erro Interno";
             setError(errorMessage); 

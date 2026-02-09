@@ -8,54 +8,59 @@ import './css/btnGray.css'
 import refresh from '../assets/icons-btn/refresh.png'
 import save from '../assets/icons-btn/save.png'
 import titleIcon from '../assets/icons-btn/edit.png'
-import { useState } from 'react';
 import useUpdateActive from '../hooks/updateActivite.jsx'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
+const validationSchema = Yup.object({
+    usuario: Yup.string().required('Preencha o campo Usuário'),
+    nome: Yup.string().required('Preencha o campo Nome'),
+    email: Yup.string().email('E-mail inválido').required('Preencha o campo E-mail'),
+    empresa: Yup.string().required('Preencha o campo Empresa'),
+    cnpj: Yup.string().min(18, 'CNPJ incompleto').required('Preencha o campo CNPJ'),
+});
 
 function Update(){
     const navigate = useNavigate();
     const{handleSave , error, updatePassword}= useUpdateActive()
-    //para puxar os dados do register
-    const [formData, setFormData] = useState({
-        usuario: '', nome: '', email: '', empresa: '', cnpj: ''
+    const formik = useFormik({
+            initialValues: {
+                usuario: '',
+                nome: '',
+                email: '',
+                empresa: '',
+                cnpj: ''
+            },
+            validationSchema: validationSchema,
+            validateOnChange: false, // Evita poluição de toasts enquanto digita
+            validateOnBlur: false,
+            onSubmit: async (values) => {
+                const idToast = toast.loading("Carregando...");
+                const id = localStorage.getItem("idUpdate")
+                const success = await handleSave( id, values.usuario, values.nome, values.empresa, values.cnpj, values.email  );
+           
+                if(success){
+                    toast.update(idToast, { 
+                    render: "Usuário atualizado!", 
+                    type: "success", 
+                    isLoading: false, 
+                    autoClose: 2000 
+                });
+                    navigate('/user')
+                    return
+                }else{
+                    toast.update(idToast, { 
+                    render: error || "Erro ao atualizar", 
+                    type: "error",
+                    isLoading: false, 
+                    autoClose: 3000 
+                }); 
+                }
+            }
     });
     
-    async function handleSubmit(event) {
-        event.preventDefault()
-        const idToast = toast.loading("Salvando alterações...");
-
-        const id = localStorage.getItem("idUpdate")
-        const usuario = formData.usuario
-        const nome = formData.nome
-        const empresa = formData.empresa
-        const email = formData.email
-        const cnpj = formData.cnpj
-
-        const success = await handleSave(id, usuario, nome, empresa, cnpj, email );
-
-        if(success){
-            toast.update(idToast, { 
-            render: "Usuário atualizado!", 
-            type: "success", 
-            isLoading: false, 
-            autoClose: 2000 
-        });
-            navigate('/user')
-            return
-        }
-
-        if (error) {
-            toast.update(idToast, { 
-            render: error, 
-            type: "error", 
-            isLoading: false, 
-            autoClose: 3000 
-        });     
-        }
-    }
-
         async function password(){
             const toastId = toast.loading("Resetando senha...");
             const success = await updatePassword();
@@ -69,17 +74,22 @@ function Update(){
                 });
                  navigate('/user')
                 return
-            }
-
-             if (error) {
+            }else{
                 toast.update(toastId, { 
-                render: error, 
-                type: "error", 
+                render: error || "Erro ao atualizar senha", 
+                type: "error",
                 isLoading: false, 
                 autoClose: 3000 
-                });     
+            }); 
             }
         }
+
+        const handleValidationErrors = () => {
+        if (!formik.isValid) {
+            const firstError = Object.values(formik.errors)[0];
+            if (firstError) toast.error(firstError);
+        }
+    };
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -93,28 +103,31 @@ function Update(){
             <div className="content-container">
                 <div className='btn-container-create'>
                     <Btns
-                        classNameIcon1="btn-blue-icon"
-                        image1={refresh}
-                        onClick1={password} 
-                        className1="btn-blue"
-                        text1="RESETAR SENHA"
-                        type1="button"
-                        desablit1={false}
-                        classNameIcon2="btn-blue-icon"
-                        image2={save}
-                        onClick2={handleSubmit} 
-                        className2="btn-blue"
-                        text2="SALVAR ALTERAÇÕES"
-                        type2="submit"
-                        desablit2={false}
+                        classNameIconPrimaryButton="btn-blue-icon"
+                        imageIconPrimaryButton={refresh}
+                        actionPrimaryButton={password} 
+                        classNamePrimaryButton="btn-blue"
+                        textPrimaryButton="RESETAR SENHA"
+                        typePrimaryButton="button"
+                        desablitPrimaryButton={false}
+
+                        classNameIconSecondButton="btn-blue-icon"
+                        imageIconSecondButton={save}
+                        onClickSecondButton={() => {
+                            handleValidationErrors();
+                            formik.handleSubmit();
+                        }} 
+                        classNameSecondButton="btn-blue"
+                        textSecondButton="SALVAR ALTERAÇÕES"
+                        typeSecondButton="submit"
+                        desablitSecondButton={false}
                     />
                 </div>
                 <div className="table-container">
                     <Register 
                         textTitle={"EDITAR USUÁRIO"}
                         icon={titleIcon}
-                        formData={formData} 
-                        setFormData={setFormData}
+                        formik={formik}
                     />
                 </div>
             

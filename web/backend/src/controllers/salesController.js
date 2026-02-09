@@ -12,8 +12,8 @@ export async function findAllSaleController(req, res) {
 }
 
 export async function Comprovante(req, res) {
-    const id = saleComprovanteDTO(req.body); 
     try{
+        const id = saleComprovanteDTO(req.body); 
         const resultado = await saleById(id )
         return res.status(200).json(resultado);
     }catch(error){
@@ -22,8 +22,8 @@ export async function Comprovante(req, res) {
 }
 
 export async function CreateController(req, res) {
-   const novaVenda = saleCreateDTO(req.body)
     try {
+        const novaVenda = saleCreateDTO(req.body)
         const resultado = await createSalesService(novaVenda);
         return res.status(201).json(resultado);
     } catch (error) {
@@ -36,8 +36,8 @@ export async function CreateController(req, res) {
 }
 
 export async function EnviarComprovanteController(req, res) {
-    const comprovante = saleEnviarComprovanteDTO(req.body);
     try {
+        const comprovante = saleEnviarComprovanteDTO(req.body);
         await enviarComprovantePagamento(comprovante);
         return res.status(200).json({ message: "E-mail enviado com sucesso." });
     } catch (error) {
@@ -57,8 +57,8 @@ export async function EnviarComprovanteController(req, res) {
 }
 
 export async function enviarComprovanteMobileController(req, res) {
-    const dados = saleEnviarComprovanteMobileDTO(req.body)
     try {
+        const dados = saleEnviarComprovanteMobileDTO(req.body)
         const resultado = await enviarComprovanteMobile(dados);
         
         return res.status(200).json({
@@ -76,8 +76,8 @@ export async function enviarComprovanteMobileController(req, res) {
 }
 
 export async function CreateReprocessingController(req, res) {
-   const novoReprocessamento = saleCreateReprocessingDTO(req.body)
     try {
+        const novoReprocessamento = saleCreateReprocessingDTO(req.body)
         const resultado = await createReprocessingService(novoReprocessamento);
         return res.status(201).json(resultado);
     } catch (error) {
@@ -95,8 +95,8 @@ export async function findAllReprocessingController(req, res) {
 }
 
 export async function ReprocessingByIdController(req, res) {
-    const dados = saleReprocessingByIdDTO(req.body);
-   try {
+    try {
+       const dados = saleReprocessingByIdDTO(req.body);
         const resultado = await reprocessingService(dados);
         return res.status(200).json(resultado);
     } catch (error) {

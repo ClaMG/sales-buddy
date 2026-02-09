@@ -6,7 +6,7 @@ import './css/tableUser.css'
 import useTableUserActions from '../hooks/tableUserActive.jsx';
 import { toast } from 'react-toastify';
 
-function TableUser() {
+function TableUser({ onSelection }) {
     const { users, getUser, error, send, formData, receberIds } = useTableUserActions(); 
     
     const handleCheckboxChange = (id) => {
@@ -18,7 +18,11 @@ function TableUser() {
             : [...idsAtuais, id];
 
         receberIds(novosIds)
+        if (onSelection) {
+                onSelection(novosIds.length > 0);
+            }
     };
+
 
     useEffect(() => {
         getUser()

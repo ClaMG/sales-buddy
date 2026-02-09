@@ -1,5 +1,5 @@
 import e from "express";
-import { validarCNPJ, formatarCNPJ, validarEmail } from "../utils/authUtils.js";
+import { validarCNPJ, formatarCNPJ, validarEmail } from "../utils/validateUtils.js";
 
 export function userInsertDTO(user) {
     const formatoCnpj = validarCNPJ(user.cnpj);
@@ -40,7 +40,7 @@ export function userDeletDTO(user) {
     };
 }
 
-export function userUpdateDTO(user) {
+export function userUpdateDTO( user) {
     const formatoCnpj = validarCNPJ(user.cnpj);
 
     if (!formatoCnpj) {
@@ -55,7 +55,6 @@ export function userUpdateDTO(user) {
         throw new Error("Email com o fomato errado, deve conter o @ e .com")
     }
     return {
-        id: user.id,
         usuario: user.usuario,
         nome: user.nome,
         empresa: user.empresa,

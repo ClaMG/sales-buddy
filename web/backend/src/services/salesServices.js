@@ -1,7 +1,7 @@
 import e from 'express';
 import {findByIdSales, createSales,updateReprocessing, createReprocessing, findSaleIdByMatch, findByIdReprocessing} from '../dao/salesDAO.js'
-import { enviarEmailComprovante, } from '../utils/authUtils.js'
-
+import { enviarEmailComprovante } from '../utils/emailUtils.js'
+import {validarCPF} from '../utils/validateUtils.js'
 export async function saleById(id){
     if(!id){
         throw new Error("Nenhum id encontrado.");
@@ -21,10 +21,14 @@ export async function createSalesService(dados){
 	if(!dados || !dados.nomeCliente || !dados.cpf || !dados.email || !dados.valorVenda || !dados.valorRecebido ){
 	throw new Error("Preencha todos os campo.");
 }
+    const validateCpf = validarCPF(dados.cpf)
 
+    if(!validateCpf){
+        throw new Error("Formato de cpf invalido.")
+    }
 
     if (dados.valorVenda > dados.valorRecebido) {
-    throw new Error("Valor de venda não foi pago.");
+        throw new Error("Valor de venda não foi pago.")
     }
 
     if(dados.valorVenda <= 0 ){
@@ -54,9 +58,24 @@ return vendaCriada;
 }
 
 export async function enviarComprovantePagamento(comprovante) {
-    if (!comprovante || !comprovante.nomeCliente || !comprovante.cpf || !comprovante.email || !comprovante.valorVenda || !comprovante.valorRecebido 
+    if (!comprovante || !comprovante.nomeCliente || !comprovante.cpf || !comprovante.email ||
+         !comprovante.valorVenda || !comprovante.valorRecebido 
         || !comprovante.itens || !comprovante.troco) {
         throw new Error("Preencha todos os campos.");
+    }
+
+    const validateCpf = validarCPF(comprovante.cpf)
+
+    if(!validateCpf){
+        throw new Error("Formato de cpf invalido.")
+    }
+
+    if (comprovante.valorVenda > comprovante.valorRecebido) {
+        throw new Error("Valor de venda não foi pago.")
+    }
+
+    if(comprovante.valorVenda <= 0 ){
+        throw new Error("Valor de venda não pode ser igual ou menor a 0.");
     }
 
     const destinatario = comprovante.email;
@@ -107,6 +126,20 @@ export async function enviarComprovanteMobile(dados) {
 
    const quantidadeItens = dados.itens ? dados.itens.length : 0;
 
+   const validateCpf = validarCPF(dados.cpf)
+
+    if(!validateCpf){
+        throw new Error("Formato de cpf invalido.")
+    }
+
+    if (dados.valorVenda > dados.valorRecebido) {
+        throw new Error("Valor de venda não foi pago.")
+    }
+
+    if(dados.valorVenda <= 0 ){
+        throw new Error("Valor de venda não pode ser igual ou menor a 0.");
+    }
+
     const dadosParaSalvar = {
         nomeCliente: dados.nomeCliente,
         cpf: dados.cpf,
@@ -137,6 +170,16 @@ export async function createReprocessingService(dados){
 
     if (dados.valorVenda > dados.valorRecebido) {
     throw new Error("Valor de venda não foi pago.");
+    }
+
+    const validateCpf = validarCPF(dados.cpf)
+
+    if(!validateCpf){
+        throw new Error("Formato de cpf invalido.")
+    }
+
+    if(dados.valorVenda <= 0 ){
+        throw new Error("Valor de venda não pode ser igual ou menor a 0.");
     }
 
     const quantidadeItens = dados.itens ? dados.itens.length : 0;

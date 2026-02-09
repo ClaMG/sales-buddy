@@ -9,7 +9,7 @@ router.get('/users', authMiddleware, findAllUsersControler)
 router.post('/cadastro',authMiddleware, insertUsersControler) 
 router.post('/codigotemp', insertCodeTempControler) 
 router.delete('/delet', authMiddleware, deletUsersControler)
-router.put('/update', authMiddleware, updateUsersControler)
+router.put('/update/:id', authMiddleware, updateUsersControler)
 router.put('/updatePassword', authMiddleware, updateSenhaControler)
 router.put('/updatePasswordCodeTemp', updateCodeTempControler) 
 

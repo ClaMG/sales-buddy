@@ -1,4 +1,4 @@
-import { validarEmail, validarCPF} from '../utils/authUtils.js'
+import { validarEmail, validarCPF} from '../utils/validateUtils.js'
 
 export function saleComprovanteDTO(venda) {
     return {

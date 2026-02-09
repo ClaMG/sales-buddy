@@ -1,6 +1,8 @@
 import {insertUser, deleteUser, updateUser, findAllUsers, findByEmail, findByUsername,findByIdCodeTemp, findById, deleteCodeTemp, insertCodeTemp } from '../dao/userDAO.js'
 import jwt from 'jsonwebtoken'
-import {hashPassword, comparePassword, gerarSenhaAleatoria, enviarEmailSenha} from '../utils/authUtils.js'
+import { enviarEmailSenha} from '../utils/emailUtils.js'
+import {hashPassword, comparePassword} from '../utils/securyPasswordUtils.js'
+import {gerarSenhaAleatoria} from '../utils/randomPasswordUtils.js'
 
 //Login
 export async function Login(usuario, senha) {
@@ -130,12 +132,12 @@ export async function Delet(ids, idUser) {
 }
 
 //Atualizar dados
-export async function Update(dados) {
-    if(!dados || !dados.id || !dados.usuario || !dados.email || !dados.nome || !dados.empresa || !dados.cnpj){
+export async function Update(id, dados) {
+    if(!dados || !dados.usuario || !dados.email || !dados.nome || !dados.empresa || !dados.cnpj){
         throw new Error("Preencha todos os campos.");
     }
 
-    const usuarioAtual = await findAllUsers(dados.id);
+    const usuarioAtual = await findAllUsers(id);
     if (!usuarioAtual) {
         throw new Error("Usuário não encontrado.");
     }
@@ -143,7 +145,7 @@ export async function Update(dados) {
     //Usuario pertence a outro id tirando o dele atual
     if (dados.usuario && dados.usuario != usuarioAtual.usuario) {
         const jaExisteUsuario = await findByUsername(dados.usuario);
-        if (jaExisteUsuario && jaExisteUsuario.id != dados.id) {
+        if (jaExisteUsuario && jaExisteUsuario.id != id) {
             throw new Error("Usuário já cadastrado.");
         }
     }
@@ -151,7 +153,7 @@ export async function Update(dados) {
     //Email pertence a outro id
     if (dados.email && dados.email != usuarioAtual.email) {
         const jaExisteEmail = await findByEmail(dados.email);
-        if (jaExisteEmail && jaExisteEmail.id != dados.id) {
+        if (jaExisteEmail && jaExisteEmail.id != id) {
             throw new Error("E-mail já cadastrado.");
         }
     }
@@ -164,7 +166,7 @@ export async function Update(dados) {
         email: dados.email 
     };
 
-    const atualizar = await updateUser(dados.id, usuarioParaSalvar)
+    const atualizar = await updateUser(id, usuarioParaSalvar)
 
     if(!atualizar){
         throw new Error("Erro ao atualizar.");
