@@ -2,51 +2,46 @@ package com.example.salesbuddy.presenter;
 
 import android.content.Context;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.view.contract.DialogContract;
 
 public class DialogPresenter implements DialogContract.Presente {
     private final DialogContract.View view;
-    private Context context;
-
-    private String tv1;
-    private String tv2;
-    private String tv3;
-
-    private boolean negrito;
+    private final Context context;
     public DialogPresenter(DialogContract.View view, Context context) {
         this.view = view;
         this.context = context;
+
     }
 
 
     @Override
     public void alter(String tela, String email) {
-        if (tela == "email"){
-            tv1 = "COMPROVANTE ENVIADO";
-            tv2 = "COM SUCESSO PARA O E-MAIL:";
+        String tv1 = "", tv2 = "", tv3 = null;
+        boolean negrito = false;
+
+        if ("email".equals(tela)){
+            tv1 = context.getString(R.string.dialog_email_tv1);
+            tv2 = context.getString(R.string.dialog_email_tv2);
             tv3 = email;
             negrito = true;
         }
-        if (tela == "Resumer"){
-            tv1 = "VENDA";
-            tv2 = "EFETUADA COM SUCESSO";
-            tv3 = null;
+        if ("Resumer".equals(tela)){
+            tv1 = context.getString(R.string.dialog_resume_tv1);
+            tv2 = context.getString(R.string.dialog_resume_tv2);
         }
-        if (tela == "reprocessingSucess"){
-            tv1 = "REPROCESSAMENTO";
-            tv2 = "EFETUADO COM SUCESSO";
-            tv3 = null;
-        } if (tela == "reprocessingError"){
-            tv1 = "PROBLEMAS ENCONTRADOS";
-            tv2 = "AO REPROCESSAR ALGUMAS";
-            tv3 = "VENDAS, TENTE NOVAMENTE";
-            negrito = false;
+        if ("reprocessingSucess".equals(tela)){
+            tv1 = context.getString(R.string.dialog_repro_success_tv1);
+            tv2 = context.getString(R.string.dialog_repro_success_tv2);
+        } if ("reprocessingError".equals(tela)){
+            tv1 = context.getString(R.string.dialog_repro_error_tv1);
+            tv2 = context.getString(R.string.dialog_repro_error_tv2);
+            tv3 = context.getString(R.string.dialog_repro_error_tv3);
         }
-        if (tela == "ReprocessamentoResumer"){
-            tv1 = "PROBLEMAS ENCONTRADOS";
-            tv2 = "AO EFETUAR VENDA";
-            tv3 = "VERIFIQUE O REPROCESSAMENTO";
-            negrito = false;
+        if ("ReprocessamentoResumer".equals(tela)){
+            tv1 = context.getString(R.string.dialog_repro_error_tv1);
+            tv2 = context.getString(R.string.dialog_repro_resume_error_tv2);
+            tv3 = context.getString(R.string.dialog_repro_resume_error_tv3);
         }
         view.altText(tv1,tv2,tv3, negrito);
     }

@@ -1,7 +1,6 @@
 package com.example.salesbuddy.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -73,30 +72,14 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
 
         //Eventos
         presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, item);
-        btnYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.yes();
-            }
-        });
-        btnNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.no();
-            }
-        });
-        btnBackProof.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.backProof();
-            }
-        });
-        btnMenuProof.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onMenuButtonClicked();
-            }
-        });
+
+        btnYes.setOnClickListener(v -> {presenter.yes();});
+
+        btnNo.setOnClickListener(v -> {presenter.no();});
+
+        btnBackProof.setOnClickListener(v -> {presenter.backProof();});
+
+        btnMenuProof.setOnClickListener(v -> {presenter.onMenuButtonClicked();});
 
     }
 
@@ -143,7 +126,7 @@ public class ProofActivity extends AppCompatActivity implements ProofContract.Vi
     @Override
     public void mostrarErro(String mensagem) {
         new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
+                .setTitle(this.getString(R.string.dialog_title_error))
                 .setMessage(mensagem)
                 .setPositiveButton("OK", null)
                 .show();

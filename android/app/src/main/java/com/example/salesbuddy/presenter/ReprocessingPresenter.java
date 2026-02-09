@@ -3,12 +3,12 @@ package com.example.salesbuddy.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ReprocessingIDsModel;
 import com.example.salesbuddy.model.ReprocessingModel;
 import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.request.SalesService;
 import com.example.salesbuddy.view.HomeActivity;
-import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.contract.ReprocessingContract;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -63,13 +63,14 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
 
                     view.setReprocessButtonEnabled(possuiPendentes);
                 } else {
-                    view.mostrarErro("Nenhum reprocessamento pendente.");
+                    view.mostrarErro(context.getString(R.string.error_no_pending_reprocessing));
                 }
             }
 
             @Override
             public void onFailure(Call<List<ReprocessingModel>> call, Throwable t) {
-                view.mostrarErro("Erro ao carregar dados: " + t.getMessage());
+                String msg = context.getString(R.string.error_loading_data, t.getMessage());
+                view.mostrarErro(msg);
             }
         });
     }
@@ -87,7 +88,7 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
         }
 
         if (idsNumericos.isEmpty()) {
-            view.mostrarErro("Nenhum item válido selecionado.");
+            view.success(telaR);
             return;
         }
 
@@ -109,7 +110,7 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
                     if (totalSucesso > 0) {
                         view.success(tela);
                     } else {
-                        view.mostrarErro("Nenhum item foi processado pelo servidor.");
+                        view.success(telaR);
                     }
                 } else {
                     extrairMensagemDeErro(response);
@@ -118,6 +119,7 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
 
             @Override
             public void onFailure(Call<ReprocessingIDsModel> call, Throwable t) {
+                view.success(telaR);
                 tratarErroConexao(t);
             }
         });
@@ -127,19 +129,19 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
     private void tratarErroConexao(Throwable t) {
         String msg;
         if (t instanceof ConnectException) {
-            msg = "Não foi possível conectar ao servidor. Verifique se ele está ligado.";
+            msg = context.getString(R.string.error_connection);
         } else if (t instanceof SocketTimeoutException) {
-            msg = "O servidor demorou muito para responder.";
+            msg = context.getString(R.string.error_timeout);
         } else if (t instanceof IOException) {
-            msg = "Falha de rede. Verifique sua conexão.";
+            msg = context.getString(R.string.error_network);
         } else {
-            msg = "Erro inesperado: " + t.getMessage();
+            msg = context.getString(R.string.error_unexpected, t.getMessage());
         }
         view.mostrarErro(msg);
     }
 
     private String extrairMensagemDeErro(Response<?> response) {
-        if (response.errorBody() == null) return "Erro sem corpo de resposta";
+        if (response.errorBody() == null) return context.getString(R.string.error_unknown);
 
         try {
             String errorJson = response.errorBody().string();
@@ -151,7 +153,7 @@ public class ReprocessingPresenter implements ReprocessingContract.Presenter {
             }
             return errorJson;
         } catch (Exception e) {
-            return "Erro ao processar resposta do servidor";
+            return context.getString(R.string.error_parse_json);
         }
     }
 

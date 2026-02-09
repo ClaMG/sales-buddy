@@ -1,7 +1,5 @@
 package com.example.salesbuddy.view.dialog;
 
-import static android.content.Intent.getIntent;
-
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.salesbuddy.R;
@@ -43,7 +39,6 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment impleme
         //Eventos
         String tela = getArguments().getString("tela");
         String email = getArguments().getString("email");
-        Log.d("dialog", "tela: "+ tela + " email: " +email);
         presenter.alter(tela, email);
         return view;
     }

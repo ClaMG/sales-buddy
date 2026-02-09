@@ -32,6 +32,7 @@
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/txItems"
                 android:inputType="text"
+                android:maxLength="150"
                 android:paddingLeft="15dp"
                 android:textColor="@color/pink"
                 android:textColorHint="@color/blueGray" />

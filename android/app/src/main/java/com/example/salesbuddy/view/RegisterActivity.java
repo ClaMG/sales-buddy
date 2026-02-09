@@ -1,12 +1,10 @@
 package com.example.salesbuddy.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -72,7 +70,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         if (isUpdate) {
             adapter = new AdpterRegister(item);
         } else {
-
             adapter = new AdpterRegister(new ArrayList<>());
         }
 
@@ -94,18 +91,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
                 presenter.register(name, cpf, email, saleValue, amountReceived, itens);
             }
         });
-        btnBackRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.backRegister();
-            }
-        });
-        btnMenuCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onMenuButtonClicked();
-            }
-        });
+
+        btnBackRegister.setOnClickListener(v -> {presenter.backRegister();});
+
+        btnMenuCreate.setOnClickListener(v -> {presenter.onMenuButtonClicked();});
     }
 
     //Fecha pagina
@@ -118,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     @Override
     public void showToastRegister(String menssage) {
         new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
+                .setTitle(this.getString(R.string.dialog_title_error))
                 .setMessage(menssage)
                 .setPositiveButton("OK", null)
                 .show();

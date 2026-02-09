@@ -3,8 +3,6 @@ package com.example.salesbuddy.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.salesbuddy.model.LoginModel;
-import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.LoginActivity;
 import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.ReprocessingActivity;
@@ -38,7 +36,6 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void menuLogout() {
-        
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);

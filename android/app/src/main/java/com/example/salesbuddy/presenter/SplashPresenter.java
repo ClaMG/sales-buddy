@@ -2,22 +2,16 @@ package com.example.salesbuddy.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Looper;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.view.LoginActivity;
-import com.example.salesbuddy.view.RegisterActivity;
-import com.example.salesbuddy.view.ResumerActivity;
-import com.example.salesbuddy.view.SplashActivity;
 import com.example.salesbuddy.view.contract.SplashContract;
 
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 public class SplashPresenter implements SplashContract.Presenter {
     private final SplashContract.View view;
 
     private Context context;
-    private String numVersio = "1.01.50";
 
     public SplashPresenter(SplashContract.View view, Context context) {
         this.view = view;
@@ -27,7 +21,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     //Inicia o splash
     @Override
     public void onStart() {
-        view.printVersion(numVersio);
+        view.printVersion(context.getString(R.string.tvVersionNum));
         new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(context, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

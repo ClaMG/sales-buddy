@@ -1,23 +1,16 @@
 package com.example.salesbuddy.view.adapter;
 
-import android.graphics.Color;
-import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ReprocessingModel;
-import com.example.salesbuddy.model.SalesModel;
 
 import java.util.List;
 import java.util.Locale;
@@ -62,7 +55,6 @@ public class AdapterReprocessing extends RecyclerView.Adapter<AdapterReprocessin
         return (reprocessings != null) ? reprocessings.size() : 0;
     }
 
-    // Método para o Presenter/View atualizar os dados quando chegarem do banco
     public void atualizarLista(List<ReprocessingModel> novaLista) {
         this.reprocessings = novaLista;
         notifyDataSetChanged();

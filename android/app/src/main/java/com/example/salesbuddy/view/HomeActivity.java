@@ -35,25 +35,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         presenter = new HomePresenter(this, getApplicationContext());
 
         //Eventos
-        btnSales.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.goSales();
-            }
-        });
+        btnSales.setOnClickListener(v -> {presenter.goSales();});
 
-        btnReprocess.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.goReprocess();
-            }
-        });
-        btnMenuHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onMenuButtonClicked();
-            }
-        });
+        btnReprocess.setOnClickListener(v -> {presenter.goReprocess();});
+
+        btnMenuHome.setOnClickListener(v -> {presenter.onMenuButtonClicked();});
     }
 
     //Fechar pagina

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.ReprocessingModel;
 import com.example.salesbuddy.model.SalesModel;
@@ -13,7 +14,6 @@ import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ProofActivity;
 import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.contract.ResumerContract;
-import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,7 +58,8 @@ public class ResumerPresenter implements ResumerContract.Presenter {
                         String valueReceived, String change, List<ItemsModel> itens) {
 
         if (name == null || cpf == null || email == null || valueReceived == null || valueSales == null || change== null ){
-            view.mostrarErro("Não Consegumos localizar a informação de todos os campos");
+            view.mostrarErro(context.getString(R.string.error_missing_fields));
+            return ;
         }
 
         namePresenter = name;
@@ -92,17 +92,17 @@ public class ResumerPresenter implements ResumerContract.Presenter {
             view.mostrarLoading(false);
             if (response.isSuccessful() && response.body() != null) {
                 view.mostrarSucesso(tela);
-                new android.os.Handler().postDelayed(() -> irParaProof(response.body()), 1500);
+                new android.os.Handler().postDelayed(() -> irParaProof(), 1500);
             } else {
                 // Se o servidor deu erro (ex: 400), tentamos salvar como reprocessamento
-                Log.w("API_ERROR", "Erro no registro. Tentando reprocessamento...");
+                Log.w("API_ERROR", context.getString(R.string.log_api_error_reprocessing));
                 reprocessing();
             }
         }
 
         @Override
         public void onFailure(Call<SalesModel> call, Throwable t) {
-            Log.e("API_FAILURE", "Falha de conexão. Enviando para reprocessamento...");
+            Log.e("API_FAILURE", context.getString(R.string.log_api_failure_reprocessing));
             reprocessing();
         }
     }
@@ -116,7 +116,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
                 new android.os.Handler().postDelayed(ResumerPresenter.this::irHome, 1500);
             } else {
                 String msg = extrairMensagemDeErro(response);
-                view.mostrarErro("Falha no reprocessamento: " + msg);
+                view.mostrarErro(context.getString(R.string.error_reprocessing_failed, msg));
             }
         }
 
@@ -135,19 +135,19 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     private void tratarErroConexao(Throwable t) {
         String msg;
         if (t instanceof ConnectException) {
-            msg = "Não foi possível conectar ao servidor. Verifique se ele está ligado.";
+            msg = context.getString(R.string.error_connection);
         } else if (t instanceof SocketTimeoutException) {
-            msg = "O servidor demorou muito para responder.";
+            msg = context.getString(R.string.error_timeout);
         } else if (t instanceof IOException) {
-            msg = "Falha de rede. Verifique sua conexão.";
+            msg = context.getString(R.string.error_network);
         } else {
-            msg = "Erro inesperado: " + t.getMessage();
+            msg = context.getString(R.string.error_unexpected, t.getMessage());
         }
         view.mostrarErro(msg);
     }
 
     private String extrairMensagemDeErro(Response<?> response) {
-        if (response.errorBody() == null) return "Erro sem corpo de resposta";
+        if (response.errorBody() == null) return context.getString(R.string.error_unknown);
 
         try {
             String errorJson = response.errorBody().string();
@@ -159,7 +159,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
             }
             return errorJson;
         } catch (Exception e) {
-            return "Erro ao processar resposta do servidor";
+            return context.getString(R.string.error_parse_json);
         }
     }
 
@@ -183,7 +183,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
     @Override
     public void finish() {
         view.mostrarLoading(true);
-        boolean pagamento = true;//Trocar para o a resposta do pagamento cielo
+        boolean pagamento = false;//Trocar para o a resposta do pagamento cielo//
         if (venda != null && pagamento == true) {
             apiService.registrarSales(venda).enqueue(new SalesCallback());
         } else {
@@ -200,7 +200,7 @@ public class ResumerPresenter implements ResumerContract.Presenter {
         }
     }
 
-    private void irParaProof(SalesModel vendaFinal) {
+    private void irParaProof() {
         Intent intent = new Intent(context, ProofActivity.class);
         intent.putExtra("nome", namePresenter);
         intent.putExtra("cpf", cpfPresenter);

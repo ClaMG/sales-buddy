@@ -1,27 +1,19 @@
 package com.example.salesbuddy.view.adapter;
 
-import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
-import com.example.salesbuddy.model.SalesModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +71,8 @@ public class AdpterRegister extends RecyclerView.Adapter<AdpterRegister.ViewHold
                     if (pos != RecyclerView.NO_POSITION) {
                         String textoAtual = items.get(pos).getDescricao();
                         if (textoAtual == null || textoAtual.trim().isEmpty()) {
-                            holder.txItemAdd.setError("Preencha este item antes de adicionar outro");
+                            String mensagemErro = v.getContext().getString(R.string.error_empty_item_field);
+                            holder.txItemAdd.setError(mensagemErro);
                             return;
                         }
                         items.add(new ItemsModel(""));

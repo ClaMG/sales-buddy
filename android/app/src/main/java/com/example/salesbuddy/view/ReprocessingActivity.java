@@ -1,6 +1,5 @@
 package com.example.salesbuddy.view;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +11,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,25 +59,11 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
         RecyclerViewReprocessing.setAdapter(adapter);
 
 
-        btnMenuViewReprocessing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onMenuButtonClicked();
-            }
-        });
-        btnBackReprocessing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.backReprocessing();
-            }
-        });
-        btnReprocessing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.reprocessing(listaLocal);
+        btnMenuViewReprocessing.setOnClickListener(v -> { presenter.onMenuButtonClicked();});
 
-            }
-        });
+        btnBackReprocessing.setOnClickListener(v -> { presenter.backReprocessing();});
+
+        btnReprocessing.setOnClickListener(v -> {presenter.reprocessing(listaLocal);});
     }
 
     @Override
@@ -98,7 +80,7 @@ public class ReprocessingActivity extends AppCompatActivity implements Reprocess
     @Override
     public void mostrarErro(String msg) {
         new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
+                .setTitle(this.getString(R.string.dialog_title_error))
                 .setMessage(msg)
                 .setPositiveButton("OK", null)
                 .show();

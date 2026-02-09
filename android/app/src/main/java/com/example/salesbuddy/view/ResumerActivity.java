@@ -1,8 +1,6 @@
 package com.example.salesbuddy.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,7 +21,6 @@ import com.example.salesbuddy.view.contract.ResumerContract;
 import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.example.salesbuddy.view.dialog.MenuFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResumerActivity extends AppCompatActivity implements ResumerContract.View {
@@ -78,30 +75,13 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
 
         //Eventos
         presenter.getInfo(nome,cpf,email, saleValue, amountReceived,change, item);
-        btnResumerAlter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.altResumer();
-            }
-        });
-        btnEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.finish();
-            }
-        });
-        btnBackResumer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.backResumer();
-            }
-        });
-        btnMenuResumer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onMenuButtonClicked();
-            }
-        });
+        btnResumerAlter.setOnClickListener(v -> {presenter.altResumer();});
+
+        btnEnd.setOnClickListener(v -> {presenter.finish();});
+
+        btnBackResumer.setOnClickListener(v -> { presenter.backResumer();});
+
+        btnMenuResumer.setOnClickListener(v -> {presenter.onMenuButtonClicked();});
     }
 
     //Inserir os dados
@@ -140,7 +120,7 @@ public class ResumerActivity extends AppCompatActivity implements ResumerContrac
     @Override
     public void mostrarErro(String msg) {
         new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
+                .setTitle(this.getString(R.string.dialog_title_error))
                 .setMessage(msg)
                 .setPositiveButton("OK", null)
                 .show();

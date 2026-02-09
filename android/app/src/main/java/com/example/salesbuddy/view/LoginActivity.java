@@ -5,19 +5,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.salesbuddy.R;
 import com.example.salesbuddy.presenter.LoginPresenter;
 import com.example.salesbuddy.view.contract.LoginContract;
-import com.google.gson.annotations.SerializedName;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
@@ -46,13 +42,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 
         //Eventos
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnLogin.setOnClickListener(v -> {
                 String user = txUser.getText().toString().trim();
                 String password = txPassword.getText().toString().trim();
                 presenter.login(user, password);
-            }
         });
     }
 
@@ -60,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void mostrarErro(String menssage) {
         new AlertDialog.Builder(this)
-                .setTitle("Ops! Algo deu errado")
+                .setTitle(this.getString(R.string.dialog_title_error))
                 .setMessage(menssage)
                 .setPositiveButton("OK", null)
                 .show();

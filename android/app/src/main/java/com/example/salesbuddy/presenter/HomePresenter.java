@@ -3,12 +3,10 @@ package com.example.salesbuddy.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.salesbuddy.model.SalesModel;
-import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.RegisterActivity;
 import com.example.salesbuddy.view.ReprocessingActivity;
 import com.example.salesbuddy.view.contract.HomeContract;
-import com.example.salesbuddy.view.contract.LoginContract;
+
 
 public class HomePresenter implements HomeContract.Presenter {
 

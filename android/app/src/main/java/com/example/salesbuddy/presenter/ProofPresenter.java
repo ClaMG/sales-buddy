@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
 import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.request.SalesService;
 import com.example.salesbuddy.view.RegisterActivity;
-import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.contract.ProofContract;
-import com.example.salesbuddy.view.dialog.DialogFragment;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -55,7 +54,8 @@ public class ProofPresenter implements ProofContract.Presenter {
                         String valueSales, String change, List<ItemsModel> itens) {
         view.mostrarLoading(true);
         if (name == null || cpf == null || email == null || valueReceived == null || valueSales == null || change== null ){
-            view.mostrarErro("Não Consegumos localizar a informação de todos os campos");
+            view.mostrarErro(context.getString(R.string.error_missing_fields));
+            view.mostrarLoading(false);
             return;
         }
 
@@ -100,7 +100,7 @@ public class ProofPresenter implements ProofContract.Presenter {
                             chageDouble, itens);
 
                 } else {
-                    view.mostrarErro("Venda não encontrada no servidor.");
+                    view.mostrarErro(context.getString(R.string.error_sale_not_found));
 
                     view.printInfo(name, cpf, email, valueSales, valueReceived,
                             change, null, itens);
@@ -117,19 +117,19 @@ public class ProofPresenter implements ProofContract.Presenter {
     private void tratarErroConexao(Throwable t) {
         String msg;
         if (t instanceof ConnectException) {
-            msg = "Não foi possível conectar ao servidor. Verifique se ele está ligado.";
+            msg = context.getString(R.string.error_connection);
         } else if (t instanceof SocketTimeoutException) {
-            msg = "O servidor demorou muito para responder.";
+            msg = context.getString(R.string.error_timeout);
         } else if (t instanceof IOException) {
-            msg = "Falha de rede. Verifique sua conexão.";
+            msg = context.getString(R.string.error_network);
         } else {
-            msg = "Erro inesperado: " + t.getMessage();
+            msg = context.getString(R.string.error_unexpected, t.getMessage());
         }
         view.mostrarErro(msg);
     }
 
     private String extrairMensagemDeErro(Response<?> response) {
-        if (response.errorBody() == null) return "Erro sem corpo de resposta";
+        if (response.errorBody() == null) return context.getString(R.string.error_unknown);
 
         try {
             String errorJson = response.errorBody().string();
@@ -141,7 +141,7 @@ public class ProofPresenter implements ProofContract.Presenter {
             }
             return errorJson;
         } catch (Exception e) {
-            return "Erro ao processar resposta do servidor";
+            return context.getString(R.string.error_parse_json);
         }
     }
 
@@ -178,7 +178,7 @@ public class ProofPresenter implements ProofContract.Presenter {
                 }
             });
         } else {
-            view.mostrarErro("Dados da venda não encontrados.");
+            view.mostrarErro(context.getString(R.string.error_sales_data_not_found));
         }
 
     }

@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.LoginModel;
-import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.request.LoginService;
 import com.example.salesbuddy.request.RetrofitClient;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.contract.LoginContract;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -24,14 +23,11 @@ import retrofit2.Response;
 
 public class LoginPresenter implements LoginContract.Presenter {
     private final LoginContract.View view;
-    private final LoginModel model;
     private Context context;
 
-    private String Mensage;
 
     public LoginPresenter(LoginContract.View view, Context context) {
         this.view = view;
-        this.model = new LoginModel();
         this.context = context;
     }
 
@@ -43,7 +39,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
         try {
             if (user == null || password == null){
-                view.mostrarErro("preencha todos os campos");
+                view.mostrarErro(context.getString(R.string.fillfields));
             }
             LoginModel dados = new LoginModel(user.trim(), password.trim());
             LoginService loginService = RetrofitClient.getClient().create(LoginService.class);
@@ -68,14 +64,14 @@ public class LoginPresenter implements LoginContract.Presenter {
                     view.mostrarLoading(false);
                     Log.e("API_ERROR", "Mensagem: " + t.getMessage());
                     String msg;
-                    if (t instanceof ConnectException) {
-                        msg = "Não foi possível conectar ao servidor. Verifique se ele está ligado.";
-                    } else if (t instanceof SocketTimeoutException) {
-                        msg = "O servidor demorou muito para responder.";
-                    } else if (t instanceof IOException) {
-                        msg = "Falha de rede. Verifique sua conexão.";
+                    if (t instanceof java.net.ConnectException) {
+                        msg = context.getString(R.string.error_connection);
+                    } else if (t instanceof java.net.SocketTimeoutException) {
+                        msg = context.getString(R.string.error_timeout);
+                    } else if (t instanceof java.io.IOException) {
+                        msg = context.getString(R.string.error_network);
                     } else {
-                        msg = "Erro inesperado: " + t.getMessage();
+                        msg = context.getString(R.string.error_unexpected, t.getMessage());
                     }
                     view.mostrarErro(msg);
 
@@ -84,12 +80,13 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 
         }catch (Exception e){
-            view.mostrarErro("Erro interno:" + e);
+            String msg = context.getString(R.string.error_internal, e.getMessage());
+            view.mostrarErro(msg);
         }
     }
 
     private String extrairMensagemDeErro(Response<?> response) {
-        if (response.errorBody() == null) return "Erro desconhecido ";
+        if (response.errorBody() == null) return context.getString(R.string.error_unknown);
 
         try {
             String errorJson = response.errorBody().string();
@@ -101,7 +98,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             }
             return errorJson;
         } catch (Exception e) {
-            return "Erro ao processar resposta do servidor";
+            return context.getString(R.string.error_parse_json);
         }
     }
 

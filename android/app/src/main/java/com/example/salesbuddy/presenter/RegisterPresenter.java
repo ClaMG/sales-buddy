@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.salesbuddy.R;
 import com.example.salesbuddy.model.ItemsModel;
-import com.example.salesbuddy.model.SalesModel;
 import com.example.salesbuddy.view.HomeActivity;
 import com.example.salesbuddy.view.ResumerActivity;
 import com.example.salesbuddy.view.contract.RegisterContract;
@@ -15,24 +15,15 @@ import java.util.List;
 
 public class RegisterPresenter implements RegisterContract.Presenter {
     private final RegisterContract.View view;
-    private final SalesModel model;
     private Context context;
-    private String Mensage;
-    private String change;
     private double saleValueDouble;
     private double amountReceivedDouble;
 
-    private String name;
-    private String cpf;
-    private String email;
-    private String valueReceived;
-    private String valueSales;
     private String title;
 
 
     public RegisterPresenter(RegisterContract.View view, Context context) {
         this.view = view;
-        this.model = new SalesModel();
         this.context = context;
     }
 
@@ -40,39 +31,42 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     @Override
     public void register( String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens) {
         if (name == null || cpf == null || email == null || saleValue == null || amountReceived == null){
-            Mensage = "Preencha todos os campos";
-            view.showToastRegister(Mensage);
+            view.showToastRegister(context.getString(R.string.fillfields));
             return;
         }
-        Log.d("descobrir", "venda "+ saleValue + " recebido "+ amountReceived);
 
         if (itens == null || itens.size() == 0) {
-            view.showToastRegister("Atenção: Adicione pelo menos 1 item para continuar!");
+            view.showToastRegister(context.getString(R.string.error_empty_items));
             return;
         }
 
         //Verificação de Email
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            view.showToastRegister("Digite um e-mail válido");
+            view.showToastRegister(context.getString(R.string.error_invalid_email));
             return;
         }
 
         validarCPF(cpf);
 
         if (!validarCPF(cpf)) {
-            view.showToastRegister("CPF inválido");
+            view.showToastRegister(context.getString(R.string.error_invalid_cpf));
             return;
         }
 
-        saleValueDouble = Double.parseDouble(saleValue.replace(",", "."));
-        amountReceivedDouble = Double.parseDouble(amountReceived.replace(",", "."));
-        if(amountReceivedDouble == 0.0 || amountReceivedDouble<0.0){
-            view.showToastRegister("Valor de venda não pode ser igual ou menor a 0");
-            return;
-        }
+        try {
+            saleValueDouble = Double.parseDouble(saleValue.replace(",", "."));
+            amountReceivedDouble = Double.parseDouble(amountReceived.replace(",", "."));
+            if(saleValueDouble <= 0.0){
+                view.showToastRegister(context.getString(R.string.error_invalid_sale_value));
+                return;
+            }
 
-        if (amountReceivedDouble < saleValueDouble) {
-            view.showToastRegister("Valor recebido insuficiente");
+            if (amountReceivedDouble < saleValueDouble ) {
+                view.showToastRegister(context.getString(R.string.error_insufficient_amount));
+                return;
+            }
+        } catch (NumberFormatException e) {
+            view.showToastRegister(context.getString(R.string.error_parse_json));
             return;
         }
 
@@ -92,33 +86,40 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         context.startActivity(intent);
         view.previosRegister();
 
-        view.showToastRegister(Mensage);
     }
 
     private boolean validarCPF(String cpf) {
-        String limpo = cpf.replaceAll("\\D", ""); // Remove máscara
+        //Valida o formato visual
+        if (cpf == null || !cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
+            return false;
+        }
 
-        // Verifica se tem 11 dígitos ou se são todos iguais (ex: 111.111.111-11)
-        if (limpo.length() != 11 || limpo.matches("(\\d)\\1{10}")) return false;
+        // Remove a máscara
+        String limpo = cpf.replaceAll("\\D", "");
+
+        // Verifica se tem 11 dígitos
+        if (limpo.length() != 11 || limpo.matches("(\\d)\\1{10}")) {
+            return false;
+        }
 
         try {
             // Primeiro Dígito
             int soma = 0;
             for (int i = 1; i <= 9; i++) {
-                soma += Integer.parseInt(limpo.substring(i - 1, i)) * (11 - i);
+                soma += Character.getNumericValue(limpo.charAt(i - 1)) * (11 - i);
             }
             int resto = (soma * 10) % 11;
             if (resto == 10 || resto == 11) resto = 0;
-            if (resto != Integer.parseInt(limpo.substring(9, 10))) return false;
+            if (resto != Character.getNumericValue(limpo.charAt(9))) return false;
 
             // Segundo Dígito
             soma = 0;
             for (int i = 1; i <= 10; i++) {
-                soma += Integer.parseInt(limpo.substring(i - 1, i)) * (12 - i);
+                soma += Character.getNumericValue(limpo.charAt(i - 1)) * (12 - i);
             }
             resto = (soma * 10) % 11;
             if (resto == 10 || resto == 11) resto = 0;
-            if (resto != Integer.parseInt(limpo.substring(10, 11))) return false;
+            if (resto != Character.getNumericValue(limpo.charAt(10))) return false;
 
             return true;
         } catch (Exception e) {
@@ -142,7 +143,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
     @Override
     public void updateconfirm(boolean isUpdate,String name, String cpf, String email, String saleValue, String amountReceived, List<ItemsModel> itens ) {
         if (isUpdate){
-            title = "ATUALIZAR VENDA";
+            title = context.getString(R.string.title_update_sale);
 
             view.update(name, cpf, email, saleValue, amountReceived, title, itens);
 
